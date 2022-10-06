@@ -1,0 +1,5 @@
+# dAu
+#get_file_list.pl -cond trgsetupname=dAu200_production_2016,filename~st_physics,filetype~picoDst,production=P17id -keys 'runnumber' -onefile -limit 0 > runs_p17id_all.txt
+
+# pAu
+get_file_list.pl -cond trgsetupname=production_pAu200_2015,filename~st_physics,filetype=daq_reco_picoDst,daynumber[]124-124,production=P16id -keys 'runnumber' -delim / -limit 0 -o runs_p16id_all.txt

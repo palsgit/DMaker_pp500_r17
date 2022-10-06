@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#get_file_list.pl -cond trgsetupname=dAu200_production_2016,filename~st_physics,storage!=hpss -keys 'path,filename' -delim / -limit 0 > runs_path_test.txt
+#get_file_list.pl -cond trgsetupname=dAu200_production_2016,production=P17ib,filename~st_physics,filetype~picoDst,storage=nfs -keys 'path,filename' -delim / -limit 0 > runs_filename_nfs.txt
+#get_file_list.pl  -cond trgsetupname=dAu200_production_2016,production=P17id,library=SL18f,filename~st_physics,filetype~picoDst,storage=local -keys 'filename,events' -delim + -limit 0 -o runs_nevents.txt
+
+# dAu
+#get_file_list.pl  -cond trgsetupname=dAu200_production_2016,production=P17id,library=SL18f,filename~st_physics,filetype~picoDst,storage=local -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
+
+# pAu
+get_file_list.pl -cond trgsetupname=production_pAu200_2015,filename~st_physics,filetype=daq_reco_picoDst,storage=local,production=P16id -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
+#get_file_list.pl -cond trgsetupname=production_pAu200_2015,filename~st_physics,filetype=daq_reco_picoDst,storage=hpss,production=P16id -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
