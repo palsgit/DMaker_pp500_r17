@@ -4,6 +4,7 @@
   <stderr URL="file:&basePath;/jobs/err/$JOBID.err"/>
 
   <input URL="filelist:&basePath;/&listOfFiles;" />
+  <input URL="filelist:/gpfs01/star/pwg/svomich/DMaker_pp500/picoLists/SL22b00.list"/>
 
   <Generator>
     <Location>./report/</Location>
@@ -13,6 +14,7 @@
 
   <command>
     starver SL22b
+    cons
     root -q -b -l StRoot/macros/loadSharedHFLibraries.C StRoot/macros/&rootMacro;++\(\"$FILELIST\",\"&prodId;_$JOBINDEX\",\"picoList_bad.list\"\) &gt;&amp; ${JOBID}.log
   </command>
 

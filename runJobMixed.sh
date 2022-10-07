@@ -6,8 +6,8 @@ analyzer="svomich"
 mkdir $productionId
 cd $productionId
 #copylist
-cp ../../picoLists/runs_path_all.list  ./
-list="runs_path_all.list"
+cp ../../picoLists/SL22b00.list  ./
+list="SL22b00.list"
 
 #copy needed folders
 cp -r ../../.sl73_gcc485 ./
@@ -20,7 +20,7 @@ mkdir -p production
 mkdir -p report
 mkdir -p csh
 mkdir -p list
-mkdir -p jobs
+mkdir -p jobsbasePath
 mkdir -p jobs/log
 mkdir -p jobs/err
 
