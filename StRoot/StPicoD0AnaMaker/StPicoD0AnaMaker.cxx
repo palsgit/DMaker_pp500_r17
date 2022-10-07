@@ -5,8 +5,8 @@
 #include "StPicoHFMaker/StHFCuts.h"
 #include "phys_constants.h"
 #include "StPicoD0AnaMaker.h"
-#include "StPicoKFVertexFitter/StPicoKFVertexFitter.h"
 #include "StPicoHFMaker/StHFTriplet.h"
+//#include "StPicoKFVertexFitter/StPicoKFVertexFitter.h
 
 ClassImp(StPicoD0AnaMaker)
 
@@ -493,7 +493,7 @@ int StPicoD0AnaMaker::createCandidates() {
 }
 
 //____________________________________________________________________________________
-TVector3 StPicoD0AnaMaker::refitVertex(bool always){
+/*TVector3 StPicoD0AnaMaker::refitVertex(bool always){
     bool pairRem=true;
     bool singleTrack=true;
 //    bool singleTrack=!pairRem;
@@ -546,7 +546,7 @@ TVector3 StPicoD0AnaMaker::refitVertex(bool always){
 
                 //BDT
                 //find the correct pT bin
-                /*
+
                 int pTbin = 0;
                 for (int pT = 0; pT < nptBins; pT++) {
                     if(pair->pt() >= momBins[pT] && pair->pt() < momBins[pT+1]) pTbin = pT;
@@ -569,7 +569,7 @@ TVector3 StPicoD0AnaMaker::refitVertex(bool always){
                     tracksToRemove.push_back(mIdxPicoPions[idxPion1]);
                     tracksToRemove.push_back(mIdxPicoKaons[idxKaon]);
 
-                }*/
+                }
             }
         }
     }
@@ -605,7 +605,7 @@ TVector3 StPicoD0AnaMaker::refitVertex(bool always){
     goodTracksToFit.shrink_to_fit();
 
     return newKFVertex;
-}
+}*/
 
 //____________________________________________________________________________________
 int StPicoD0AnaMaker::analyzeCandidates() {
