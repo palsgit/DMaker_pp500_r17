@@ -5,7 +5,7 @@
 #include "StPicoHFMaker/StHFCuts.h"
 #include "phys_constants.h"
 #include "StPicoQAMaker.h"
-#include "StPicoKFVertexFitter/StPicoKFVertexFitter.h"
+// #include "StPicoKFVertexFitter/StPicoKFVertexFitter.h"
 
 ClassImp(StPicoQAMaker)
 
