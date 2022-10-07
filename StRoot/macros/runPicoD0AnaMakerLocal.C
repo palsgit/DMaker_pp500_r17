@@ -46,9 +46,9 @@ void runPicoD0AnaMakerLocal(
   // ---------------------------------------------------
 
   // -- File name of bad run list
-   hfCuts->setBadRunListFileName(badRunListFileName); 
+   hfCuts->setBadRunListFileName(badRunListFileName);
 
-  hfCuts->addTriggerId(500206); //VPD-5
+    hfCuts->addTriggerId(570001); //VPDMB-30
 
 
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5);

@@ -1,8 +1,8 @@
-# Dmaker_dAu
+# Dmaker_pp500
 
 Compile on STAR's RCAF:
 ```sh
-starver SL18f
+starver SL22b
 cons
 ```
 
@@ -42,7 +42,7 @@ picoLists/runs_path_all.list
 ```
 Actual file list for **local tests** is loaded from:
 ```sh
-picoLists/runs_path_all.list
+picoLists/runs_local_test.list
 ```
 After creating your directories and setting your name in run*.sh scripts, run analysis on farm by run-scripts:
 ```sh

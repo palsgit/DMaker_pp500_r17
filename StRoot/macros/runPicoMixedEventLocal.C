@@ -43,9 +43,7 @@ void runPicoMixedEventLocal(
   StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
     hfCuts->setBadRunListFileName(badRunListFileName);
-    hfCuts->addTriggerId(500206); //BHT1*VPDMB-30_nobsmd
-    hfCuts->addTriggerId(500904); //VPDMB-30
-    hfCuts->addTriggerId(500202); //BHT1*VPDMB-30
+    hfCuts->addTriggerId(570001); //VPDMB-30
 
 
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
