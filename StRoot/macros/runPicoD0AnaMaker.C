@@ -13,7 +13,6 @@
 #include <ctime>
 #include <cstdio>
 #include "StPicoD0AnaMaker/StPicoD0AnaMaker.h"
-#include "StPicoD0V2AnaMaker/StPicoD0V2AnaMaker.h"
 
 using namespace std;
 
