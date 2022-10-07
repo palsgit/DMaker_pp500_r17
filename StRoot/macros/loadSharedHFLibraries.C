@@ -24,15 +24,15 @@ void loadSharedHFLibraries() {
   gSystem->Load("StPicoMixedEventMaker");
   gSystem->Load("StPicoSimInputsMaker");
   // KFVertexFitter dependancies
-  gSystem->Load("StTpcDb");
-  gSystem->Load("StDbUtilities");
-  gSystem->Load("Sti");
-  gSystem->Load("StiUtilities");
-  gSystem->Load("StSsdDbMaker");
-  gSystem->Load("StSvtDbMaker");
-  gSystem->Load("StiMaker");
-  gSystem->Load("StPicoKFVertexFitter");
-  gSystem->Load("StPicoKFVertexTools");
+//  gSystem->Load("StTpcDb");
+//  gSystem->Load("StDbUtilities");
+//  gSystem->Load("Sti");
+//  gSystem->Load("StiUtilities");
+//  gSystem->Load("StSsdDbMaker");
+//  gSystem->Load("StSvtDbMaker");
+//  gSystem->Load("StiMaker");
+//  gSystem->Load("StPicoKFVertexFitter");
+//  gSystem->Load("StPicoKFVertexTools");
   // ---
   cout << " loading of shared HF libraries are done" << endl;
  }
