@@ -15,7 +15,7 @@
 #include <ctime>
 #include <cstdio>
 #include "StPicoD0AnaMaker/StPicoD0AnaMaker.h"
-#include "StPicoQAMaker/StPicoQAMaker.h"
+//#include "StPicoQAMaker/StPicoQAMaker.h"
 
 using namespace std;
 
