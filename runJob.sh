@@ -6,8 +6,8 @@ analyzer="svomich"
 mkdir $productionId
 cd $productionId
 #copylist
-cp ../../picoLists/SL22b00.list  ./
-list="SL22b00.list"
+cp ../../picoLists/1tretina.list  ./
+list="1tretina.list"
 
 #copy needed folders
 cp -r ../../.sl73_gcc485 ./
@@ -29,6 +29,6 @@ path=$( echo $path | sed 's|//|/|g' )
 
 baseFolder=${path}
 rootMacro=runPicoD0AnaMaker.C
-inputList=SL22b00.list
+inputList=1tretina.list
 
 star-submit-template -template ./starSubmit/submitPicoHFMaker.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
