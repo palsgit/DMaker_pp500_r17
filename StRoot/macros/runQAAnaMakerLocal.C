@@ -1,3 +1,5 @@
+#ifndef __CINT__
+
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TChain.h"
@@ -15,6 +17,10 @@
 
 using namespace std;
 
+#else
+class StChain;
+#endif
+
 class StChain;
 class StPicoDstMaker;
 class StPicoQAMaker;
@@ -30,6 +36,12 @@ void runQAAnaMakerLocal(
       cout<<"Environment Star Library does not match the requested library. Exiting..."<<endl;
       exit(1);
   }
+
+#ifdef __CINT__
+    gROOT->LoadMacro("loadSharedHFLibraries.C");
+  loadSharedHFLibraries();
+#endif
+
   Int_t nEvents = 2000000;
   StChain *chain = new StChain();
   TString sInputFile(inputFile);

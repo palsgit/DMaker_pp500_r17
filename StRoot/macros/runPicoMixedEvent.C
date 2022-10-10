@@ -1,3 +1,5 @@
+#ifndef __CINT__
+
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TChain.h"
@@ -15,6 +17,9 @@
 #include "StPicoD0AnaMaker/StPicoD0AnaMaker.h"
 using namespace std;
 
+#else
+class StChain;
+#endif
 
 void runPicoMixedEvent(
         const char*  inputFile,
@@ -26,6 +31,11 @@ void runPicoMixedEvent(
         cout<<"Environment Star Library does not match the requested library in run**.C. Exiting..."<<endl;
         exit(1);
     }
+
+#ifdef __CINT__
+    gROOT->LoadMacro("loadSharedHFLibraries.C");
+  loadSharedHFLibraries();
+#endif
 
     StChain *chain = new StChain();
     TString sInputFile(inputFile);
