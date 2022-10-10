@@ -4,7 +4,6 @@
   <stderr URL="file:&basePath;/jobs/err/$JOBID.err"/>
 
   <input URL="filelist:&basePath;/&listOfFiles;" />
-  <input URL="filelist:/gpfs01/star/pwg/svomich/DMaker_pp500/picoLists/SL22b00.list"/>
 
   <Generator>
     <Location>./report/</Location>
