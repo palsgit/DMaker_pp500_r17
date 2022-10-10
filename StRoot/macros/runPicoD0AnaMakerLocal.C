@@ -128,7 +128,7 @@ void runPicoD0AnaMakerLocal(
 //  PicoD0V2AnaMaker->setHFBaseCuts(hfCuts);
 
 
-  clock_t start = clock(); // getting starting time
+//  clock_t start = clock(); // getting starting time
   chain->Init();
   
   int total = picoDstMaker->chain()->GetEntries();
@@ -144,10 +144,10 @@ void runPicoD0AnaMakerLocal(
   }
 
   chain->Finish();
-  double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
+//  double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
   cout << "****************************************** " << endl;
   cout << "Work done, total number of events  " << nEvents << endl;
-  cout << "Time needed " << duration << " s" << endl;
+//  cout << "Time needed " << duration << " s" << endl;
   delete chain;
 }
 
