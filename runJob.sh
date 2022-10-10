@@ -29,6 +29,6 @@ path=$( echo $path | sed 's|//|/|g' )
 
 baseFolder=${path}
 rootMacro=runPicoD0AnaMaker.C
-inputList=runs_path_all.list
+inputList=SL22b00.list
 
 star-submit-template -template ./starSubmit/submitPicoHFMaker.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}

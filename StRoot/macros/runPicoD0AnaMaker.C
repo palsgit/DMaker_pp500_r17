@@ -91,7 +91,8 @@ void runPicoD0AnaMaker(
     hfCuts->setCutSecondaryPairPtBin(2,      3,              0.016,          0.003,         0.5,      0.0065,   0.009, 0.01);
     hfCuts->setCutSecondaryPairPtBin(3,      5,              0.015,          0.009,         0.6,      0.0064,   0.0064, 0.0076);*/
 
-    StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
+    StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
+//    StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
     StPicoD0AnaMaker* PicoD0AnaMaker = new StPicoD0AnaMaker("picoD0AnaMaker", picoDstMaker, outputFile);
     PicoD0AnaMaker->workWithRefit(false);
     PicoD0AnaMaker->setHFBaseCuts(hfCuts);
@@ -104,7 +105,7 @@ void runPicoD0AnaMaker(
 //    StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile, inputFile);
 //    picoMixedEventMaker->setBufferSize(7);
     
-    clock_t start = clock(); // getting starting time
+//    clock_t start = clock(); // getting starting time
     chain->Init();
     Int_t nEvents = picoDstMaker->chain()->GetEntries();
     cout << " Total entries = " << nEvents << endl;
@@ -117,9 +118,9 @@ void runPicoD0AnaMaker(
     }
     
     chain->Finish();
-    double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
+//    double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
     cout << "****************************************** " << endl;
     cout << "Work done, total number of events  " << nEvents << endl;
-    cout << "Time needed " << duration << " s" << endl;
+//    cout << "Time needed " << duration << " s" << endl;
     delete chain;
 }
