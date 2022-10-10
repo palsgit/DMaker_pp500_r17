@@ -3,7 +3,7 @@
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TChain.h"
-#include "StMaker.h"
+#include "StChain/StMaker.h"
 #include "StChain.h"
 #include "StPicoDstMaker/StPicoDstMaker.h"
 #include "StPicoHFMaker/StPicoHFEvent.h"

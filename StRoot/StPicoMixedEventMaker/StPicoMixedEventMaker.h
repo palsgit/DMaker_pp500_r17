@@ -1,7 +1,7 @@
 #ifndef StPicoMixedEventMaker_h
 #define StPicoMixedEventMaker_h
 
-#include "StMaker.h"
+#include "StChain/StMaker.h"
 
 /* **************************************************
  *
