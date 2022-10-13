@@ -89,7 +89,7 @@ void runPicoMixedEvent(
   StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile);
   picoMixedEventMaker->setBufferSize(6);
 
-  clock_t start = clock(); // getting starting time
+//  clock_t start = clock(); // getting starting time
   chain->Init();
   Int_t nEvents = picoDstMaker->chain()->GetEntries();
   cout << " Total entries = " << nEvents << endl;
@@ -103,10 +103,10 @@ void runPicoMixedEvent(
   }
 
   chain->Finish();
-  double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
+//  double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
   cout << "****************************************** " << endl;
   cout << "Work done, total number of events  " << nEvents << endl;
-  cout << "Time needed " << duration << " s" << endl;
+//  cout << "Time needed " << duration << " s" << endl;
   delete chain;
 }
 
