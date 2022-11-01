@@ -242,7 +242,7 @@ void Danalyza_pp()
     TH1D* hInvMassSignD0 = new TH1D("D0 signal", "D0 signal", 80, 1.7, 2.05);
     TH1D* hInvMassBackD0 = new TH1D("D0 background", "D0 background", 80, 1.7, 2.05);
 
-    TH1D* hInvMassSignD0w = new TH1D("DO signalw", "DO signalw", 200, 0., 2.5);
+    TH1D* hInvMassSignD0w = new TH1D("D0 signalw", "D0 signalw", 200, 0., 2.5);
     TH1D* hInvMassBackD0w = new TH1D("D0 backgroundw", "D0 backgroundw", 200, 0., 2.5);
    // TH1D* hStat = (TH1D*) list -> FindObject("hEventStat1");
 
@@ -453,10 +453,8 @@ void Danalyza_pp()
        // if (k_eventId == pi1_eventId) equal++;
         if (cos(D0_theta)>0.0) { //cuty
             if ((D0_mass > 0.0) && (D0_mass < 4)) {
-                //  cout << "pi1_TOFinvbeta" << pi1_TOFinvbeta<<endl;
                 float npi1_TOFinvbeta = pi1_TOFinvbeta / 0.012;
                 float nk_TOFinvbeta = k_TOFinvbeta / 0.012;
-                //   cout << "npi1_TOFinvbeta" << npi1_TOFinvbeta<<endl;
                 float f_res = pow(0.929095 + 0.0779541 / (k_p - 0.113628), 1.62916);  //sigma
                 float f_pos = pow(-0.0538389 + 0.0439373 / (k_p - 0.0651247), 2.27704);  //mean
 

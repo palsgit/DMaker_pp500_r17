@@ -268,21 +268,22 @@ int StPicoD0AnaMaker::createCandidates() {
 //        cout << pMom.Mag() << endl;
 
 
+
+        if (mHFCuts->isGoodPion(trk)) {
+            mIdxPicoPions.push_back(iTrack);
+            hPionPt->Fill(trk->gPt());
+
+        }
+        if (mHFCuts->isGoodKaon(trk)){
+            mIdxPicoKaons.push_back(iTrack);
+            hKaonPt->Fill(trk->gPt());
+
+        }
+
         if (trk->isPrimary()) {
             nPrimary++;
             primaryTracks.push_back(iTrack);
 
-
-            if (mHFCuts->isGoodPion(trk)) {
-                mIdxPicoPions.push_back(iTrack);
-                hPionPt->Fill(trk->gPt());
-
-            }
-            if (mHFCuts->isGoodKaon(trk)){
-                mIdxPicoKaons.push_back(iTrack);
-                hKaonPt->Fill(trk->gPt());
-
-            }
         }
     }
 
