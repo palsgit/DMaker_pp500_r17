@@ -13,9 +13,9 @@
 
 using namespace std;
 
-void turbografik() {
+void Graphs() {
 
-    TFile* d1 = new TFile("D0.root");
+    TFile* d1 = new TFile("pp500_D0.root");
 
 // Signal narrow window -----------------------------------------------------------------------------------------------------------------------------
     TH1F* h1 = (TH1F*) d1 -> Get("D0 signal;1");
@@ -386,7 +386,7 @@ void turbografik() {
     c8->SaveAs(Form("Mass_full12D.pdf"));
     c8->Close();
 
-    TFile* d2 = new TFile("Dstar.root");
+    TFile* d2 = new TFile("pp500_Dstar.root");
 
 // Dstar-D0 all p_T -----------------------------------------------------------------------------------------------------------------------------
     TH1F* h10 = (TH1F*) d2 -> Get("Dstar-D0 rozdil;1");

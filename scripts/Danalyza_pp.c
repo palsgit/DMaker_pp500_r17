@@ -239,40 +239,40 @@ void Danalyza_pp()
   //  TH2F *pionnsigma50  = new TH2F("pionnsigma50","pionnsigma50",50,0,2,100,-10,10);
 
 
-    TH1D* hInvMassSignD0 = new TH1D("D0 signal", "D0 signal", 80, 1.7, 2.05);
-    TH1D* hInvMassBackD0 = new TH1D("D0 background", "D0 background", 80, 1.7, 2.05);
+    TH1D* hInvMassSignD0 = new TH1D("D0 signal", "D0 signal", 32, 1.7, 2.05);
+    TH1D* hInvMassBackD0 = new TH1D("D0 background", "D0 background", 32, 1.7, 2.05);
 
-    TH1D* hInvMassSignD0w = new TH1D("D0 signalw", "D0 signalw", 200, 0., 2.5);
-    TH1D* hInvMassBackD0w = new TH1D("D0 backgroundw", "D0 backgroundw", 200, 0., 2.5);
+    TH1D* hInvMassSignD0w = new TH1D("D0 signalw", "D0 signalw", 200, 0.5, 2.5);
+    TH1D* hInvMassBackD0w = new TH1D("D0 backgroundw", "D0 backgroundw", 200, 0.5, 2.5);
    // TH1D* hStat = (TH1D*) list -> FindObject("hEventStat1");
 
     TH1D* hInvMassSignD0test = new TH1D("D0 signaltest", "D0 signaltest", 100, 1.4, 2.2);
 
 
-    TH1D* hInvMassSignD012 = new TH1D("D0 S12", "D0 S12", 80, 1.7, 2.05);
-    TH1D* hInvMassSignD023 = new TH1D("D0 S23", "D0 S23", 80, 1.7, 2.05);
-    TH1D* hInvMassSignD034 = new TH1D("D0 S34", "D0 S34", 80, 1.7, 2.05);
-    TH1D* hInvMassSignD045 = new TH1D("D0 S45", "D0 S45", 80, 1.7, 2.05);
+    TH1D* hInvMassSignD012 = new TH1D("D0 S12", "D0 S12", 32, 1.7, 2.05);
+    TH1D* hInvMassSignD023 = new TH1D("D0 S23", "D0 S23", 32, 1.7, 2.05);
+    TH1D* hInvMassSignD034 = new TH1D("D0 S34", "D0 S34", 32, 1.7, 2.05);
+    TH1D* hInvMassSignD045 = new TH1D("D0 S45", "D0 S45", 32, 1.7, 2.05);
 
     TH1D* hInvMassSignD012test = new TH1D("D0 S12t", "D0 S12t", 100, 1.4, 2.2);
     TH1D* hInvMassSignD023test = new TH1D("D0 S23t", "D0 S23t", 100, 1.4, 2.2);
     TH1D* hInvMassSignD034test = new TH1D("D0 S34t", "D0 S34t", 100, 1.4, 2.2);
     TH1D* hInvMassSignD045test = new TH1D("D0 S45t", "D0 S45t", 100, 1.4, 2.2);
 
-    TH1D* hInvMassBackD012 = new TH1D("D0 B12", "D0 B12", 80, 1.7, 2.05);
-    TH1D* hInvMassBackD023 = new TH1D("D0 B23", "D0 B23", 80, 1.7, 2.05);
-    TH1D* hInvMassBackD034 = new TH1D("D0 B34", "D0 B34", 80, 1.7, 2.05);
-    TH1D* hInvMassBackD045 = new TH1D("D0 B45", "D0 B45", 80, 1.7, 2.05);
+    TH1D* hInvMassBackD012 = new TH1D("D0 B12", "D0 B12", 32, 1.7, 2.05);
+    TH1D* hInvMassBackD023 = new TH1D("D0 B23", "D0 B23", 32, 1.7, 2.05);
+    TH1D* hInvMassBackD034 = new TH1D("D0 B34", "D0 B34", 32, 1.7, 2.05);
+    TH1D* hInvMassBackD045 = new TH1D("D0 B45", "D0 B45", 32, 1.7, 2.05);
 
-    TH1D* hInvMassSignD012w = new TH1D("D0 S12w", "D0 S12w", 200, 0., 2.5);
-    TH1D* hInvMassSignD023w = new TH1D("D0 S23w", "D0 S23w", 200, 0., 2.5);
-    TH1D* hInvMassSignD034w = new TH1D("D0 S34w", "D0 S34w", 200, 0., 2.5);
-    TH1D* hInvMassSignD045w = new TH1D("D0 S45w", "D0 S45w", 200, 0., 2.5);
+    TH1D* hInvMassSignD012w = new TH1D("D0 S12w", "D0 S12w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignD023w = new TH1D("D0 S23w", "D0 S23w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignD034w = new TH1D("D0 S34w", "D0 S34w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignD045w = new TH1D("D0 S45w", "D0 S45w", 200, 0.5, 2.5);
 
-    TH1D* hInvMassBackD012w = new TH1D("D0 B12w", "D0 B12w", 200, 0., 2.5);
-    TH1D* hInvMassBackD023w = new TH1D("D0 B23w", "D0 B23w", 200, 0., 2.5);
-    TH1D* hInvMassBackD034w = new TH1D("D0 B34w", "D0 B34w", 200, 0., 2.5);
-    TH1D* hInvMassBackD045w = new TH1D("D0 B45w", "D0 B45w", 200, 0., 2.5);
+    TH1D* hInvMassBackD012w = new TH1D("D0 B12w", "D0 B12w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackD023w = new TH1D("D0 B23w", "D0 B23w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackD034w = new TH1D("D0 B34w", "D0 B34w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackD045w = new TH1D("D0 B45w", "D0 B45w", 200, 0.5, 2.5);
 
 
 
@@ -333,46 +333,46 @@ void Danalyza_pp()
     TH1D* hDstar_pt = new TH1D("hDstar_pt", "hDstar_pt", 100, 0, 7);
 
 
-    TH1D* hInvMassSignDstar = new TH1D("Dstar signal", "Dstar signal", 80, 1.85, 2.2);
-    TH1D* hInvMassBackDstar = new TH1D("Dstar background", "Dstar background", 80, 1.85, 2.2);
+    TH1D* hInvMassSignDstar = new TH1D("Dstar signal", "Dstar signal", 32, 1.85, 2.2);
+    TH1D* hInvMassBackDstar = new TH1D("Dstar background", "Dstar background", 32, 1.85, 2.2);
 
-    TH1D* hInvMassSignDstarw = new TH1D("Dstar signalw", "Dstar signalw", 200, 0., 2.5);
-    TH1D* hInvMassBackDstarw = new TH1D("Dstar backgroundw", "Dstar backgroundw", 200, 0., 2.5);
+    TH1D* hInvMassSignDstarw = new TH1D("Dstar signalw", "Dstar signalw", 200, 0.5, 2.5);
+    TH1D* hInvMassBackDstarw = new TH1D("Dstar backgroundw", "Dstar backgroundw", 200, 0.5, 2.5);
 
-    TH1D* hInvMassSignDstar12 = new TH1D("Dstar S12", "Dstar S12", 80, 1.85, 2.2);
-    TH1D* hInvMassSignDstar23 = new TH1D("Dstar S23", "Dstar S23", 80, 1.85, 2.2);
-    TH1D* hInvMassSignDstar34 = new TH1D("Dstar S34", "Dstar S34", 80, 1.85, 2.2);
-    TH1D* hInvMassSignDstar45 = new TH1D("Dstar S45", "Dstar S45", 80, 1.85, 2.2);
+    TH1D* hInvMassSignDstar12 = new TH1D("Dstar S12", "Dstar S12", 32, 1.85, 2.2);
+    TH1D* hInvMassSignDstar23 = new TH1D("Dstar S23", "Dstar S23", 32, 1.85, 2.2);
+    TH1D* hInvMassSignDstar34 = new TH1D("Dstar S34", "Dstar S34", 32, 1.85, 2.2);
+    TH1D* hInvMassSignDstar45 = new TH1D("Dstar S45", "Dstar S45", 32, 1.85, 2.2);
 
-    TH1D* hInvMassBackDstar12 = new TH1D("bDstar B12", "bDstar B12", 80, 1.85, 2.2);
-    TH1D* hInvMassBackDstar23 = new TH1D("bDstar B23", "bDstar B23", 80, 1.85, 2.2);
-    TH1D* hInvMassBackDstar34 = new TH1D("bDstar B34", "bDstar B34", 80, 1.85, 2.2);
-    TH1D* hInvMassBackDstar45 = new TH1D("bDstar B45", "bDstar B45", 80, 1.85, 2.2);
+    TH1D* hInvMassBackDstar12 = new TH1D("bDstar B12", "bDstar B12", 32, 1.85, 2.2);
+    TH1D* hInvMassBackDstar23 = new TH1D("bDstar B23", "bDstar B23", 32, 1.85, 2.2);
+    TH1D* hInvMassBackDstar34 = new TH1D("bDstar B34", "bDstar B34", 32, 1.85, 2.2);
+    TH1D* hInvMassBackDstar45 = new TH1D("bDstar B45", "bDstar B45", 32, 1.85, 2.2);
 
-    TH1D* hInvMassSignDstar12w = new TH1D("Dstar S12w", "Dstar S12w", 200, 0., 2.5);
-    TH1D* hInvMassSignDstar23w = new TH1D("Dstar S23w", "Dstar S23w", 200, 0., 2.5);
-    TH1D* hInvMassSignDstar34w = new TH1D("Dstar S34w", "Dstar S34w", 200, 0., 2.5);
-    TH1D* hInvMassSignDstar45w = new TH1D("Dstar S45w", "Dstar S45w", 200, 0., 2.5);
+    TH1D* hInvMassSignDstar12w = new TH1D("Dstar S12w", "Dstar S12w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignDstar23w = new TH1D("Dstar S23w", "Dstar S23w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignDstar34w = new TH1D("Dstar S34w", "Dstar S34w", 200, 0.5, 2.5);
+    TH1D* hInvMassSignDstar45w = new TH1D("Dstar S45w", "Dstar S45w", 200, 0.5, 2.5);
 
-    TH1D* hInvMassBackDstar12w = new TH1D("bDstar B12w", "bDstar B12w", 200, 0., 2.5);
-    TH1D* hInvMassBackDstar23w = new TH1D("bDstar B23w", "bDstar B23w", 200, 0., 2.5);
-    TH1D* hInvMassBackDstar34w = new TH1D("bDstar B34w", "bDstar B34w", 200, 0., 2.5);
-    TH1D* hInvMassBackDstar45w = new TH1D("bDstar B45w", "bDstar B45w", 200, 0., 2.5);
+    TH1D* hInvMassBackDstar12w = new TH1D("bDstar B12w", "bDstar B12w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackDstar23w = new TH1D("bDstar B23w", "bDstar B23w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackDstar34w = new TH1D("bDstar B34w", "bDstar B34w", 200, 0.5, 2.5);
+    TH1D* hInvMassBackDstar45w = new TH1D("bDstar B45w", "bDstar B45w", 200, 0.5, 2.5);
 
 
 
-    TH1D* hDstar_D0 = new TH1D("Dstar-D0", "Dstar-D0", 80, 0.12, 0.16);
-    TH1D* hbDstar_D0 = new TH1D("bDstar-D0", "bDstar-D0", 80, 0.12, 0.16);
+    TH1D* hDstar_D0 = new TH1D("Dstar-D0", "Dstar-D0", 32, 0.14, 0.16);
+    TH1D* hbDstar_D0 = new TH1D("bDstar-D0", "bDstar-D0", 32, 0.14, 0.16);
 
-    TH1D* hDstar_D012 = new TH1D("Dstar-D0 S12", "Dstar-D0 S12", 80, 0.12, 0.16);
-    TH1D* hDstar_D023 = new TH1D("Dstar-D0 S23", "Dstar-D0 S23", 80, 0.12, 0.16);
-    TH1D* hDstar_D034 = new TH1D("Dstar-D0 S34", "Dstar-D0 S34", 80, 0.12, 0.16);
-    TH1D* hDstar_D045 = new TH1D("Dstar-D0 S45", "Dstar-D0 S45", 80, 0.12, 0.16);
+    TH1D* hDstar_D012 = new TH1D("Dstar-D0 S12", "Dstar-D0 S12", 32, 0.14, 0.16);
+    TH1D* hDstar_D023 = new TH1D("Dstar-D0 S23", "Dstar-D0 S23", 32, 0.14, 0.16);
+    TH1D* hDstar_D034 = new TH1D("Dstar-D0 S34", "Dstar-D0 S34", 32, 0.14, 0.16);
+    TH1D* hDstar_D045 = new TH1D("Dstar-D0 S45", "Dstar-D0 S45", 32, 0.14, 0.16);
 
-    TH1D* hbDstar_D012 = new TH1D("bDstar-D0 B12", "bDstar-D0 B12", 80, 0.12, 0.16);
-    TH1D* hbDstar_D023 = new TH1D("bDstar-D0 B23", "bDstar-D0 B23", 80, 0.12, 0.16);
-    TH1D* hbDstar_D034 = new TH1D("bDstar-D0 B34", "bDstar-D0 B34", 80, 0.12, 0.16);
-    TH1D* hbDstar_D045 = new TH1D("bDstar-D0 B45", "bDstar-D0 B45", 80, 0.12, 0.16);
+    TH1D* hbDstar_D012 = new TH1D("bDstar-D0 B12", "bDstar-D0 B12", 32, 0.14, 0.16);
+    TH1D* hbDstar_D023 = new TH1D("bDstar-D0 B23", "bDstar-D0 B23", 32, 0.14, 0.16);
+    TH1D* hbDstar_D034 = new TH1D("bDstar-D0 B34", "bDstar-D0 B34", 32, 0.14, 0.16);
+    TH1D* hbDstar_D045 = new TH1D("bDstar-D0 B45", "bDstar-D0 B45", 32, 0.14, 0.16);
 
 
     float Pion_nsigma = 3.0;
@@ -731,84 +731,84 @@ void Danalyza_pp()
     }*/
 
 
-    TH1D *rozdilD0w = new TH1D("D0 rozdilw","D0 rozdilw",200, 0., 2.5);
+    TH1D *rozdilD0w = new TH1D("D0 rozdilw","D0 rozdilw",200, 0.5, 2.5);
     rozdilD0w->Add(hInvMassSignD0w,hInvMassBackD0w,1,-1);
 
-    TH1D *rozdilD0 = new TH1D("D0 rozdil","D0 rozdil",80, 1.7, 2.05);
+    TH1D *rozdilD0 = new TH1D("D0 rozdil","D0 rozdil",32, 1.7, 2.05);
     rozdilD0->Add(hInvMassSignD0,hInvMassBackD0,1,-1);
 
-    TH1D *rozdilD012 = new TH1D("D0 rozdil12","D0 rozdil12",80, 1.7, 2.05);
+    TH1D *rozdilD012 = new TH1D("D0 rozdil12","D0 rozdil12",32, 1.7, 2.05);
     rozdilD012->Add(hInvMassSignD012,hInvMassBackD012,1,-1);
 
-    TH1D *rozdilD023 = new TH1D("D0 rozdil23","D0 rozdil23",80, 1.7, 2.05);
+    TH1D *rozdilD023 = new TH1D("D0 rozdil23","D0 rozdil23",32, 1.7, 2.05);
     rozdilD023->Add(hInvMassSignD023,hInvMassBackD023,1,-1);
 
-    TH1D *rozdilD034 = new TH1D("D0 rozdil34","D0 rozdil34",80, 1.7, 2.05);
+    TH1D *rozdilD034 = new TH1D("D0 rozdil34","D0 rozdil34",32, 1.7, 2.05);
     rozdilD034->Add(hInvMassSignD034,hInvMassBackD034,1,-1);
 
-    TH1D *rozdilD045 = new TH1D("D0 rozdil45","D0 rozdil45",80, 1.7, 2.05);
+    TH1D *rozdilD045 = new TH1D("D0 rozdil45","D0 rozdil45",32, 1.7, 2.05);
     rozdilD045->Add(hInvMassSignD045,hInvMassBackD045,1,-1);
 
-    TH1D *rozdilD012w = new TH1D("D0 rozdil12w","D0 rozdil12w",200, 0., 2.5);
+    TH1D *rozdilD012w = new TH1D("D0 rozdil12w","D0 rozdil12w",200, 0.5, 2.5);
     rozdilD012w->Add(hInvMassSignD012w,hInvMassBackD012w,1,-1);
 
-    TH1D *rozdilD023w = new TH1D("D0 rozdil23w","D0 rozdil23w",200, 0., 2.5);
+    TH1D *rozdilD023w = new TH1D("D0 rozdil23w","D0 rozdil23w",200, 0.5, 2.5);
     rozdilD023w->Add(hInvMassSignD023w,hInvMassBackD023w,1,-1);
 
-    TH1D *rozdilD034w = new TH1D("D0 rozdil34w","D0 rozdil34w",200, 0., 2.5);
+    TH1D *rozdilD034w = new TH1D("D0 rozdil34w","D0 rozdil34w",200, 0.5, 2.5);
     rozdilD034w->Add(hInvMassSignD034w,hInvMassBackD034w,1,-1);
 
-    TH1D *rozdilD045w = new TH1D("D0 rozdil45w","D0 rozdil45w",200, 0., 2.5);
+    TH1D *rozdilD045w = new TH1D("D0 rozdil45w","D0 rozdil45w",200, 0.5, 2.5);
     rozdilD045w->Add(hInvMassSignD045w,hInvMassBackD045w,1,-1);
 
 
 
 
-    TH1D *rozdilDstarw = new TH1D("Dstar rozdilw","Dstar rozdilw",200, 0., 2.5);
+    TH1D *rozdilDstarw = new TH1D("Dstar rozdilw","Dstar rozdilw",200, 0.5, 2.5);
     rozdilDstarw->Add(hInvMassSignDstarw,hInvMassBackDstarw,1,-0.3333333);
 
-    TH1D *rozdilDstar = new TH1D("Dstar rozdil","Dstar rozdil",80, 1.85, 2.2);
+    TH1D *rozdilDstar = new TH1D("Dstar rozdil","Dstar rozdil",32, 1.85, 2.2);
     rozdilDstar->Add(hInvMassSignDstar,hInvMassBackDstar,1,-0.3333333);
 
-    TH1D *rozdilDstar12 = new TH1D("Dstar rozdil12","Dstar rozdil12",80, 1.85, 2.2);
+    TH1D *rozdilDstar12 = new TH1D("Dstar rozdil12","Dstar rozdil12",32, 1.85, 2.2);
     rozdilDstar12->Add(hInvMassSignDstar12,hInvMassBackDstar12,1,-0.3333333);
 
-    TH1D *rozdilDstar23 = new TH1D("Dstar rozdil23","Dstar rozdil23",80, 1.85, 2.2);
+    TH1D *rozdilDstar23 = new TH1D("Dstar rozdil23","Dstar rozdil23",32, 1.85, 2.2);
     rozdilDstar23->Add(hInvMassSignDstar23,hInvMassBackDstar23,1,-0.3333333);
 
-    TH1D *rozdilDstar34 = new TH1D("Dstar rozdil34","Dstar rozdil34",80, 1.85, 2.2);
+    TH1D *rozdilDstar34 = new TH1D("Dstar rozdil34","Dstar rozdil34",32, 1.85, 2.2);
     rozdilDstar34->Add(hInvMassSignDstar34,hInvMassBackDstar34,1,-0.3333333);
 
-    TH1D *rozdilDstar45 = new TH1D("Dstar rozdil45","Dstar rozdil45",80, 1.85, 2.2);
+    TH1D *rozdilDstar45 = new TH1D("Dstar rozdil45","Dstar rozdil45",32, 1.85, 2.2);
     rozdilDstar45->Add(hInvMassSignDstar45,hInvMassBackDstar45,1,-0.3333333);
 
-    TH1D *rozdilDstar12w = new TH1D("Dstar rozdil12w","Dstar rozdil12w",200, 0., 2.5);
+    TH1D *rozdilDstar12w = new TH1D("Dstar rozdil12w","Dstar rozdil12w",200, 0.5, 2.5);
     rozdilDstar12w->Add(hInvMassSignDstar12w,hInvMassBackDstar12w,1,-0.3333333);
 
-    TH1D *rozdilDstar23w = new TH1D("Dstar rozdil23w","Dstar rozdil23w",200, 0., 2.5);
+    TH1D *rozdilDstar23w = new TH1D("Dstar rozdil23w","Dstar rozdil23w",200, 0.5, 2.5);
     rozdilDstar23w->Add(hInvMassSignDstar23w,hInvMassBackDstar23w,1,-0.3333333);
 
-    TH1D *rozdilDstar34w = new TH1D("Dstar rozdil34w","Dstar rozdil34w",200, 0., 2.5);
+    TH1D *rozdilDstar34w = new TH1D("Dstar rozdil34w","Dstar rozdil34w",200, 0.5, 2.5);
     rozdilDstar34w->Add(hInvMassSignDstar34w,hInvMassBackDstar34w,1,-0.3333333);
 
-    TH1D *rozdilDstar45w = new TH1D("Dstar rozdil45w","Dstar rozdil45w",200, 0., 2.5);
+    TH1D *rozdilDstar45w = new TH1D("Dstar rozdil45w","Dstar rozdil45w",200, 0.5, 2.5);
     rozdilDstar45w->Add(hInvMassSignDstar45w,hInvMassBackDstar45w,1,-0.3333333);
 
 
 
-    TH1D *rozdilDstar_D0 = new TH1D("Dstar-D0 rozdil","Dstar-D0 rozdil",80, 0.12, 0.16);
+    TH1D *rozdilDstar_D0 = new TH1D("Dstar-D0 rozdil","Dstar-D0 rozdil",32, 0.14, 0.16);
     rozdilDstar_D0->Add(hDstar_D0,hbDstar_D0,1,-0.3333333);
 
-    TH1D *rozdilDstar_D012 = new TH1D("Dstar-D0 rozdil12","Dstar-D0 rozdil12",80, 0.12, 0.16);
+    TH1D *rozdilDstar_D012 = new TH1D("Dstar-D0 rozdil12","Dstar-D0 rozdil12",32, 0.14, 0.16);
     rozdilDstar_D012->Add(hDstar_D012,hbDstar_D012,1,-0.3333333);
 
-    TH1D *rozdilDstar_D023 = new TH1D("Dstar-D0 rozdil23","Dstar-D0 rozdil23",80, 0.12, 0.16);
+    TH1D *rozdilDstar_D023 = new TH1D("Dstar-D0 rozdil23","Dstar-D0 rozdil23",32, 0.14, 0.16);
     rozdilDstar_D023->Add(hDstar_D023,hbDstar_D023,1,-0.3333333);
 
-    TH1D *rozdilDstar_D034 = new TH1D("Dstar-D0 rozdil34","Dstar-D0 rozdil34",80, 0.12, 0.16);
+    TH1D *rozdilDstar_D034 = new TH1D("Dstar-D0 rozdil34","Dstar-D0 rozdil34",32, 0.14, 0.16);
     rozdilDstar_D034->Add(hDstar_D034,hbDstar_D034,1,-0.3333333);
 
-    TH1D *rozdilDstar_D045 = new TH1D("Dstar-D0 rozdil45","Dstar-D0 rozdil45",80, 0.12, 0.16);
+    TH1D *rozdilDstar_D045 = new TH1D("Dstar-D0 rozdil45","Dstar-D0 rozdil45",32, 0.14, 0.16);
     rozdilDstar_D045->Add(hDstar_D045,hbDstar_D045,1,-0.3333333);
 
 
@@ -874,11 +874,11 @@ void Danalyza_pp()
     }
 
 
-    TH1D *odecet_quadratic = new TH1D("odecet_quadratic","odecet_quadratic",80, 1.7, 2.05);
+    TH1D *odecet_quadratic = new TH1D("odecet_quadratic","odecet_quadratic",32, 1.7, 2.05);
 
     Double_t NN=0, OO=0, PP=0, QQ=0;
 
-    for(int l=0; l<=80;l++){
+    for(int l=0; l<=32;l++){
         NN=hInvMassSignD0->GetBinContent(l);
         QQ=hInvMassSignD0->GetBinError(l);
         OO=odecet_quadratic->GetBinCenter(l);
@@ -887,11 +887,11 @@ void Danalyza_pp()
         odecet_quadratic->SetBinError(l,QQ);
     }
 
-    TH1D *odecet_cubic = new TH1D("odecet_cubic","odecet_cubic",80, 1.7, 2.05);
+    TH1D *odecet_cubic = new TH1D("odecet_cubic","odecet_cubic",32, 1.7, 2.05);
 
     Double_t RR=0, SS=0, TT=0, UU=0;
 
-    for(int m=0; m<=80;m++){
+    for(int m=0; m<=32;m++){
         RR=hInvMassSignD0->GetBinContent(m);
         UU=hInvMassSignD0->GetBinError(m);
         SS=odecet_cubic->GetBinCenter(m);
@@ -903,7 +903,7 @@ void Danalyza_pp()
 
 
 
-    TFile* dataRes = new TFile("D0.root","RECREATE");
+    TFile* dataRes = new TFile("pp500_D0.root","RECREATE");
 
 
     hInvMassSignD0 -> Write();
@@ -996,7 +996,7 @@ void Danalyza_pp()
 
     dataRes->Close();
 
-    TFile* dataRes2 = new TFile("Dstar.root","RECREATE");
+    TFile* dataRes2 = new TFile("pp500_Dstar.root","RECREATE");
 
 
 

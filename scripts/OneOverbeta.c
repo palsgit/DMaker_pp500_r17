@@ -41,6 +41,7 @@ void OneOverbeta()
     ntp->Add("3merged_output_3_004.root");
 
 
+ //   ntp->Add("2022-10-10_19-12_D0_7.picoD0AnaMaker.root");
 
 
     Float_t D0_theta, D0_mass, D0_pt, D0_decayL, k_pt, pi1_pt, pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, dcaMax, pi1_eventId, k_eventId, dcaDaughters, D_cosThetaStar, dcaD0ToPv, primVz, primVzVpd, k_nHitFit, pi1_nHitFit, pi1_p, k_p;
@@ -52,6 +53,8 @@ void OneOverbeta()
     ntp -> SetBranchAddress("k_pt", &k_pt);
     ntp -> SetBranchAddress("pi1_p", &pi1_p);
     ntp -> SetBranchAddress("k_p", &k_p);
+    ntp -> SetBranchAddress("pi1_TOFinvbeta", &pi1_TOFinvbeta);
+    ntp -> SetBranchAddress("k_TOFinvbeta", &k_TOFinvbeta);
 
 
     //vzor TH1* h1 = new TH1I("h1", "h1 title", 100-počet binů, 0.0, 4.0 -rozsah);
@@ -121,11 +124,19 @@ void OneOverbeta()
 
     sigmakaon->Write();
     meankaon->Write();
+    kaonnsigma50->Write();
+    pionnsigma50->Write();
+
 
     dataRes->Close();
 
 
     TCanvas *c1 = new TCanvas("c1", "Kaon_sigma", 1400, 1100);
+
+    c1->SetGrid(0,0);
+    gStyle->SetOptTitle(kFALSE);
+    gStyle->SetOptDate(0);
+    c1->Update();
 
     sigmakaon->SetStats(0);
     sigmakaon->SetMarkerStyle(4);
@@ -177,6 +188,11 @@ void OneOverbeta()
 
 
     TCanvas *c2 = new TCanvas("c2", "Kaon_mean", 1400, 1100);
+
+    c1->SetGrid(0,0);
+    gStyle->SetOptTitle(kFALSE);
+    gStyle->SetOptDate(0);
+    c1->Update();
 
     meankaon->SetStats(0);
     meankaon->SetMarkerStyle(4);
