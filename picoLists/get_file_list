@@ -11,5 +11,6 @@
 #get_file_list.pl -cond trgsetupname=production_pAu200_2015,filename~st_physics,filetype=daq_reco_picoDst,storage=hpss,production=P16id -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
 
 #pp500
-get_file_list.pl -cond trgsetupname=production_pp500_2017,filename~st_physics,filetype=daq_reco_picoDst,storage=!HPPS,production=P16id -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
+#get_file_list.pl -cond trgsetupname=production_pp500_2017,filename~st_physics,filetype=daq_reco_picoDst,storage=!HPPS,production=P16id -keys 'path,filename' -delim / -limit 0 -o runs_path_all.list
 
+get_file_list.pl -keys path,filename -cond production=P20ic,library=SL22b,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=nfs -limit 0 -delim / -distinct > runs_path_all.list

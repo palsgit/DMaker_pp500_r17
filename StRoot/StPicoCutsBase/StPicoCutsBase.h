@@ -170,8 +170,12 @@ public:
     void setCutProtonPtotRangeHybridTOF(float min, float max);
 
     void setHybridTof(bool t);
+    void setHybridTofKaon(bool t);
+    void setHybridTofPion(bool t);
 
     void setHybridTofBetterBetaCuts(bool t);
+    void setHybridTofBetterBetaCutsKaon(bool t);
+    void setHybridTofBetterBetaCutsPion(bool t);
 
     float tofPathLength(const TVector3* beginPoint, const TVector3* endPoint, float curvature) const;
 
@@ -225,7 +229,11 @@ private:
     float mPrimaryDCAtoVtxMax;         // used for primary selection for TOF Beta recalculation
     float mPtMin;
     bool  mHybridTof;
+    bool  mHybridTofKaon;
+    bool  mHybridTofPion;
     bool  mHybridTofBetterBetaCuts;
+    bool  mHybridTofBetterBetaCutsKaon;
+    bool  mHybridTofBetterBetaCutsPion;
     bool  mOnlyHotSpot;
 
 
@@ -307,7 +315,11 @@ inline void StPicoCutsBase::setCutProtonPtotRangeTOF(float min, float max)      
 inline void StPicoCutsBase::setCutProtonPtotRangeHybridTOF(float min, float max) { setCutPtotRangeHybridTOF(min, max, StPicoCutsBase::kProton); }
 
 inline void StPicoCutsBase::setHybridTof(bool t) {mHybridTof = t;}
+inline void StPicoCutsBase::setHybridTofKaon(bool t) {mHybridTofKaon = t;}
+inline void StPicoCutsBase::setHybridTofPion(bool t) {mHybridTofPion = t;}
 inline void StPicoCutsBase::setHybridTofBetterBetaCuts(bool t) {mHybridTofBetterBetaCuts = t;}
+inline void StPicoCutsBase::setHybridTofBetterBetaCutsKaon(bool t) {mHybridTofBetterBetaCutsKaon = t;}
+inline void StPicoCutsBase::setHybridTofBetterBetaCutsPion(bool t) {mHybridTofBetterBetaCutsPion = t;}
 
 
 

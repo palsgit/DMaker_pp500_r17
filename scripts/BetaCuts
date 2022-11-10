@@ -1,0 +1,31 @@
+ FCN=2.66831e-05 FROM MIGRAD    STATUS=CONVERGED     238 CALLS         239 TOTAL
+                     EDM=3.221e-07    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           1.05510e+00   1.50771e+00   1.26353e-04   5.11165e-05
+   2  p1           9.85232e-02   7.62313e-01   3.05018e-05   1.11953e-03
+   3  p2           1.83495e-01   5.76542e+00   5.14134e-05  -1.05220e-03
+   4  p3           2.87264e+00   3.97066e+01   4.21454e-04   1.50904e-04
+                               ERR DEF= 0.5
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (c) has not been written.
+Info in <TCanvas::Print>: pdf file Kaon_projection_sigma.pdf has been created
+Parametr [0] (sigma kaon) je 1.0551
+Parametr [1] (sigma kaon) je 0.0985232
+Parametr [2] (sigma kaon) je 0.183495
+Parametr [3] (sigma kaon) je 2.87264
+ FCN=0.00540664 FROM MIGRAD    STATUS=CONVERGED    1038 CALLS        1039 TOTAL
+                     EDM=2.25913e-06    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0           4.57193e-02   7.15347e-02   2.82157e-05  -6.24230e-03
+   2  p1           1.23594e-02   2.32858e-01   4.90527e-06  -9.44569e-02
+   3  p2           4.47614e-01   1.97206e+00   2.87805e-05   1.54228e-02
+   4  p3           1.00479e+01   3.08666e+01   1.14857e-03  -3.56267e-04
+                               ERR DEF= 0.5
+Error in <TROOT::WriteTObject>: The current directory (Rint) is not associated with a file. The object (c) has not been written.
+Info in <TCanvas::Print>: pdf file Kaon_projection_mean.pdf has been created
+Parametr [0] (mean kaon) je 0.0457193
+Parametr [1] (mean kaon) je 0.0123594
+Parametr [2] (mean kaon) je 0.447614
+Parametr [3] (mean kaon) je 10.0479
+

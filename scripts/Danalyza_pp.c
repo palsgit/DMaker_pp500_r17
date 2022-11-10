@@ -244,7 +244,6 @@ void Danalyza_pp()
 
     TH1D* hInvMassSignD0w = new TH1D("D0 signalw", "D0 signalw", 200, 0.5, 2.5);
     TH1D* hInvMassBackD0w = new TH1D("D0 backgroundw", "D0 backgroundw", 200, 0.5, 2.5);
-   // TH1D* hStat = (TH1D*) list -> FindObject("hEventStat1");
 
     TH1D* hInvMassSignD0test = new TH1D("D0 signaltest", "D0 signaltest", 100, 1.4, 2.2);
 
