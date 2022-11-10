@@ -72,8 +72,6 @@ bool StPicoEventMixer::addPicoEvent(StPicoDst const* const picoDst, float weight
         StPicoTrack const* trk = picoDst->track(iTrk);
         bool saveTrack = false;
 
-        mEventsBuffer=10;
-        filledBuffer=12;
         cout << "Tady jsem"<<endl;
         cout << "Event Buffer je " << mEventsBuffer <<endl;
         cout << "Filled buffer je " << filledBuffer <<endl;

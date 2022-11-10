@@ -94,21 +94,15 @@ Int_t StPicoMixedEventMaker::Init() {
 //    mOutputFileTree->cd();
 //    cout<<"init start"<<endl;
 
-    cout<< "Init zacatek"<<endl;
-
     if (!mHFCuts){
 
         cout<< "Nejsou mHFCuts (init)"<<endl;
         mHFCuts = new StHFCuts;}
     mHFCuts->init();
 
-    cout<< "Init 1"<<endl;
-
     for(int iVz =0 ; iVz < 10 ; ++iVz){
-        cout<< "Init 2"<<endl;
 
         for(int iCentrality = 0 ; iCentrality < m_nmultEdge ; ++iCentrality){
-            cout<< "Init 3"<<endl;
             mPicoEventMixer[iVz][iCentrality] = new StPicoEventMixer(Form("Cent_%i_Vz_%i",iCentrality,iVz));
             mPicoEventMixer[iVz][iCentrality]->setEventBuffer(mBufferSize);
             mPicoEventMixer[iVz][iCentrality]->setHFCuts(mHFCuts);
@@ -118,14 +112,11 @@ Int_t StPicoMixedEventMaker::Init() {
             mPicoEventMixer[iVz][iCentrality]->setMixedEvtNtupleBack(mMETupleBack);
         }
     }
-    cout<< "Init 4"<<endl;
 
     mOutList = new TList();
     mOutList -> SetName(GetName());
     mOutList -> SetOwner(true);
     initializeEventStats();
-
-    cout<< "Init konec"<<endl;
 
 //    cout<<"init end"<<endl;
     //resetEvent();
@@ -170,13 +161,11 @@ void StPicoMixedEventMaker::Clear(Option_t* opt) {
 }
 // _________________________________________________________
 Int_t StPicoMixedEventMaker::Make() {
-    cout<< "Make zacatek"<<endl;
 
     if(!mPicoDstMaker) {
         LOG_WARN << "No PicoDstMaker! Skipping! "<<endm;
         return kStWarn;
     }
-    cout<< "Make 1"<<endl;
 
     StPicoDst const* picoDst = mPicoDstMaker->picoDst();
     if (!picoDst) {
@@ -184,21 +173,16 @@ Int_t StPicoMixedEventMaker::Make() {
         return kStWarn;
     }
 
-    cout<< "Make 2"<<endl;
-
     int aEventStat[mHFCuts->eventStatMax()];
     bool eventTest = mHFCuts->isGoodEvent(picoDst, aEventStat);
     fillEventStats(aEventStat);
 
     if (!eventTest) return kStOk;
-    cout<< "Make 3"<<endl;
 
     TVector3 const pVtx = picoDst->event()->primaryVertex();
 
     int multiplicity = mPicoDst->event()->refMult();
     int centrality = getMultIndex(multiplicity);
-
-    cout<< "Make 4"<<endl;
 
     if(centrality < 0 || centrality > m_nmultEdge+1 ) return kStOk;
     int const vz_bin = (int)((30 +pVtx.z())/1.2) ;
@@ -209,8 +193,7 @@ Int_t StPicoMixedEventMaker::Make() {
     if( mPicoEventMixer[vz_bin][centrality] -> addPicoEvent(picoDst, 1)) {
         mPicoEventMixer[vz_bin][centrality] -> mixEvents();
     }
-    cout<< "Make konec"<<endl;
-
+    
     return kStOk;
 }
 // _________________________________________________________
