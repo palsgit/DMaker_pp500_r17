@@ -89,7 +89,8 @@ void runQAAnaMakerLocal(
   hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kPion); // v podstate 6 sigma
   hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kPion);
 
-  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
+  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
+  //  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
   StPicoQAMaker* PicoQAAnaMaker = new StPicoQAMaker("picoQAAnaMaker", picoDstMaker, outputFile);
   PicoQAAnaMaker->setHFBaseCuts(hfCuts);
 
