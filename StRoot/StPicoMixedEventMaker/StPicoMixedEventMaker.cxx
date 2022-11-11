@@ -96,7 +96,7 @@ Int_t StPicoMixedEventMaker::Init() {
 
     if (!mHFCuts){
 
-        cout<< "Nejsou mHFCuts (init)"<<endl;
+       // cout<< "Nejsou mHFCuts (init)"<<endl;
         mHFCuts = new StHFCuts;}
     mHFCuts->init();
 
@@ -193,7 +193,7 @@ Int_t StPicoMixedEventMaker::Make() {
     if( mPicoEventMixer[vz_bin][centrality] -> addPicoEvent(picoDst, 1)) {
         mPicoEventMixer[vz_bin][centrality] -> mixEvents();
     }
-    
+
     return kStOk;
 }
 // _________________________________________________________

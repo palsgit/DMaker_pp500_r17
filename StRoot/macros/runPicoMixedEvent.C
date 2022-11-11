@@ -55,10 +55,12 @@ void runPicoMixedEvent(
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
     hfCuts->setCutVzMax(30.);
     hfCuts->setCutVzVpdVzMax(6.);
-    hfCuts->setCutNHitsFitMin(15);
+    hfCuts->setCutNHitsFitMin(20);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutRequireHFT(false);
-    hfCuts->setHybridTof(true);
+    hfCuts->setHybridTof(false); // Does nothing (Proton PID)
+    hfCuts->setHybridTofKaon(true);
+    hfCuts->setHybridTofPion(false);
     hfCuts->setCheckHotSpot(false);
 
     hfCuts->setCutTPCNSigmaPion(3.0);
@@ -70,13 +72,14 @@ void runPicoMixedEvent(
     hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
     hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
 
-    hfCuts->setHybridTofBetterBetaCuts(true); // Turns on functional 1/beta cuts
-
+    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
+    hfCuts->setHybridTofBetterBetaCutsKaon(true);
+    hfCuts->setHybridTofBetterBetaCutsPion(false);
 
     float dcaDaughtersMax = 10.;  // maximum toto ide
-    float decayLengthMin  = 0.00000001; // minimum
-    float decayLengthMax  = 999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
-    float cosThetaMin     = 0.;   // minimum
+    float decayLengthMin  = 0.000000000; // minimum
+    float decayLengthMax  = 9999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
+    float cosThetaMin     = -20.;   // minimum
     float minMass         = 0.1;
     float maxMass         = 3.5;
     float pairDcaMax      = 99.9;

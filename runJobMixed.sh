@@ -6,8 +6,8 @@ analyzer="svomich"
 mkdir $productionId
 cd $productionId
 #copylist
-cp ../../picoLists/SL22b00.list  ./
-list="SL22b00.list"
+cp ../../picoLists/part1.list  ./
+list="part1.list"
 
 #copy needed folders
 cp -r ../../.sl73_gcc485 ./
@@ -20,7 +20,7 @@ mkdir -p production
 mkdir -p report
 mkdir -p csh
 mkdir -p list
-mkdir -p jobsbasePath
+mkdir -p jobs
 mkdir -p jobs/log
 mkdir -p jobs/err
 
@@ -29,6 +29,6 @@ path=$( echo $path | sed 's|//|/|g' )
 
 baseFolder=${path}
 rootMacro=runPicoMixedEvent.C
-inputList=runs_path_all.list
+inputList=part1.list
 
 star-submit-template -template ./starSubmit/submitPicoHFMaker.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
