@@ -140,13 +140,15 @@ void StPicoEventMixer::mixEvents() {
                 if (!isCloseMixerPair(pair)) continue;
 
                 int ii=0;
-                float ntVar[21];
+                float ntVar[23];
                 ntVar[ii++] = pion.gPt();
+                ntVar[ii++] = pion.gPtot();
                 ntVar[ii++] = pair->particle1Dca();
                 ntVar[ii++] = pion.nSigmaPion();
                 ntVar[ii++] = pion.nHitsFit();
                 ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion); //probably not working now, you are in weong event, so calc. for TOF traits is not right
                 ntVar[ii++] = kaon.gPt();
+                ntVar[ii++] = kaon.gPtot();
                 ntVar[ii++] = pair->particle2Dca();
                 ntVar[ii++] = kaon.nSigmaKaon();
                 ntVar[ii++] = kaon.nHitsFit();

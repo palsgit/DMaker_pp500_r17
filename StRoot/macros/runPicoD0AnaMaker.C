@@ -100,9 +100,6 @@ void runPicoD0AnaMaker(
     PicoD0AnaMaker->workWithRefit(false);
     PicoD0AnaMaker->setHFBaseCuts(hfCuts);
 
-//    StPicoD0V2AnaMaker* PicoD0V2AnaMaker = new StPicoD0V2AnaMaker("picoD0V2AnaMaker", picoDstMaker, outputFile);
-//    PicoD0V2AnaMaker->setHFBaseCuts(hfCuts);
-
 
 
 //    StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile, inputFile);

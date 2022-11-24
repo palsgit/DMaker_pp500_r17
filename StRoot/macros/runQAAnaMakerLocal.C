@@ -8,6 +8,7 @@
 #include "StPicoDstMaker/StPicoDstMaker.h"
 #include "StPicoHFMaker/StPicoHFEvent.h"
 #include "StPicoHFMaker/StHFCuts.h"
+#include "StPicoHFMaker/StHFMaker.h"
 #include "StPicoEvent/StPicoEvent.h"
 #include "macros/loadSharedHFLibraries.C"
 #include <iostream>
@@ -53,43 +54,59 @@ void runQAAnaMakerLocal(
   cout<<"event stuff set"<<endl;
 
 
-  StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
+    StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
-  hfCuts->setBadRunListFileName(badRunListFileName);
+    hfCuts->setBadRunListFileName(badRunListFileName);
+    hfCuts->addTriggerId(570001); //VPDMB-30
 
-  hfCuts->setCutVzMax(30.);
-  hfCuts->setCutVzVpdVzMax(6.);
-  hfCuts->addTriggerId(570001); //VPDMB-30
-  hfCuts->setCheckHotSpot(true);
 
-  hfCuts->setCutNHitsFitMin(20); //default is 20
-  hfCuts->setCutRequireHFT(false);
-  hfCuts->setHybridTof(true);
-  //LK hfCuts->setCutDcaMin(0.009,StHFCuts::kPion);
-  //LK  hfCuts->setCutDcaMin(0.007,StHFCuts::kKaon);
+    hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
+    hfCuts->setCutVzMax(30.);
+    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setCutNHitsFitMin(20);
+    hfCuts->setCutNHitsFitnHitsMax(0.52);
+    hfCuts->setCutRequireHFT(false);
+    hfCuts->setHybridTof(false); // Does nothing (Proton PID)
+    hfCuts->setHybridTofKaon(true);
+    hfCuts->setHybridTofPion(true);
+    hfCuts->setCheckHotSpot(false);
 
-   // kaonPion pair cuts
-  float dcaDaughtersMax = 0.2;  // maximum
-  float decayLengthMin  = 0.000; // minimum
-  float decayLengthMax  = 999999; //std::numeric_limits<float>::max();
-  float cosThetaMin     = -20.;   // minimum
-  float minMass         = 0.6;
-  float maxMass         = 2.6;
-  float pairDcaMax      = 99.9;
+    hfCuts->setCutTPCNSigmaPion(3.0);
+    hfCuts->setCutTPCNSigmaKaon(2.0);
+//    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
+//    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
+//    hfCuts->setCutPtMin(0.15);
 
-  //Single track pt
-  hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kPion); //0.2 , 50.0
-  hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kKaon); //0.2, 50.0
-  //TPC setters
-  hfCuts->setCutTPCNSigmaPion(10); //3
-  hfCuts->setCutTPCNSigmaKaon(10); //3
-  //TOF setters, need to set pt range as well
-  hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kKaon); // v podstate 5 sigma; nastavene = f * (sigmaTOF), sigma TOF je 0.013
-  hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kKaon);
-  hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kPion); // v podstate 6 sigma
-  hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kPion);
+    hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
+    hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
 
-  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
+    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
+    hfCuts->setHybridTofBetterBetaCutsKaon(true);
+    hfCuts->setHybridTofBetterBetaCutsPion(false);
+
+    //Single track pt
+    hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kPion); //0.2 , 50.0
+    hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kKaon); //0.2, 50.0
+    //TPC setters
+    hfCuts->setCutTPCNSigmaPion(10.); //3
+    hfCuts->setCutTPCNSigmaKaon(10.); //3
+    //TOF setters, need to set pt range as well
+    hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kKaon); // v podstate 5 sigma; nastavene = f * (sigmaTOF), sigma TOF je 0.013
+    hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kKaon);
+    hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kPion); // v podstate 6 sigma
+    hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kPion);
+
+
+    float dcaDaughtersMax = 0.2;  // maximum
+    float decayLengthMin  = 0.000; // minimum
+    float decayLengthMax  = 999999; //std::numeric_limits<float>::max();
+    float cosThetaMin     = -20.;   // minimum
+    float minMass         = 0.6;
+    float maxMass         = 2.6;
+    float pairDcaMax      = 99.9;
+
+
+    StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
   //  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
   StPicoQAMaker* PicoQAAnaMaker = new StPicoQAMaker("picoQAAnaMaker", picoDstMaker, outputFile);
   PicoQAAnaMaker->setHFBaseCuts(hfCuts);

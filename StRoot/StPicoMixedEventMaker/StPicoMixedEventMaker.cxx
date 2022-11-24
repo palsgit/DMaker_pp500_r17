@@ -46,8 +46,8 @@ StPicoMixedEventMaker::StPicoMixedEventMaker(char const* name, StPicoDstMaker* p
         mOutputFileTreeBackSE(NULL),
         mOutputFileTreeBackME(NULL)
 {
-    const string varList ="pi1_pt:pi1_dca:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:"
-                          "k_pt:k_dca:k_nSigma:k_nHitFit:k_TOFinvbeta:"
+    const string varList ="pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:"
+                          "k_pt:k_p:k_dca:k_nSigma:k_nHitFit:k_TOFinvbeta:"
                           "dcaDaughters:D_rapidity:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_phi:D_eta:D_cosThetaStar:D_pt:D_mass";
 
     TH1::AddDirectory(false);
