@@ -430,13 +430,13 @@ bool StPicoCutsBase::isTOFmatched(StPicoTrack const *trk) const {
 
 // _________________________________________________________
 bool StPicoCutsBase::isBEMCmatched(StPicoTrack const *trk) const {
-    int bemcID = track->bemcPidTraitsIndex(); //Get index to BemcPidTraits object for each StPicoTrack
+    int bemcID = trk->bemcPidTraitsIndex(); //Get index to BemcPidTraits object for each StPicoTrack
 
-    if(bemcID < 0) continue;
+    if(bemcID < 0) return false;
 
     StPicoBEmcPidTraits * bemcPID = mPicoDst->bemcPidTraits(bemcID); //Get BemcPidTraits from StPicoDst
 
-    if(bemcPID == NULL) continue;
+    if(bemcPID == NULL) return false;
     return true;
 }
 
