@@ -6,6 +6,8 @@
 #include "phys_constants.h"
 #include "StPicoD0AnaMaker.h"
 #include "StPicoHFMaker/StHFTriplet.h"
+#include "StPicoCutsBase/StPicoCutsBase.h"
+
 //#include "StPicoKFVertexFitter/StPicoKFVertexFitter.h
 
 ClassImp(StPicoD0AnaMaker)
