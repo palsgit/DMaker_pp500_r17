@@ -20,7 +20,7 @@ ClassImp(StPicoCutsBase)
 // _________________________________________________________
 StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
                                    mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(6), mTOFResolution(0.013),
-                                   mBadRunListFileName("picoList_bad.list"), mVzMax(6.), mVzVpdVzMax(3.),
+                                   mBadRunListFileName("picoList_bad.list"), mVzMax(30.), mVzVpdVzMax(6.),
                                    mNHitsFitMin(15), mRequireHFT(false), mNHitsFitnHitsMax(0.), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mHybridTof(false), mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
 
     for (Int_t idx = 0; idx < kPicoPIDMax; ++idx) {
@@ -55,7 +55,7 @@ StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
 // _________________________________________________________
 StPicoCutsBase::StPicoCutsBase(const Char_t *name) : TNamed(name, name),
                                                      mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(6), mTOFResolution(0.013),
-                                                     mBadRunListFileName("picoList_bad_MB.list"), mVzMax(6.), mVzVpdVzMax(3.),
+                                                     mBadRunListFileName("picoList_bad_MB.list"), mVzMax(30.), mVzVpdVzMax(6.),
                                                      mNHitsFitMin(15), mRequireHFT(true), mNHitsFitnHitsMax(0.), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mHybridTof(false),mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
     // -- constructor
 
@@ -225,7 +225,8 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
     if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kPion)) return false;
     if (!isTPCPion(trk)) return false;
     bool tof = false;
-    if (mHybridTofBetterBetaCutsPion) {
+    double ptot= trk->gPtot();
+    if (mHybridTofBetterBetaCutsPion || (mHybridTofWithBEMC && ptot<1.3)) {
         if (mHybridTofPion) tof = isHybridTOFPionBetterCuts(trk);
         if (!mHybridTofPion) tof = isTOFPionBetterCuts(trk);
     }
@@ -243,7 +244,7 @@ bool StPicoCutsBase::isTOFPionCutOK(StPicoTrack const *trk, float const & tofBet
     if (tofBeta <= 0) {return false;}
     double ptot    = trk->gPtot();
     float betaInv = ptot / sqrt(ptot*ptot + mHypotheticalMass2[pidFlag]);
-    float pion_higher = 6-8/3*ptot;
+  /*  float pion_higher = 6-8/3*ptot;
     float pion_lower = -6+8/3*ptot;
 
 
@@ -252,7 +253,18 @@ bool StPicoCutsBase::isTOFPionCutOK(StPicoTrack const *trk, float const & tofBet
     }
     if(ptot>1.5) {
         return ((1 / tofBeta - 1 / betaInv) / 0.012 < 2 && (1 / tofBeta - 1 / betaInv) / 0.012 > -2);
+    }*/
+    float pion_higher = 6-2*ptot;
+    float pion_lower = -6+2*ptot;
+
+
+    if(ptot<1.5) {
+        return ((1 / tofBeta - 1 / betaInv) / 0.012 < pion_higher && (1 / tofBeta - 1 / betaInv) / 0.012 > pion_lower);
     }
+    if(ptot>1.5) {
+        return ((1 / tofBeta - 1 / betaInv) / 0.012 < 3 && (1 / tofBeta - 1 / betaInv) / 0.012 > -3);
+    }
+
 
     }
 
@@ -415,6 +427,20 @@ bool StPicoCutsBase::isTOFmatched(StPicoTrack const *trk) const {
      */
     return trk->isTofTrack();
 }
+
+// _________________________________________________________
+bool StPicoCutsBase::isBEMCmatched(StPicoTrack const *trk) const {
+    int bemcID = track->bemcPidTraitsIndex(); //Get index to BemcPidTraits object for each StPicoTrack
+
+    if(bemcID < 0) continue;
+
+    StPicoBEmcPidTraits * bemcPID = mPicoDst->bemcPidTraits(bemcID); //Get BemcPidTraits from StPicoDst
+
+    if(bemcPID == NULL) continue;
+    return true;
+}
+
+
 
 // _________________________________________________________
 bool StPicoCutsBase::isHybridTOFHadron(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const {

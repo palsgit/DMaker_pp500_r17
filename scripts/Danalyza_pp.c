@@ -47,7 +47,7 @@ void Danalyza_pp()
 
     //   TFile* data = new TFile("2021-06-13_13-41_D0_4536.picoD0AnaMaker.root");
     TChain *ntp = new TChain("ntp_signal");
-    ntp->Add("1merged_output_3_000.root");
+/*    ntp->Add("1merged_output_3_000.root");
     ntp->Add("1merged_output_3_001.root");
     ntp->Add("1merged_output_3_002.root");
     ntp->Add("1merged_output_3_003.root");
@@ -70,13 +70,17 @@ void Danalyza_pp()
     ntp->Add("3merged_output_3_002.root");
     ntp->Add("3merged_output_3_003.root");
     ntp->Add("3merged_output_3_004.root");
-    ntp->Add("3merged_output_3_005.root");
+    ntp->Add("3merged_output_3_005.root");*/
 
 //    ntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
+    ntp->Add("1output.root");
+    ntp->Add("2output.root");
+    ntp->Add("3output.root");
+
 
     TChain *bntp = new TChain("ntp_background");
-    bntp->Add("1merged_output_3_000.root");
+/*    bntp->Add("1merged_output_3_000.root");
     bntp->Add("1merged_output_3_001.root");
     bntp->Add("1merged_output_3_002.root");
     bntp->Add("1merged_output_3_003.root");
@@ -99,13 +103,17 @@ void Danalyza_pp()
     bntp->Add("3merged_output_3_002.root");
     bntp->Add("3merged_output_3_003.root");
     bntp->Add("3merged_output_3_004.root");
-    bntp->Add("3merged_output_3_005.root");
+    bntp->Add("3merged_output_3_005.root");*/
+
+    bntp->Add("1output.root");
+    bntp->Add("2output.root");
+    bntp->Add("3output.root");
 
 //    bntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
 
     TChain *Dntp = new TChain("Dntp_signal");
-    Dntp->Add("1merged_output_3_000.root");
+/*    Dntp->Add("1merged_output_3_000.root");
     Dntp->Add("1merged_output_3_001.root");
     Dntp->Add("1merged_output_3_002.root");
     Dntp->Add("1merged_output_3_003.root");
@@ -128,13 +136,17 @@ void Danalyza_pp()
     Dntp->Add("3merged_output_3_002.root");
     Dntp->Add("3merged_output_3_003.root");
     Dntp->Add("3merged_output_3_004.root");
-    Dntp->Add("3merged_output_3_005.root");
+    Dntp->Add("3merged_output_3_005.root");*/
+
+    Dntp->Add("1output.root");
+    Dntp->Add("2output.root");
+    Dntp->Add("3output.root");
 
 //    Dntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
 
     TChain *Dbntp = new TChain("Dntp_background");
-    Dbntp->Add("1merged_output_3_000.root");
+/*    Dbntp->Add("1merged_output_3_000.root");
     Dbntp->Add("1merged_output_3_001.root");
     Dbntp->Add("1merged_output_3_002.root");
     Dbntp->Add("1merged_output_3_003.root");
@@ -157,7 +169,11 @@ void Danalyza_pp()
     Dbntp->Add("3merged_output_3_002.root");
     Dbntp->Add("3merged_output_3_003.root");
     Dbntp->Add("3merged_output_3_004.root");
-    Dbntp->Add("3merged_output_3_005.root");
+    Dbntp->Add("3merged_output_3_005.root");*/
+
+    Dbntp->Add("1output.root");
+    Dbntp->Add("2output.root");
+    Dbntp->Add("3output.root");
 
 //    Dbntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 

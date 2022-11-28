@@ -69,6 +69,9 @@ public:
     //    use for
     //      - primary hadrons
     //      - secondarys from charm decays (as an approximation)
+    bool isBEMCmatched(StPicoTrack const *trk) const;
+
+
     bool isTOFmatched(StPicoTrack const *trk) const;
     bool isTOFPion(StPicoTrack const *trk) const;
     bool isTOFKaon(StPicoTrack const *trk) const;
@@ -177,6 +180,9 @@ public:
     void setHybridTofBetterBetaCutsKaon(bool t);
     void setHybridTofBetterBetaCutsPion(bool t);
 
+    void setHybridTofWithBEMC(bool t);
+
+
     float tofPathLength(const TVector3* beginPoint, const TVector3* endPoint, float curvature) const;
 
     // -- calculate beta of track -- basic calculation
@@ -234,6 +240,7 @@ private:
     bool  mHybridTofBetterBetaCuts;
     bool  mHybridTofBetterBetaCutsKaon;
     bool  mHybridTofBetterBetaCutsPion;
+    bool  mHybridTofWithBEMC;
     bool  mOnlyHotSpot;
 
 
@@ -320,6 +327,8 @@ inline void StPicoCutsBase::setHybridTofPion(bool t) {mHybridTofPion = t;}
 inline void StPicoCutsBase::setHybridTofBetterBetaCuts(bool t) {mHybridTofBetterBetaCuts = t;}
 inline void StPicoCutsBase::setHybridTofBetterBetaCutsKaon(bool t) {mHybridTofBetterBetaCutsKaon = t;}
 inline void StPicoCutsBase::setHybridTofBetterBetaCutsPion(bool t) {mHybridTofBetterBetaCutsPion = t;}
+
+inline void StPicoCutsBase::setHybridTofWithBEMC(bool t) {mHybridTofWithBEMC = t;}
 
 
 

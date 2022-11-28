@@ -62,12 +62,14 @@ void runPicoD0AnaMaker(
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutRequireHFT(false);
     hfCuts->setHybridTof(false); // Does nothing (Proton PID)
-    hfCuts->setHybridTofKaon(true);
+    hfCuts->setHybridTofKaon(false);
     hfCuts->setHybridTofPion(false);
     hfCuts->setCheckHotSpot(false);
 
     hfCuts->setCutTPCNSigmaPion(3.0);
     hfCuts->setCutTPCNSigmaKaon(2.0);
+    hfCuts->setCutTOFNSigmaPion(3.0);
+    hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
     hfCuts->setCutPtMin(0.15);
@@ -76,8 +78,10 @@ void runPicoD0AnaMaker(
     hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
-    hfCuts->setHybridTofBetterBetaCutsKaon(true);
+    hfCuts->setHybridTofBetterBetaCutsKaon(false);
     hfCuts->setHybridTofBetterBetaCutsPion(false);
+
+    hfCuts->setHybridTofWithBEMC(true);
 
 //
     float dcaDaughtersMax = 10.;  // maximum toto ide
