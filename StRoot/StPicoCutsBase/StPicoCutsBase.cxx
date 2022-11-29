@@ -232,7 +232,7 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
             if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
 
-        if (ptot > 1.3 && trk->ptot < 2.07) {
+        if (ptot > 1.3 && ptot < 2.07) {
             if(isTOFmatched(trk)) tof = isTOFPion(trk);
             if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
@@ -317,7 +317,7 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
             tof = isTOFKaonBetterCuts(trk);
         }
 
-        if (ptot > 1.3 && trk->ptot < 2.07) {
+        if (ptot > 1.3 && ptot < 2.07) {
             if(isTOFmatched(trk)) tof = isTOFKaonBetterCuts(trk);
             if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
