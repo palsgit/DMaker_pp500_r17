@@ -69,7 +69,6 @@ public:
     //    use for
     //      - primary hadrons
     //      - secondarys from charm decays (as an approximation)
-    bool isBEMCmatched(StPicoTrack const *trk) const;
 
 
     bool isTOFmatched(StPicoTrack const *trk) const;
@@ -80,6 +79,8 @@ public:
     bool isTOFPion(StPicoTrack const *trk,   float const & tofBeta) const;
     bool isTOFKaon(StPicoTrack const *trk,   float const & tofBeta) const;
     bool isTOFProton(StPicoTrack const *trk, float const & tofBeta) const;
+
+    bool isBEMCmatched(StPicoTrack const *trk) const;
 
     // -- Is TOF particle in ptot range
     //    if track has no TOF information - return true

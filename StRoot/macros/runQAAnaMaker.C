@@ -54,7 +54,7 @@ void runQAAnaMaker(
 
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
     hfCuts->setCutVzMax(30.);
-    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setCutVzVpdVzMax(100.);
     hfCuts->setCutNHitsFitMin(20);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutRequireHFT(false);

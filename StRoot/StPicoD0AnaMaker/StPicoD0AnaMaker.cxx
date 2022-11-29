@@ -270,95 +270,18 @@ int StPicoD0AnaMaker::createCandidates() {
 //        cout << pMom.Mag() << endl;
 
 
-
         if (trk->isPrimary()) {
             nPrimary++;
             primaryTracks.push_back(iTrack);
 
-            if(mHybridTofWithBEMC) {
-                if (trk->gPt() < 1.3) {
-                    if(mHFCuts->isTOFmatched(trk)){
-
-                        mHybridTofBetterBetaCutsKaon=true;
-                        mHybridTofBetterBetaCutsPion=true;
-                        mHybridTofKaon=false;
-                        mHybridTofPion=false;
-
-                        if (mHFCuts->isGoodPion(trk)) {
-                            mIdxPicoPions.push_back(iTrack);
-                            hPionPt->Fill(trk->gPt());
-                        }
-
-                        if (mHFCuts->isGoodKaon(trk)){
-                            mIdxPicoKaons.push_back(iTrack);
-                            hKaonPt->Fill(trk->gPt());
-                        }
-                    }
-                    if((mHFCuts->!isTOFmatched(trk))&&(mHFCuts->isBEMCmatched(trk))&&(mHFCuts->isTPCPion(trk))){
-                        mIdxPicoPions.push_back(iTrack);
-                        hPionPt->Fill(trk->gPt());
-                    }
-                }
-
-                if (trk->gPt() > 1.3 && trk->gPt() < 2.07) {
-                    if(mHFCuts->isTOFmatched(trk)){
-
-                        mHybridTofBetterBetaCutsKaon=true;
-                        mHybridTofBetterBetaCutsPion=false;
-                        mHybridTofKaon=false;
-                        mHybridTofPion=false;
-
-                        if (mHFCuts->isGoodPion(trk)) {
-                            mIdxPicoPions.push_back(iTrack);
-                            hPionPt->Fill(trk->gPt());
-                        }
-
-                        if (mHFCuts->isGoodKaon(trk)){
-                            mIdxPicoKaons.push_back(iTrack);
-                            hKaonPt->Fill(trk->gPt());
-                        }
-                    }
-                    if((mHFCuts->!isTOFmatched(trk))&&(mHFCuts->isBEMCmatched(trk))&&(mHFCuts->isTPCPion(trk))){
-                        mIdxPicoPions.push_back(iTrack);
-                        hPionPt->Fill(trk->gPt());
-                    }
-
-                    if((mHFCuts->!isTOFmatched(trk))&&(mHFCuts->isBEMCmatched(trk))&&(mHFCuts->isTPCKaon(trk))){
-                        mIdxPicoKaons.push_back(iTrack);
-                        hKaonPt->Fill(trk->gPt());
-                    }
-                }
-
-                if (trk->gPt() > 2.07) {
-
-                    mHybridTofBetterBetaCutsKaon=false;
-                    mHybridTofBetterBetaCutsPion=false;
-                    mHybridTofKaon=true;
-                    mHybridTofPion=true;
-
-                    if (mHFCuts->isGoodPion(trk)) {
-                        mIdxPicoPions.push_back(iTrack);
-                        hPionPt->Fill(trk->gPt());
-                    }
-
-                    if (mHFCuts->isGoodKaon(trk)){
-                        mIdxPicoKaons.push_back(iTrack);
-                        hKaonPt->Fill(trk->gPt());
-                    }
-                }
+            if (mHFCuts->isGoodPion(trk)) {
+                mIdxPicoPions.push_back(iTrack);
+                hPionPt->Fill(trk->gPt());
             }
 
-
-            if(!mHybridTofWithBEMC){
-                if (mHFCuts->isGoodPion(trk)) {
-                    mIdxPicoPions.push_back(iTrack);
-                    hPionPt->Fill(trk->gPt());
-                }
-
-                if (mHFCuts->isGoodKaon(trk)){
-                    mIdxPicoKaons.push_back(iTrack);
-                    hKaonPt->Fill(trk->gPt());
-                }
+            if (mHFCuts->isGoodKaon(trk)){
+                mIdxPicoKaons.push_back(iTrack);
+                hKaonPt->Fill(trk->gPt());
             }
         }
     }

@@ -225,16 +225,37 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
     if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kPion)) return false;
     if (!isTPCPion(trk)) return false;
     bool tof = false;
-    double ptot= trk->gPtot();
-    if (mHybridTofBetterBetaCutsPion || (mHybridTofWithBEMC && ptot<1.3)) {
-        if (mHybridTofPion) tof = isHybridTOFPionBetterCuts(trk);
-        if (!mHybridTofPion) tof = isTOFPionBetterCuts(trk);
+    double ptot = trk->gPtot();
+    if (mHybridTofWithBEMC) {
+        if (ptot < 1.3) {
+            if(isTofTrack(trk)) tof = isTOFPionBetterCuts(trk);
+            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+        }
+
+        if (ptot > 1.3 && trk->ptot < 2.07) {
+            if(isTofTrack(trk)) tof = isTOFPion(trk);
+            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+        }
+
+        if (ptot > 2.07) {
+            if(isTofTrack(trk)||(isBemcTrack(trk))) tof = isTOFPion(trk);
+
+        }
+
+
+
     }
+    if (!mHybridTofWithBEMC) {
+        if (mHybridTofBetterBetaCutsPion) {
+            if (mHybridTofPion) tof = isHybridTOFPionBetterCuts(trk);
+            if (!mHybridTofPion) tof = isTOFPionBetterCuts(trk);
+        }
 
 
-    if (!mHybridTofBetterBetaCutsPion) { // Original constant cut
-        if (mHybridTofPion) tof = isHybridTOFPion(trk);
-        if (!mHybridTofPion) tof = isTOFPion(trk);
+        if (!mHybridTofBetterBetaCutsPion) { // Original constant cut
+            if (mHybridTofPion) tof = isHybridTOFPion(trk);
+            if (!mHybridTofPion) tof = isTOFPion(trk);
+        }
     }
     return tof;
 }
@@ -291,15 +312,35 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
     if (!isTPCKaon(trk)) return false;
     bool tof = false;
 
-    if (mHybridTofBetterBetaCutsKaon) {
-        if (mHybridTofKaon) tof = isHybridTOFKaonBetterCuts(trk);
-        if (!mHybridTofKaon) tof = isTOFKaonBetterCuts(trk);
+    if (mHybridTofWithBEMC) {
+        if (ptot < 1.3) {
+            tof = isTOFKaonBetterCuts(trk);
+        }
+
+        if (ptot > 1.3 && trk->ptot < 2.07) {
+            if(isTofTrack(trk)) tof = isTOFKaonBetterCuts(trk);
+            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+        }
+
+        if (ptot > 2.07) {
+            if(isTofTrack(trk)||(isBemcTrack(trk))) tof = isTOFKaon(trk);
+        }
+
+
+
     }
+    if (!mHybridTofWithBEMC) {
+
+        if (mHybridTofBetterBetaCutsKaon) {
+            if (mHybridTofKaon) tof = isHybridTOFKaonBetterCuts(trk);
+            if (!mHybridTofKaon) tof = isTOFKaonBetterCuts(trk);
+        }
 
 
-    if (!mHybridTofBetterBetaCutsKaon) { // Original constant cut
-        if (mHybridTofKaon) tof = isHybridTOFKaon(trk);
-        if (!mHybridTofKaon) tof = isTOFKaon(trk);
+        if (!mHybridTofBetterBetaCutsKaon) { // Original constant cut
+            if (mHybridTofKaon) tof = isHybridTOFKaon(trk);
+            if (!mHybridTofKaon) tof = isTOFKaon(trk);
+        }
     }
     return tof;
 }
@@ -430,17 +471,16 @@ bool StPicoCutsBase::isTOFmatched(StPicoTrack const *trk) const {
 
 // _________________________________________________________
 bool StPicoCutsBase::isBEMCmatched(StPicoTrack const *trk) const {
-    int bemcID = trk->bemcPidTraitsIndex(); //Get index to BemcPidTraits object for each StPicoTrack
-
-    if(bemcID < 0) return false;
-
-    StPicoBEmcPidTraits * bemcPID = mPicoDst->bemcPidTraits(bemcID); //Get BemcPidTraits from StPicoDst
-
-    if(bemcPID == NULL) return false;
-    return true;
+    /*OLD
+    int tofIndex = trk->bTofPidTraitsIndex();
+    trk->isTofTrack();
+    bool TofMatch = kFALSE;
+    StPicoBTofPidTraits* tofPidTraits;
+    if (tofIndex >= 0)  tofPidTraits = mPicoDst->btofPidTraits(tofIndex);
+    if (tofIndex >= 0 && tofPidTraits && tofPidTraits->btofMatchFlag() > 0)  TofMatch = kTRUE;
+     */
+    return trk->isBemcTrack();
 }
-
-
 
 // _________________________________________________________
 bool StPicoCutsBase::isHybridTOFHadron(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const {
