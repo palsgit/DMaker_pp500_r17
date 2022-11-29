@@ -311,7 +311,7 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
     if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kKaon)) return false;
     if (!isTPCKaon(trk)) return false;
     bool tof = false;
-
+    double ptot = trk->gPtot();
     if (mHybridTofWithBEMC) {
         if (ptot < 1.3) {
             tof = isTOFKaonBetterCuts(trk);
