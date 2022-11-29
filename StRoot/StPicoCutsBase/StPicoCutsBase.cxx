@@ -228,17 +228,17 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
     double ptot = trk->gPtot();
     if (mHybridTofWithBEMC) {
         if (ptot < 1.3) {
-            if(isTofTrack(trk)) tof = isTOFPionBetterCuts(trk);
-            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+            if(isTOFmatched(trk)) tof = isTOFPionBetterCuts(trk);
+            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
 
         if (ptot > 1.3 && trk->ptot < 2.07) {
-            if(isTofTrack(trk)) tof = isTOFPion(trk);
-            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+            if(isTOFmatched(trk)) tof = isTOFPion(trk);
+            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
 
         if (ptot > 2.07) {
-            if(isTofTrack(trk)||(isBemcTrack(trk))) tof = isTOFPion(trk);
+            if(isTOFmatched(trk)||(isBEMCmatched(trk))) tof = isTOFPion(trk);
 
         }
 
@@ -318,12 +318,12 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
         }
 
         if (ptot > 1.3 && trk->ptot < 2.07) {
-            if(isTofTrack(trk)) tof = isTOFKaonBetterCuts(trk);
-            if(!isTofTrack(trk)&&(isBemcTrack(trk))) tof = true;
+            if(isTOFmatched(trk)) tof = isTOFKaonBetterCuts(trk);
+            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
         }
 
         if (ptot > 2.07) {
-            if(isTofTrack(trk)||(isBemcTrack(trk))) tof = isTOFKaon(trk);
+            if(isTOFmatched(trk)||(isBEMCmatched(trk))) tof = isTOFKaon(trk);
         }
 
 
@@ -471,14 +471,7 @@ bool StPicoCutsBase::isTOFmatched(StPicoTrack const *trk) const {
 
 // _________________________________________________________
 bool StPicoCutsBase::isBEMCmatched(StPicoTrack const *trk) const {
-    /*OLD
-    int tofIndex = trk->bTofPidTraitsIndex();
-    trk->isTofTrack();
-    bool TofMatch = kFALSE;
-    StPicoBTofPidTraits* tofPidTraits;
-    if (tofIndex >= 0)  tofPidTraits = mPicoDst->btofPidTraits(tofIndex);
-    if (tofIndex >= 0 && tofPidTraits && tofPidTraits->btofMatchFlag() > 0)  TofMatch = kTRUE;
-     */
+
     return trk->isBemcTrack();
 }
 
