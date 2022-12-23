@@ -238,10 +238,10 @@ int StPicoD0AnaMaker::createCandidates() {
     TH1F *hKaonPt = static_cast<TH1F*>(mOutList->FindObject("hKaonPt"));
     TH1F *hPionPt = static_cast<TH1F*>(mOutList->FindObject("hPionPt"));
 
-    TH1F *h_gRefmult_vs_BBCx_Pion = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Pion"));
-    TH1F *h_gRefmult_vs_BBCx_Kaon = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Kaon"));
-    TH1F *h_gRefmult = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult"));
-    TH1F *h_QA_nEvents = static_cast<TH2F*>(mOutList->FindObject("h_QA_nEvents"));
+    TH2F *h_gRefmult_vs_BBCx_Pion = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Pion"));
+    TH2F *h_gRefmult_vs_BBCx_Kaon = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Kaon"));
+    TH2F *h_gRefmult = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult"));
+    TH2F *h_QA_nEvents = static_cast<TH2F*>(mOutList->FindObject("h_QA_nEvents"));
     TH1F *h_QA_OneOverBetaDiffPion = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffPion"));
     TH1F *h_QA_OneOverBetaDiffKaon = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffKaon"));
 
@@ -288,8 +288,6 @@ int StPicoD0AnaMaker::createCandidates() {
             float BBC = mPicoDst->event()->BBCx() / 1000.;
             float grefMult = mPicoDst->event()->refMult();
 
-            int RunIndex = -1; //default value for RunIndex (does not correspond to any RunId)
-
             RunId = mPicoDst->event()->runId();
 
 
@@ -297,14 +295,16 @@ int StPicoD0AnaMaker::createCandidates() {
             h_gRefmult->Fill(RunId, grefMult);
 
 
-            if (isTPCPion(trk)){
-                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,Beta,StPicoCutsBase::kPion) / 0.012;
+            if (isPionTPC(trk)){
+                float BetaPion = mHFCuts->getTofBetaBase(trk);
+                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.012;
                 h_gRefmult_vs_BBCx_Pion->Fill(BBC, grefMult);
                 h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
             }
 
-            if (isTPCPion(trk)){
-                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,Beta,StPicoCutsBase::kKaon) / 0.012;
+            if (isKaonTPC(trk)){
+                float BetaKaon = mHFCuts->getTofBetaBase(trk);
+                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon) / 0.012;
                 h_gRefmult_vs_BBCx_Kaon->Fill(BBC, grefMult);
                 h_QA_OneOverBetaDiffKaon->Fill(trk->gPt(), nk_TOFinvbeta);
             }
@@ -504,7 +504,7 @@ int StPicoD0AnaMaker::createCandidates() {
     } // for (unsigned short idxPion1 = 0; idxPion1 < mIdxPicoPions.size(); ++idxPion1)
 
     if (nD0>0) {
-        hNTracksRemoved->Fill(tracksToRemove.size());
+      //  hNTracksRemoved->Fill(tracksToRemove.size());
         hNTracksGoodToFit->Fill(nGoodTracks);
         hNTracksPrimary->Fill(nPrimary);
         hNTracksDiffRemovedPrimary->Fill(nPrimary-tracksToRemove.size());

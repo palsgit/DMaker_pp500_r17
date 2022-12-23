@@ -82,6 +82,9 @@ public:
 
     bool isBEMCmatched(StPicoTrack const *trk) const;
 
+    bool isPionTPC(StPicoTrack const *trk) const;
+    bool isKaonTPC(StPicoTrack const *trk) const;
+
     // -- Is TOF particle in ptot range
     //    if track has no TOF information - return true
     //    use for
