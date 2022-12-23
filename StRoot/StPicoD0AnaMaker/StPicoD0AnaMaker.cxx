@@ -281,14 +281,14 @@ int StPicoD0AnaMaker::createCandidates() {
 
 
 
-            RunId = mPicoDst->event()->runId();
-            float grefMult = mPicoDst->event()->refMult();
+            RunId = mPicoEvent->runId();
+            float grefMult = mPicoEvent->grefMult();
             h_gRefmult->Fill(RunId, grefMult);
 
 
             if (mHFCuts->isPionTPC(trk)){
-                float BBCPion = mPicoDst->event()->BBCx() / 1000.;
-                float grefMultPion = mPicoDst->event()->refMult();
+                float BBCPion = mPicoEvent->BBCx() / 1000.;
+                float grefMultPion = mPicoEvent->grefMult();
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
                 float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.012;
                 h_gRefmult_vs_BBCx_Pion->Fill(BBCPion, grefMultPion);
@@ -296,8 +296,8 @@ int StPicoD0AnaMaker::createCandidates() {
             }
 
             if (mHFCuts->isKaonTPC(trk)){
-                float BBCKaon = mPicoDst->event()->BBCx() / 1000.;
-                float grefMultKaon = mPicoDst->event()->refMult();
+                float BBCKaon = mPicoEvent->BBCx() / 1000.;
+                float grefMultKaon = mPicoEvent->grefMult();
                 float BetaKaon = mHFCuts->getTofBetaBase(trk);
                 float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon) / 0.012;
                 h_gRefmult_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
