@@ -73,18 +73,15 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TH1F("hPionPt","hPionPt", 100, 0, 10));
     mOutList->Add(new TH1F("hKaonPt","hKaonPt", 100, 0, 10));
 
-    mOutList->Add(new TH1F("hRemovedPairMass","hRemovedPairMass", 300, 1.7, 2.0));
-    mOutList->Add(new TH1F("hInvMassBDT12","hInvMassBDT12", 300, 1.7, 2.0));
-    mOutList->Add(new TH1F("hInvMassBDT23","hInvMassBDT23", 300, 1.7, 2.0));
-    mOutList->Add(new TH1F("hInvMassBDT35","hInvMassBDT35", 300, 1.7, 2.0));
+    mOutList->Add(new TH2F("h_gRefmult_vs_BBCx_Pion", "gRefmult;BBCx", 1350, 0, 1350, 101, -0.5, 100.5));
+    mOutList->Add(new TH2F("h_gRefmult_vs_BBCx_Kaon", "gRefmult;BBCx", 1350, 0, 1350, 101, -0.5, 100.5));
+    mOutList->Add(new TH2F("h_gRefmult", "gRefmult;CountsvsRunIndex", 700, 0, 700, RunNumberVector.size() + 1, -1, RunNumberVector.size()));
+    mOutList->Add(new TH1I("h_QA_nEvents", "Number_of_eventsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size())); //number of events in run
+    mOutList->Add(new TH2D("h_QA_OneOverBetaDiffPion", "h_QA_OneOverBetaDiffPion", 1000, 0,3.5,100,-10,10));
+    mOutList->Add(new TH2D("h_QA_OneOverBetaDiffKaon", "h_QA_OneOverBetaDiffKaon", 1000, 0,3.5,100,-10,10));
+    mOutList->Add(new TH1I("h_QA_nEvents", "Number_of_eventsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size())); //number of events in run
 
-    mOutList->Add(new TH1F("hPVDiffX","hPVDiffX", 1001, -0.02002, 0.01998));
-    mOutList->Add(new TH1F("hPVDiffY","hPVDiffY", 1001, -0.02002, 0.01998));
-    mOutList->Add(new TH1F("hPVDiffZ","hPVDiffZ", 1001, -0.02002, 0.01998));
 
-    mOutList->Add(new TH1F("hPVDiffXRemoved","hPVDiffXRemoved", 1000, -2.0, 2.0));
-    mOutList->Add(new TH1F("hPVDiffYRemoved","hPVDiffYRemoved", 1000, -2.0, 2.0));
-    mOutList->Add(new TH1F("hPVDiffZRemoved","hPVDiffZRemoved", 1000, -2.0, 2.0));
 
 //    mOutList->Add(new TH2F("h_pnsigma","h_pnsigma",1000,0,10, 99, -5, 5));
 
@@ -241,6 +238,18 @@ int StPicoD0AnaMaker::createCandidates() {
     TH1F *hKaonPt = static_cast<TH1F*>(mOutList->FindObject("hKaonPt"));
     TH1F *hPionPt = static_cast<TH1F*>(mOutList->FindObject("hPionPt"));
 
+    TH1F *h_gRefmult_vs_BBCx_Pion = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Pion"));
+    TH1F *h_gRefmult_vs_BBCx_Kaon = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Kaon"));
+    TH1F *h_gRefmult = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult"));
+    TH1F *h_QA_nEvents = static_cast<TH2F*>(mOutList->FindObject("h_QA_nEvents"));
+    TH1F *h_QA_OneOverBetaDiffPion = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffPion"));
+    TH1F *h_QA_OneOverBetaDiffKaon = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffKaon"));
+
+
+    h_QA_OneOverBetaDiffPion
+
+    h_QA_nEvents
+
     TH1F *hNTracksRemoved = static_cast<TH1F*>(mOutList->FindObject("hNTracksRemoved"));
     TH1F *hNTracksPrimary = static_cast<TH1F*>(mOutList->FindObject("hNTracksPrimary"));
     TH1F *hNTracksDiffRemovedPrimary = static_cast<TH1F*>(mOutList->FindObject("hNTracksDiffRemovedPrimary"));
@@ -270,9 +279,36 @@ int StPicoD0AnaMaker::createCandidates() {
 //        cout << pMom.Mag() << endl;
 
 
+
+
         if (trk->isPrimary()) {
             nPrimary++;
             primaryTracks.push_back(iTrack);
+
+            float BBC = mPicoDst->event()->BBCx() / 1000.;
+            float grefMult = mPicoDst->event()->refMult();
+
+            int RunIndex = -1; //default value for RunIndex (does not correspond to any RunId)
+
+            RunId = mPicoDst->event()->runId();
+
+
+            h_QA_nEvents->Fill(RunId);
+            h_gRefmult->Fill(RunId, grefMult);
+
+
+            if (isTPCPion(trk)){
+                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,Beta,StPicoCutsBase::kPion) / 0.012;
+                h_gRefmult_vs_BBCx_Pion->Fill(BBC, grefMult);
+                h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
+            }
+
+            if (isTPCPion(trk)){
+                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,Beta,StPicoCutsBase::kKaon) / 0.012;
+                h_gRefmult_vs_BBCx_Kaon->Fill(BBC, grefMult);
+                h_QA_OneOverBetaDiffKaon->Fill(trk->gPt(), nk_TOFinvbeta);
+            }
+
 
             if (mHFCuts->isGoodPion(trk)) {
                 mIdxPicoPions.push_back(iTrack);

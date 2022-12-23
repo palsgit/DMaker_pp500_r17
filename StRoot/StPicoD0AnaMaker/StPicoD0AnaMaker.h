@@ -70,6 +70,9 @@ private:
     TNtuple *ntp_DstarMeson_Signal;
     TNtuple *ntp_DstarMeson_Background;
 
+    int RunId;
+    std::vector<int> RunNumberVector;
+
 
     int mRunNumber;
     Int_t nPrimary;
