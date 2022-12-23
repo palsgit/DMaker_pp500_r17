@@ -76,10 +76,8 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TH2F("h_gRefmult_vs_BBCx_Pion", "gRefmult;BBCx", 1350, 0, 1350, 101, -0.5, 100.5));
     mOutList->Add(new TH2F("h_gRefmult_vs_BBCx_Kaon", "gRefmult;BBCx", 1350, 0, 1350, 101, -0.5, 100.5));
     mOutList->Add(new TH2F("h_gRefmult", "gRefmult;CountsvsRunIndex", 700, 0, 700, RunNumberVector.size() + 1, -1, RunNumberVector.size()));
-    mOutList->Add(new TH1I("h_QA_nEvents", "Number_of_eventsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size())); //number of events in run
     mOutList->Add(new TH2D("h_QA_OneOverBetaDiffPion", "h_QA_OneOverBetaDiffPion", 1000, 0,3.5,100,-10,10));
     mOutList->Add(new TH2D("h_QA_OneOverBetaDiffKaon", "h_QA_OneOverBetaDiffKaon", 1000, 0,3.5,100,-10,10));
-    mOutList->Add(new TH1I("h_QA_nEvents", "Number_of_eventsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size())); //number of events in run
 
 
 
@@ -241,7 +239,6 @@ int StPicoD0AnaMaker::createCandidates() {
     TH2F *h_gRefmult_vs_BBCx_Pion = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Pion"));
     TH2F *h_gRefmult_vs_BBCx_Kaon = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx_Kaon"));
     TH2F *h_gRefmult = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult"));
-    TH2F *h_QA_nEvents = static_cast<TH2F*>(mOutList->FindObject("h_QA_nEvents"));
     TH1F *h_QA_OneOverBetaDiffPion = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffPion"));
     TH1F *h_QA_OneOverBetaDiffKaon = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffKaon"));
 
@@ -291,7 +288,6 @@ int StPicoD0AnaMaker::createCandidates() {
             RunId = mPicoDst->event()->runId();
 
 
-            h_QA_nEvents->Fill(RunId);
             h_gRefmult->Fill(RunId, grefMult);
 
 
