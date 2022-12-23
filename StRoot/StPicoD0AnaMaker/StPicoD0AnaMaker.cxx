@@ -295,14 +295,14 @@ int StPicoD0AnaMaker::createCandidates() {
             h_gRefmult->Fill(RunId, grefMult);
 
 
-            if (isPionTPC(trk)){
+            if (mHFCuts->isPionTPC(trk)){
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
                 float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.012;
                 h_gRefmult_vs_BBCx_Pion->Fill(BBC, grefMult);
                 h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
             }
 
-            if (isKaonTPC(trk)){
+            if (mHFCuts->isKaonTPC(trk)){
                 float BetaKaon = mHFCuts->getTofBetaBase(trk);
                 float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon) / 0.012;
                 h_gRefmult_vs_BBCx_Kaon->Fill(BBC, grefMult);
