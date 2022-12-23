@@ -62,8 +62,8 @@ void runPicoD0AnaMaker(
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutRequireHFT(false); //// Usable only for d+Au analysis
     hfCuts->setHybridTof(false); //// Does nothing (Proton PID)
-    hfCuts->setHybridTofKaon(false); //// This cut and the one below work for the analysis without BEMC
-    hfCuts->setHybridTofPion(false); ////
+    hfCuts->setHybridTofKaon(true); //// This cut and the one below work for the analysis without BEMC
+    hfCuts->setHybridTofPion(true); ////
     hfCuts->setCheckHotSpot(false);
 
     hfCuts->setCutTPCNSigmaPion(3.0);
@@ -78,10 +78,10 @@ void runPicoD0AnaMaker(
     hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
-    hfCuts->setHybridTofBetterBetaCutsKaon(false); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
-    hfCuts->setHybridTofBetterBetaCutsPion(false); ////
+    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setHybridTofBetterBetaCutsPion(true); ////
 
-    hfCuts->setHybridTofWithBEMC(true);
+    hfCuts->setHybridTofWithBEMC(false);
 
 //
     float dcaDaughtersMax = 10.;  // maximum toto ide
