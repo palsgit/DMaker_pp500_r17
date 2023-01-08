@@ -30,7 +30,7 @@ StPicoEventMixer::StPicoEventMixer(char* category):
 //        mEvents(),
 //        mHists(NULL),
 //        mHFCuts(NULL),
-//        mEventsBuffer(5),
+        mEventsBuffer(10),
 //        filledBuffer(0),
         mSETupleSig(NULL),
         mSETupleBack(NULL),

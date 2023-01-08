@@ -409,7 +409,6 @@ int StPicoD0AnaMaker::createCandidates() {
             }
 
 
-            // TADY ZACINA JOKUSE POKUSE
             if((pairM>1.82) && (pairM < 1.89))
             {
 
@@ -474,16 +473,9 @@ int StPicoD0AnaMaker::createCandidates() {
                     ntVar2[iii++] = mHFCuts->getTofBetaBase(pion2);
 
 
-                //   ntVar2[iii++] = pair->dcaDaughters();
                     ntVar2[iii++] = mPrimVtx.z();
                     ntVar2[iii++] = mPicoEvent->vzVpd();
 
-                //  ntVar2[iii++] = pair->pointingAngle();
-                //  ntVar2[iii++] = cos(pair->pointingAngle());
-                //  ntVar2[iii++] = pair->decayLength();
-                //  ntVar2[iii++] = triplet->DcaToPrimaryVertex();
-                // (pair->decayLength())*sin(pair->pointingAngle());
-                //  ntVar2[iii++] = pair->cosThetaStar();
 
                     ntVar2[iii++] = triplet->pt();
                     ntVar2[iii++] = triplet->m();

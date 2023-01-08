@@ -8,31 +8,15 @@ cons
 
 Run D0 analysis locally on few picoDsts with:
 ```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoD0AnaMakerLocal.C++
+root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoD0AnaMakerLocal.C
 ```
 Mixed-event background pairs of kaons and pions:
 ```sh 
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoMixedEvent.C++
-```
-K0s recontruction (PID efficiency studies):
-```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoK0sAnaMakerLocal.C++
-```
-Phi recontruction (PID efficiency studies):
-```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoPhiAnaMakerLocal.C++
+root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoMixedEventLocal.C
 ```
 QA of picoDst data:
 ```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runQAAnaMakerLocal.C++
-```
-Primary vertex refitting:
-```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runPicoVertexLocal.C++
-```
-Simulation inputs:
-```sh
-root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runSimInputsMakerLocal.C++
+root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runQAAnaMakerLocal.C
 ```
 
 
@@ -46,8 +30,17 @@ picoLists/runs_local_test.list
 ```
 After creating your directories and setting your name in run*.sh scripts, run analysis on farm by run-scripts:
 ```sh
-runJobK0s.sh
-runJobPhi.sh
 runJob.sh
+runJobMixed.sh
+runJobQA.sh
 ```
+Merging og job output files with script
+```sh
+./merge_new.sh production/
+```
+Analysis of job outputs in folder /scripts
+```sh
+Danalysis_pp.s
+```
+
 # DMaker_pp500

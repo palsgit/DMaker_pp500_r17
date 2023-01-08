@@ -41,17 +41,11 @@ void KaonPionBeta(){
     f2->SetLineColor(kBlue);
     f2->Draw("same");
 
-    TF1 *f3 = new TF1("Klower1","-2*f_res+f_pos+0.5",0.2,3.5);
-    f3->SetLineColor(kRed);
-    f3->Draw("same");
-
-    TF1 *f4 = new TF1("Kupper1","3*f_res+f_pos-0.5",0.2,3.5);
-    f4->SetLineColor(kRed);
-    f4->Draw("same");
 
 
-    h1->GetYaxis()->SetTitle("(1/#beta_{meas}-1/#beta)/0.012");
-    h1->GetXaxis()->SetTitle("p_{K} [GeV/c]");
+
+    h1->GetYaxis()->SetTitle("#frac{(1/#beta_{TOF}-1/#beta)}{0.012}");
+    h1->GetXaxis()->SetTitle("#it{p}_{K} [GeV/#it{c}]");
 
     h1->GetXaxis()->SetTitleOffset(1.);
     h1->GetXaxis()->SetLabelSize(0.03);
@@ -61,13 +55,13 @@ void KaonPionBeta(){
     h1->GetXaxis()->CenterTitle(kTRUE);
 
 
+    h1->GetYaxis()->SetRangeUser(-7.5,7.5);
 
     h1->GetYaxis()->SetTitleOffset(1.);
     h1->GetYaxis()->SetLabelSize(0.03);
     h1->GetYaxis()->SetTitleSize(0.04);
     h1->GetYaxis()->SetLabelFont(42);
     h1->GetYaxis()->SetTitleFont(42);
-    // h1->GetYaxis()->SetRangeUser(0,0.06);
 
     c1->SetLogz();
 
@@ -79,7 +73,7 @@ void KaonPionBeta(){
     h1->GetYaxis()->CenterTitle(kTRUE);
 
 
-    c1->SaveAs(Form("Beta_kaons.pdf"));
+    c1->SaveAs(Form("pp500_Beta_kaons.pdf"));
     c1->Close();
 
 
@@ -99,26 +93,26 @@ void KaonPionBeta(){
     h2->Draw("colz");
 
 
-    TF1 *f5 = new TF1("Pupper","6 - 8/3*x",0.2,1.5);
+    TF1 *f5 = new TF1("Pupper","6 - 2.666666666666666*x",0.2,1.5);
     f5->SetLineColor(kBlue);
     f5->Draw("same");
 
-    TF1 *f6 = new TF1("Plower","-6+8/3*x",0.2,1.5);
+    TF1 *f6 = new TF1("Plower","-6+2.666666666666666*x",0.2,1.5);
     f6->SetLineColor(kBlue);
     f6->Draw("same");
 
-    TF1 *f7 = new TF1("Pupper1","4 - 4/3*x",0.2,1.5);
-    f7->SetLineColor(kRed);
+    TF1 *f7 = new TF1("PupperL","2",1.5,3.5);
+    f7->SetLineColor(kBlue);
     f7->Draw("same");
 
-    TF1 *f8 = new TF1("Plower1","-4+4/3*x",0.2,1.5);
-    f8->SetLineColor(kRed);
+    TF1 *f8 = new TF1("PlowerL","-2",1.5,3.5);
+    f8->SetLineColor(kBlue);
     f8->Draw("same");
 
 
 
-    h2->GetYaxis()->SetTitle("(1/#beta_{meas}-1/#beta)/0.012");
-    h2->GetXaxis()->SetTitle("p_{#pi} [GeV/c]");
+    h2->GetYaxis()->SetTitle("#frac{(1/#beta_{TOF}-1/#beta)}{0.012}");
+    h2->GetXaxis()->SetTitle("#it{p}_{#pi} [GeV/#it{c}]");
 
     h2->GetXaxis()->SetTitleOffset(1.);
     h2->GetXaxis()->SetLabelSize(0.03);
@@ -128,6 +122,7 @@ void KaonPionBeta(){
     h2->GetXaxis()->CenterTitle(kTRUE);
 
 
+    h2->GetYaxis()->SetRangeUser(-7.5,7.5);
 
     h2->GetYaxis()->SetTitleOffset(1.);
     h2->GetYaxis()->SetLabelSize(0.03);
@@ -148,6 +143,6 @@ void KaonPionBeta(){
     l4->Draw("same");
 
 
-    c2->SaveAs(Form("Beta_pions.pdf"));
+    c2->SaveAs(Form("pp500_Beta_pions.pdf"));
     c2->Close();
 }

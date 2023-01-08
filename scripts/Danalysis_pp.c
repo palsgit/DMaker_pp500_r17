@@ -42,12 +42,12 @@ Double_t fcubic(Double_t *x, Double_t *par)
 
 
 
-void Danalyza_pp()
+void Danalysis_pp()
 {
 
     //   TFile* data = new TFile("2021-06-13_13-41_D0_4536.picoD0AnaMaker.root");
     TChain *ntp = new TChain("ntp_signal");
-/*    ntp->Add("1merged_output_3_000.root");
+    ntp->Add("1merged_output_3_000.root");
     ntp->Add("1merged_output_3_001.root");
     ntp->Add("1merged_output_3_002.root");
     ntp->Add("1merged_output_3_003.root");
@@ -70,17 +70,17 @@ void Danalyza_pp()
     ntp->Add("3merged_output_3_002.root");
     ntp->Add("3merged_output_3_003.root");
     ntp->Add("3merged_output_3_004.root");
-    ntp->Add("3merged_output_3_005.root");*/
+    ntp->Add("3merged_output_3_005.root");
 
 //    ntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
-    ntp->Add("1output.root");
+/*    ntp->Add("1output.root");
     ntp->Add("2output.root");
-    ntp->Add("3output.root");
+    ntp->Add("3output.root");*/
 
 
     TChain *bntp = new TChain("ntp_background");
-/*    bntp->Add("1merged_output_3_000.root");
+    bntp->Add("1merged_output_3_000.root");
     bntp->Add("1merged_output_3_001.root");
     bntp->Add("1merged_output_3_002.root");
     bntp->Add("1merged_output_3_003.root");
@@ -103,17 +103,17 @@ void Danalyza_pp()
     bntp->Add("3merged_output_3_002.root");
     bntp->Add("3merged_output_3_003.root");
     bntp->Add("3merged_output_3_004.root");
-    bntp->Add("3merged_output_3_005.root");*/
+    bntp->Add("3merged_output_3_005.root");
 
-    bntp->Add("1output.root");
+/*    bntp->Add("1output.root");
     bntp->Add("2output.root");
-    bntp->Add("3output.root");
+    bntp->Add("3output.root");*/
 
 //    bntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
 
     TChain *Dntp = new TChain("Dntp_signal");
-/*    Dntp->Add("1merged_output_3_000.root");
+    Dntp->Add("1merged_output_3_000.root");
     Dntp->Add("1merged_output_3_001.root");
     Dntp->Add("1merged_output_3_002.root");
     Dntp->Add("1merged_output_3_003.root");
@@ -136,17 +136,17 @@ void Danalyza_pp()
     Dntp->Add("3merged_output_3_002.root");
     Dntp->Add("3merged_output_3_003.root");
     Dntp->Add("3merged_output_3_004.root");
-    Dntp->Add("3merged_output_3_005.root");*/
+    Dntp->Add("3merged_output_3_005.root");
 
-    Dntp->Add("1output.root");
+/*    Dntp->Add("1output.root");
     Dntp->Add("2output.root");
-    Dntp->Add("3output.root");
+    Dntp->Add("3output.root");*/
 
 //    Dntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
 
     TChain *Dbntp = new TChain("Dntp_background");
-/*    Dbntp->Add("1merged_output_3_000.root");
+    Dbntp->Add("1merged_output_3_000.root");
     Dbntp->Add("1merged_output_3_001.root");
     Dbntp->Add("1merged_output_3_002.root");
     Dbntp->Add("1merged_output_3_003.root");
@@ -169,11 +169,11 @@ void Danalyza_pp()
     Dbntp->Add("3merged_output_3_002.root");
     Dbntp->Add("3merged_output_3_003.root");
     Dbntp->Add("3merged_output_3_004.root");
-    Dbntp->Add("3merged_output_3_005.root");*/
+    Dbntp->Add("3merged_output_3_005.root");
 
-    Dbntp->Add("1output.root");
+/*    Dbntp->Add("1output.root");
     Dbntp->Add("2output.root");
-    Dbntp->Add("3output.root");
+    Dbntp->Add("3output.root");*/
 
 //    Dbntp->Add("2022-10-11_05-19_D0_31.picoD0AnaMaker.root");
 
@@ -181,7 +181,7 @@ void Danalyza_pp()
 
     //  TNtuple* ntp = (TNtuple*)myChain -> Get("ntp_signal");
     //  TList* list = (TList*) myChain -> Get("picoD0AnaMaker;1");
-    Float_t D0_theta, D0_mass, D0_pt, D0_decayL, k_pt, pi1_pt, pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, dcaMax, pi1_eventId, k_eventId, dcaDaughters, D_cosThetaStar, dcaD0ToPv, primVz, primVzVpd, k_nHitFit, pi1_nHitFit, pi1_p, k_p;
+    Float_t D0_theta, D0_mass, D0_pt, D0_decayL, k_pt, pi1_pt, pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, dcaMax, pi1_eventId, k_eventId, dcaDaughters, D_cosThetaStar, dcaD0ToPv, primVz, primVzVpd, k_nHitFit, pi1_nHitFit, pi1_p, k_p, VzVPD_VzTPC;
     ntp -> SetBranchAddress("D_mass", &D0_mass);
     ntp -> SetBranchAddress("D_decayL", &D0_decayL);
     ntp -> SetBranchAddress("D_theta", &D0_theta);
@@ -203,6 +203,7 @@ void Danalyza_pp()
     ntp -> SetBranchAddress("pi1_nHitFit", &pi1_nHitFit);
     ntp -> SetBranchAddress("pi1_p", &pi1_p);
     ntp -> SetBranchAddress("k_p", &k_p);
+    ntp -> SetBranchAddress("VzVPD_VzTPC", &VzVPD_VzTPC);
 
 
     Float_t bD0_theta, bD0_mass, bD0_pt, bD0_decayL, bk_pt, bpi1_pt, bpi1_dca, bk_dca, bk_nSigma, bpi1_nSigma, bpi1_TOFinvbeta, bk_TOFinvbeta, bdcaMax, bpi1_eventId, bk_eventId, bdcaDaughters, bD_cosThetaStar, bdcaD0ToPv, bprimVz, bprimVzVpd, bk_nHitFit, bpi1_nHitFit, bk_p;
@@ -353,7 +354,7 @@ void Danalyza_pp()
 
     TH1D* hbvzvz = new TH1D("hbvzvz", "hbvzvz",100 , 0, 6);
 
-    TH1D* hVzVPD_VzTPC = new TH1D("hVzVPD_VzTPC", "hVzVPD_VzTPC",100 , -40, 40);
+    TH1D* hVzVPD_VzTPC = new TH1D("hVzVPD_VzTPC", "hVzVPD_VzTPC",150 , -150, 150);
   //  hVzVPD_VzTPC->Add(hprimVzVpd,hprimVz,1,-1);
 
   // Dstar histogramy
@@ -409,7 +410,7 @@ void Danalyza_pp()
     float Pion_nHits = 20;
     float Kaon_nHits = 20;
     float VzTPCVzVPD = 6;
-    float cosThetaStarCut = 0.8;  //minimum
+    float cosThetaStarCut = 0.8;  //maximum
 
     hInvMassSignD0 -> Sumw2();
     hInvMassSignD0w -> Sumw2();
@@ -478,7 +479,7 @@ void Danalyza_pp()
         if (i%10000000==0) {cout<<"Signal D0 "<<i<<endl;}
         ntp -> GetEntry(i);
        // if (k_eventId == pi1_eventId) equal++;
-        if (cos(D0_theta)>0.0) { //cuty
+        if (cos(D0_theta)>0.0) { 
             if ((D0_mass > 0.0) && (D0_mass < 4)) {
                 float npi1_TOFinvbeta = pi1_TOFinvbeta / 0.012;
                 float nk_TOFinvbeta = k_TOFinvbeta / 0.012;
@@ -488,7 +489,7 @@ void Danalyza_pp()
                 float kaon_higher = 3 * f_res + f_pos;
                 float kaon_lower = -2 * f_res + f_pos;
 
-                float VzVPD_VzTPC = primVzVpd - primVz;
+            //    float VzVPD_VzTPC = primVzVpd - primVz;
                 hk_nSigma->Fill(k_nSigma);
                 hpi1_nSigma->Fill(pi1_nSigma);
                 hpi1_TOFinvbeta->Fill(pi1_TOFinvbeta);
@@ -510,7 +511,7 @@ void Danalyza_pp()
                 if (abs(nk_TOFinvbeta) < 3) {
                     kaonnsigma50->Fill(k_p, nk_TOFinvbeta);
                 }
-                    if((abs(pi1_nSigma) < Pion_nsigma) && (abs(k_nSigma) < Kaon_nsigma)/*&& k_TOFinvbeta<kaon_higher && k_TOFinvbeta>kaon_lower (abs(k_TOFinvbeta)<Kaon_invbeta) && (abs(pi1_TOFinvbeta) < Pion_invbeta)*/&& (k_nHitFit > Kaon_nHits) && (pi1_nHitFit > Pion_nHits)&& (abs(primVz - primVzVpd) < VzTPCVzVPD) /*&& (D_cosThetaStar < cosThetaStarCut)*/){
+                    if((abs(pi1_nSigma) < Pion_nsigma) && (abs(k_nSigma) < Kaon_nsigma)/*&& k_TOFinvbeta<kaon_higher && k_TOFinvbeta>kaon_lower (abs(k_TOFinvbeta)<Kaon_invbeta) && (abs(pi1_TOFinvbeta) < Pion_invbeta)*/&& (k_nHitFit > Kaon_nHits) && (pi1_nHitFit > Pion_nHits)  /*&& (abs(primVz - primVzVpd) < VzTPCVzVPD)*/ && (D_cosThetaStar < cosThetaStarCut)){
 
                    // dca_d0 = D0_decayL * sqrt(1 - cos(D0_theta) * cos(D0_theta));
 
@@ -604,7 +605,7 @@ void Danalyza_pp()
                 float bkaon_higher = 3*bf_res + bf_pos;
                 float bkaon_lower = -2*bf_res + bf_pos;
 
-                if ((abs(bpi1_nSigma)<Pion_nsigma)&&(abs(bk_nSigma)<Kaon_nsigma) /*&& (abs(bpi1_TOFinvbeta) < Pion_invbeta)*/ && (bk_nHitFit>Kaon_nHits) && (bpi1_nHitFit>Pion_nHits) && (abs(bprimVz-bprimVzVpd)<VzTPCVzVPD)/*&& (bD_cosThetaStar < cosThetaStarCut)*/) {
+                if ((abs(bpi1_nSigma)<Pion_nsigma)&&(abs(bk_nSigma)<Kaon_nsigma) /*&& (abs(bpi1_TOFinvbeta) < Pion_invbeta)*/ && (bk_nHitFit>Kaon_nHits) && (bpi1_nHitFit>Pion_nHits) && /*(abs(bprimVz-bprimVzVpd)<VzTPCVzVPD)&&*/ (bD_cosThetaStar < cosThetaStarCut)) {
                   //  dca_d0 = bD0_decayL * sqrt(1 - cos(bD0_theta) * cos(bD0_theta));
 
                     hInvMassBackD0->Fill(bD0_mass);
@@ -660,7 +661,7 @@ void Danalyza_pp()
         hDstar_pt->Fill(Dstar_pt);
 
         if ((Dstar_mass > 0.0) && (Dstar_mass < 4)&&(Dstar_pt > 2)) {
-           // if(/*(abs(pi1_nSigma) < Pion_nsigma) && (abs(k_nSigma) < Kaon_nsigma)&& k_TOFinvbeta<kaon_higher && k_TOFinvbeta>kaon_lower (abs(k_TOFinvbeta)<Kaon_invbeta) && (abs(pi1_TOFinvbeta) < Pion_invbeta)&& (k_nHitFit > Kaon_nHits) && (pi1_nHitFit > Pion_nHits)&& (abs(primVz - primVzVpd) < VzTPCVzVPD) && (D_cosThetaStar < cosThetaStarCut)*/){
+            if(/*(abs(pi1_nSigma) < Pion_nsigma) && (abs(k_nSigma) < Kaon_nsigma)&& k_TOFinvbeta<kaon_higher && k_TOFinvbeta>kaon_lower (abs(k_TOFinvbeta)<Kaon_invbeta) && (abs(pi1_TOFinvbeta) < Pion_invbeta)&& (k_nHitFit > Kaon_nHits) && (pi1_nHitFit > Pion_nHits)&& (abs(primVz - primVzVpd) < VzTPCVzVPD) &&*/ (D_cosThetaStar < cosThetaStarCut)){
 
                     // dca_d0 = D0_decayL * sqrt(1 - cos(D0_theta) * cos(D0_theta));
 
@@ -692,7 +693,7 @@ void Danalyza_pp()
                         hInvMassSignDstar45w->Fill(Dstar_mass);
                         hDstar_D045->Fill(Dstar_D0);
                     }
-           // }
+            }
         }
 
     }
@@ -705,7 +706,7 @@ void Danalyza_pp()
         Dbntp -> GetEntry(i);
         if ((bDstar_mass > 0.0) && (bDstar_mass < 4) && (bDstar_pt > 2)){
 
-           // if (/*(abs(bpi1_nSigma)<Pion_nsigma)&&(abs(bk_nSigma)<Kaon_nsigma) && (abs(bpi1_TOFinvbeta) < Pion_invbeta) && (bk_nHitFit>Kaon_nHits) && (bpi1_nHitFit>Pion_nHits) && (abs(bprimVz-bprimVzVpd)<VzTPCVzVPD)&& (bD_cosThetaStar < cosThetaStarCut)*/) {
+            if (/*(abs(bpi1_nSigma)<Pion_nsigma)&&(abs(bk_nSigma)<Kaon_nsigma) && (abs(bpi1_TOFinvbeta) < Pion_invbeta) && (bk_nHitFit>Kaon_nHits) && (bpi1_nHitFit>Pion_nHits) && (abs(bprimVz-bprimVzVpd)<VzTPCVzVPD)&&*/ (bD_cosThetaStar < cosThetaStarCut)) {
                     //  dca_d0 = bD0_decayL * sqrt(1 - cos(bD0_theta) * cos(bD0_theta));
 
                     hInvMassBackDstar->Fill(bDstar_mass);
@@ -737,7 +738,7 @@ void Danalyza_pp()
                         hInvMassBackDstar45w->Fill(bDstar_mass);
                         hbDstar_D045->Fill(bDstar_D0);
                     }
-          //  }
+            }
         }
 
     }
@@ -758,85 +759,85 @@ void Danalyza_pp()
     }*/
 
 
-    TH1D *rozdilD0w = new TH1D("D0 rozdilw","D0 rozdilw",200, 0.5, 2.5);
-    rozdilD0w->Add(hInvMassSignD0w,hInvMassBackD0w,1,-1);
+    TH1D *diffD0w = new TH1D("D0 diffw","D0 diffw",200, 0.5, 2.5);
+    diffD0w->Add(hInvMassSignD0w,hInvMassBackD0w,1,-1);
 
-    TH1D *rozdilD0 = new TH1D("D0 rozdil","D0 rozdil",32, 1.7, 2.05);
-    rozdilD0->Add(hInvMassSignD0,hInvMassBackD0,1,-1);
+    TH1D *diffD0 = new TH1D("D0 diff","D0 diff",32, 1.7, 2.05);
+    diffD0->Add(hInvMassSignD0,hInvMassBackD0,1,-1);
 
-    TH1D *rozdilD012 = new TH1D("D0 rozdil12","D0 rozdil12",32, 1.7, 2.05);
-    rozdilD012->Add(hInvMassSignD012,hInvMassBackD012,1,-1);
+    TH1D *diffD012 = new TH1D("D0 diff12","D0 diff12",32, 1.7, 2.05);
+    diffD012->Add(hInvMassSignD012,hInvMassBackD012,1,-1);
 
-    TH1D *rozdilD023 = new TH1D("D0 rozdil23","D0 rozdil23",32, 1.7, 2.05);
-    rozdilD023->Add(hInvMassSignD023,hInvMassBackD023,1,-1);
+    TH1D *diffD023 = new TH1D("D0 diff23","D0 diff23",32, 1.7, 2.05);
+    diffD023->Add(hInvMassSignD023,hInvMassBackD023,1,-1);
 
-    TH1D *rozdilD034 = new TH1D("D0 rozdil34","D0 rozdil34",32, 1.7, 2.05);
-    rozdilD034->Add(hInvMassSignD034,hInvMassBackD034,1,-1);
+    TH1D *diffD034 = new TH1D("D0 diff34","D0 diff34",32, 1.7, 2.05);
+    diffD034->Add(hInvMassSignD034,hInvMassBackD034,1,-1);
 
-    TH1D *rozdilD045 = new TH1D("D0 rozdil45","D0 rozdil45",32, 1.7, 2.05);
-    rozdilD045->Add(hInvMassSignD045,hInvMassBackD045,1,-1);
+    TH1D *diffD045 = new TH1D("D0 diff45","D0 diff45",32, 1.7, 2.05);
+    diffD045->Add(hInvMassSignD045,hInvMassBackD045,1,-1);
 
-    TH1D *rozdilD012w = new TH1D("D0 rozdil12w","D0 rozdil12w",200, 0.5, 2.5);
-    rozdilD012w->Add(hInvMassSignD012w,hInvMassBackD012w,1,-1);
+    TH1D *diffD012w = new TH1D("D0 diff12w","D0 diff12w",200, 0.5, 2.5);
+    diffD012w->Add(hInvMassSignD012w,hInvMassBackD012w,1,-1);
 
-    TH1D *rozdilD023w = new TH1D("D0 rozdil23w","D0 rozdil23w",200, 0.5, 2.5);
-    rozdilD023w->Add(hInvMassSignD023w,hInvMassBackD023w,1,-1);
+    TH1D *diffD023w = new TH1D("D0 diff23w","D0 diff23w",200, 0.5, 2.5);
+    diffD023w->Add(hInvMassSignD023w,hInvMassBackD023w,1,-1);
 
-    TH1D *rozdilD034w = new TH1D("D0 rozdil34w","D0 rozdil34w",200, 0.5, 2.5);
-    rozdilD034w->Add(hInvMassSignD034w,hInvMassBackD034w,1,-1);
+    TH1D *diffD034w = new TH1D("D0 diff34w","D0 diff34w",200, 0.5, 2.5);
+    diffD034w->Add(hInvMassSignD034w,hInvMassBackD034w,1,-1);
 
-    TH1D *rozdilD045w = new TH1D("D0 rozdil45w","D0 rozdil45w",200, 0.5, 2.5);
-    rozdilD045w->Add(hInvMassSignD045w,hInvMassBackD045w,1,-1);
-
-
-
-
-    TH1D *rozdilDstarw = new TH1D("Dstar rozdilw","Dstar rozdilw",200, 0.5, 2.5);
-    rozdilDstarw->Add(hInvMassSignDstarw,hInvMassBackDstarw,1,-0.3333333);
-
-    TH1D *rozdilDstar = new TH1D("Dstar rozdil","Dstar rozdil",32, 1.85, 2.2);
-    rozdilDstar->Add(hInvMassSignDstar,hInvMassBackDstar,1,-0.3333333);
-
-    TH1D *rozdilDstar12 = new TH1D("Dstar rozdil12","Dstar rozdil12",32, 1.85, 2.2);
-    rozdilDstar12->Add(hInvMassSignDstar12,hInvMassBackDstar12,1,-0.3333333);
-
-    TH1D *rozdilDstar23 = new TH1D("Dstar rozdil23","Dstar rozdil23",32, 1.85, 2.2);
-    rozdilDstar23->Add(hInvMassSignDstar23,hInvMassBackDstar23,1,-0.3333333);
-
-    TH1D *rozdilDstar34 = new TH1D("Dstar rozdil34","Dstar rozdil34",32, 1.85, 2.2);
-    rozdilDstar34->Add(hInvMassSignDstar34,hInvMassBackDstar34,1,-0.3333333);
-
-    TH1D *rozdilDstar45 = new TH1D("Dstar rozdil45","Dstar rozdil45",32, 1.85, 2.2);
-    rozdilDstar45->Add(hInvMassSignDstar45,hInvMassBackDstar45,1,-0.3333333);
-
-    TH1D *rozdilDstar12w = new TH1D("Dstar rozdil12w","Dstar rozdil12w",200, 0.5, 2.5);
-    rozdilDstar12w->Add(hInvMassSignDstar12w,hInvMassBackDstar12w,1,-0.3333333);
-
-    TH1D *rozdilDstar23w = new TH1D("Dstar rozdil23w","Dstar rozdil23w",200, 0.5, 2.5);
-    rozdilDstar23w->Add(hInvMassSignDstar23w,hInvMassBackDstar23w,1,-0.3333333);
-
-    TH1D *rozdilDstar34w = new TH1D("Dstar rozdil34w","Dstar rozdil34w",200, 0.5, 2.5);
-    rozdilDstar34w->Add(hInvMassSignDstar34w,hInvMassBackDstar34w,1,-0.3333333);
-
-    TH1D *rozdilDstar45w = new TH1D("Dstar rozdil45w","Dstar rozdil45w",200, 0.5, 2.5);
-    rozdilDstar45w->Add(hInvMassSignDstar45w,hInvMassBackDstar45w,1,-0.3333333);
+    TH1D *diffD045w = new TH1D("D0 diff45w","D0 diff45w",200, 0.5, 2.5);
+    diffD045w->Add(hInvMassSignD045w,hInvMassBackD045w,1,-1);
 
 
 
-    TH1D *rozdilDstar_D0 = new TH1D("Dstar-D0 rozdil","Dstar-D0 rozdil",32, 0.14, 0.16);
-    rozdilDstar_D0->Add(hDstar_D0,hbDstar_D0,1,-0.3333333);
 
-    TH1D *rozdilDstar_D012 = new TH1D("Dstar-D0 rozdil12","Dstar-D0 rozdil12",32, 0.14, 0.16);
-    rozdilDstar_D012->Add(hDstar_D012,hbDstar_D012,1,-0.3333333);
+    TH1D *diffDstarw = new TH1D("Dstar diffw","Dstar diffw",200, 0.5, 2.5);
+    diffDstarw->Add(hInvMassSignDstarw,hInvMassBackDstarw,1,-0.3333333);
 
-    TH1D *rozdilDstar_D023 = new TH1D("Dstar-D0 rozdil23","Dstar-D0 rozdil23",32, 0.14, 0.16);
-    rozdilDstar_D023->Add(hDstar_D023,hbDstar_D023,1,-0.3333333);
+    TH1D *diffDstar = new TH1D("Dstar diff","Dstar diff",32, 1.85, 2.2);
+    diffDstar->Add(hInvMassSignDstar,hInvMassBackDstar,1,-0.3333333);
 
-    TH1D *rozdilDstar_D034 = new TH1D("Dstar-D0 rozdil34","Dstar-D0 rozdil34",32, 0.14, 0.16);
-    rozdilDstar_D034->Add(hDstar_D034,hbDstar_D034,1,-0.3333333);
+    TH1D *diffDstar12 = new TH1D("Dstar diff12","Dstar diff12",32, 1.85, 2.2);
+    diffDstar12->Add(hInvMassSignDstar12,hInvMassBackDstar12,1,-0.3333333);
 
-    TH1D *rozdilDstar_D045 = new TH1D("Dstar-D0 rozdil45","Dstar-D0 rozdil45",32, 0.14, 0.16);
-    rozdilDstar_D045->Add(hDstar_D045,hbDstar_D045,1,-0.3333333);
+    TH1D *diffDstar23 = new TH1D("Dstar diff23","Dstar diff23",32, 1.85, 2.2);
+    diffDstar23->Add(hInvMassSignDstar23,hInvMassBackDstar23,1,-0.3333333);
+
+    TH1D *diffDstar34 = new TH1D("Dstar diff34","Dstar diff34",32, 1.85, 2.2);
+    diffDstar34->Add(hInvMassSignDstar34,hInvMassBackDstar34,1,-0.3333333);
+
+    TH1D *diffDstar45 = new TH1D("Dstar diff45","Dstar diff45",32, 1.85, 2.2);
+    diffDstar45->Add(hInvMassSignDstar45,hInvMassBackDstar45,1,-0.3333333);
+
+    TH1D *diffDstar12w = new TH1D("Dstar diff12w","Dstar diff12w",200, 0.5, 2.5);
+    diffDstar12w->Add(hInvMassSignDstar12w,hInvMassBackDstar12w,1,-0.3333333);
+
+    TH1D *diffDstar23w = new TH1D("Dstar diff23w","Dstar diff23w",200, 0.5, 2.5);
+    diffDstar23w->Add(hInvMassSignDstar23w,hInvMassBackDstar23w,1,-0.3333333);
+
+    TH1D *diffDstar34w = new TH1D("Dstar diff34w","Dstar diff34w",200, 0.5, 2.5);
+    diffDstar34w->Add(hInvMassSignDstar34w,hInvMassBackDstar34w,1,-0.3333333);
+
+    TH1D *diffDstar45w = new TH1D("Dstar diff45w","Dstar diff45w",200, 0.5, 2.5);
+    diffDstar45w->Add(hInvMassSignDstar45w,hInvMassBackDstar45w,1,-0.3333333);
+
+
+
+    TH1D *diffDstar_D0 = new TH1D("Dstar-D0 diff","Dstar-D0 diff",32, 0.14, 0.16);
+    diffDstar_D0->Add(hDstar_D0,hbDstar_D0,1,-0.3333333);
+
+    TH1D *diffDstar_D012 = new TH1D("Dstar-D0 diff12","Dstar-D0 diff12",32, 0.14, 0.16);
+    diffDstar_D012->Add(hDstar_D012,hbDstar_D012,1,-0.3333333);
+
+    TH1D *diffDstar_D023 = new TH1D("Dstar-D0 diff23","Dstar-D0 diff23",32, 0.14, 0.16);
+    diffDstar_D023->Add(hDstar_D023,hbDstar_D023,1,-0.3333333);
+
+    TH1D *diffDstar_D034 = new TH1D("Dstar-D0 diff34","Dstar-D0 diff34",32, 0.14, 0.16);
+    diffDstar_D034->Add(hDstar_D034,hbDstar_D034,1,-0.3333333);
+
+    TH1D *diffDstar_D045 = new TH1D("Dstar-D0 diff45","Dstar-D0 diff45",32, 0.14, 0.16);
+    diffDstar_D045->Add(hDstar_D045,hbDstar_D045,1,-0.3333333);
 
 
 
@@ -857,21 +858,21 @@ void Danalyza_pp()
 
     Double_t AA=0,BB=0;
 
-    AA = fl->GetParameter(1); //parametr u x
+    AA = fl->GetParameter(1); //parameter x
     BB = fl->GetParameter(0);
 
     Double_t AAA=0, BBB=0, CCC=0;
 
     AAA = fq->GetParameter(0);
-    BBB = fq->GetParameter(1); //parametr u x
-    CCC = fq->GetParameter(2); //parametr u x^2
+    BBB = fq->GetParameter(1); //parameter x
+    CCC = fq->GetParameter(2); //parameter x^2
 
     Double_t AAAA=0,BBBB=0,CCCC=0,DDDD=0;
 
     AAAA = fc->GetParameter(0);
-    BBBB = fc->GetParameter(1); //parametr u x
-    CCCC = fc->GetParameter(2); //parametr u x^2
-    DDDD = fc->GetParameter(3); //parametr u x^3
+    BBBB = fc->GetParameter(1); //parameter x
+    CCCC = fc->GetParameter(2); //parameter x^2
+    DDDD = fc->GetParameter(3); //parameter x^3
 
 
 
@@ -887,44 +888,44 @@ void Danalyza_pp()
 
 
 
-    TH1D *odecet_linear = new TH1D("odecet_linear","odecet_linear",32, 1.7, 2.05);
+    TH1D *subtract_linear = new TH1D("subtract_linear","subtract_linear",32, 1.7, 2.05);
 
     Double_t JJ=0, KK=0, LL=0, MM=0;
 
     for(int k=0; k<=80;k++){
         JJ=hInvMassSignD0->GetBinContent(k);
         MM=hInvMassSignD0->GetBinError(k);
-        KK=odecet_linear->GetBinCenter(k);
+        KK=subtract_linear->GetBinCenter(k);
         LL=bckg_funct_linear->TF1::Eval(KK);
-        odecet_linear->SetBinContent(k,JJ-LL);
-        odecet_linear->SetBinError(k,MM);
+        subtract_linear->SetBinContent(k,JJ-LL);
+        subtract_linear->SetBinError(k,MM);
     }
 
 
-    TH1D *odecet_quadratic = new TH1D("odecet_quadratic","odecet_quadratic",32, 1.7, 2.05);
+    TH1D *subtract_quadratic = new TH1D("subtract_quadratic","subtract_quadratic",32, 1.7, 2.05);
 
     Double_t NN=0, OO=0, PP=0, QQ=0;
 
     for(int l=0; l<=32;l++){
         NN=hInvMassSignD0->GetBinContent(l);
         QQ=hInvMassSignD0->GetBinError(l);
-        OO=odecet_quadratic->GetBinCenter(l);
+        OO=subtract_quadratic->GetBinCenter(l);
         PP=bckg_funct_quadratic->TF1::Eval(OO);
-        odecet_quadratic->SetBinContent(l,NN-PP);
-        odecet_quadratic->SetBinError(l,QQ);
+        subtract_quadratic->SetBinContent(l,NN-PP);
+        subtract_quadratic->SetBinError(l,QQ);
     }
 
-    TH1D *odecet_cubic = new TH1D("odecet_cubic","odecet_cubic",32, 1.7, 2.05);
+    TH1D *subtract_cubic = new TH1D("subtract_cubic","subtract_cubic",32, 1.7, 2.05);
 
     Double_t RR=0, SS=0, TT=0, UU=0;
 
     for(int m=0; m<=32;m++){
         RR=hInvMassSignD0->GetBinContent(m);
         UU=hInvMassSignD0->GetBinError(m);
-        SS=odecet_cubic->GetBinCenter(m);
+        SS=subtract_cubic->GetBinCenter(m);
         TT=bckg_funct_cubic->TF1::Eval(SS);
-        odecet_cubic->SetBinContent(m,RR-TT);
-        odecet_cubic->SetBinError(m,UU);
+        subtract_cubic->SetBinContent(m,RR-TT);
+        subtract_cubic->SetBinError(m,UU);
 
     }
 
@@ -958,16 +959,16 @@ void Danalyza_pp()
     hInvMassSignD023test -> Write();
     hInvMassSignD034test -> Write();
     hInvMassSignD045test -> Write();
-    rozdilD0 -> Write();
-    rozdilD012 -> Write();
-    rozdilD023 -> Write();
-    rozdilD034 -> Write();
-    rozdilD045-> Write();
-    rozdilD0w -> Write();
-    rozdilD012w -> Write();
-    rozdilD023w -> Write();
-    rozdilD034w -> Write();
-    rozdilD045w-> Write();
+    diffD0 -> Write();
+    diffD012 -> Write();
+    diffD023 -> Write();
+    diffD034 -> Write();
+    diffD045-> Write();
+    diffD0w -> Write();
+    diffD012w -> Write();
+    diffD023w -> Write();
+    diffD034w -> Write();
+    diffD045w-> Write();
     /*
     hdecayLength -> Write();
     hpi1_dca -> Write();
@@ -1017,9 +1018,9 @@ void Danalyza_pp()
     sigmakaon->Write();
     meankaon->Write();
 
-    odecet_linear->Write();
-    odecet_quadratic->Write();
-    odecet_cubic->Write();
+    subtract_linear->Write();
+    subtract_quadratic->Write();
+    subtract_cubic->Write();
 
     dataRes->Close();
 
@@ -1048,16 +1049,16 @@ void Danalyza_pp()
     hInvMassSignDstar23w -> Write();
     hInvMassSignDstar34w -> Write();
     hInvMassSignDstar45w -> Write();
-    rozdilDstar -> Write();
-    rozdilDstar12 -> Write();
-    rozdilDstar23 -> Write();
-    rozdilDstar34 -> Write();
-    rozdilDstar45-> Write();
-    rozdilDstarw -> Write();
-    rozdilDstar12w -> Write();
-    rozdilDstar23w -> Write();
-    rozdilDstar34w -> Write();
-    rozdilDstar45w -> Write();
+    diffDstar -> Write();
+    diffDstar12 -> Write();
+    diffDstar23 -> Write();
+    diffDstar34 -> Write();
+    diffDstar45-> Write();
+    diffDstarw -> Write();
+    diffDstar12w -> Write();
+    diffDstar23w -> Write();
+    diffDstar34w -> Write();
+    diffDstar45w -> Write();
     hDstar_D0 -> Write();
     hDstar_D012 -> Write();
     hDstar_D023 -> Write();
@@ -1068,11 +1069,11 @@ void Danalyza_pp()
     hbDstar_D023 -> Write();
     hbDstar_D034 -> Write();
     hbDstar_D045 -> Write();
-    rozdilDstar_D0 -> Write();
-    rozdilDstar_D012 -> Write();
-    rozdilDstar_D023 -> Write();
-    rozdilDstar_D034 -> Write();
-    rozdilDstar_D045 -> Write();
+    diffDstar_D0 -> Write();
+    diffDstar_D012 -> Write();
+    diffDstar_D023 -> Write();
+    diffDstar_D034 -> Write();
+    diffDstar_D045 -> Write();
 
 
 
@@ -1084,8 +1085,8 @@ void Danalyza_pp()
 
 
 
-    cout<<"Michale jsi dobrej"<<endl;
-    cout<<"Hotovo, Jarvis"<<endl;
+    cout<<"Finished"<<endl;
+
 
 }
 
