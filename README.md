@@ -22,7 +22,7 @@ root -l -b -q StRoot/macros/loadSharedHFLibraries.C StRoot/macros/runQAAnaMakerL
 
 Actual file list is loaded from:
 ```sh
-picoLists/runs_path_all.list
+picoLists/part1       , resp. part2, resp part3
 ```
 Actual file list for **local tests** is loaded from:
 ```sh
