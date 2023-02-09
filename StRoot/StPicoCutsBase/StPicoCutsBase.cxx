@@ -222,7 +222,7 @@ bool StPicoCutsBase::isGoodTrack(StPicoTrack const * const trk) const {
 // _________________________________________________________
 bool StPicoCutsBase::isPionTPC(StPicoTrack const *trk) const {
     if (!isGoodTrack(trk)) return false;
-    if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kKaon)) return false;
+    if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kPion)) return false;
     if (!isTPCPion(trk)) return false;
     return true;
 }
@@ -230,7 +230,7 @@ bool StPicoCutsBase::isPionTPC(StPicoTrack const *trk) const {
 // _________________________________________________________
 bool StPicoCutsBase::isKaonTPC(StPicoTrack const *trk) const {
     if (!isGoodTrack(trk)) return false;
-    if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kPion)) return false;
+    if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kKaon)) return false;
     if (!isTPCKaon(trk)) return false;
     return true;
 }

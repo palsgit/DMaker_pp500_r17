@@ -40,7 +40,8 @@ int StPicoQAMaker::InitHF() {
     mOutList->Add(new TH2F("h_gRefmult", "gRefmult;CountsvsRunIndex", 700, 0, 700, RunNumberVector.size() + 1, -1, RunNumberVector.size()));
 
     mOutList->Add(new TH2F("h_gRefmult_vs_ZDCx", "gRefmult;ZDCx", 250, 0, 250, 101, -0.5, 100.5));
-    mOutList->Add(new TH2F("h_gRefmult_vs_BBCx", "gRefmult;BBCx", 1350, 0, 1350, 101, -0.5, 100.5));
+    //mOutList->Add(new TH2F("h_gRefmult_vs_BBCx", "gRefmult;BBCx", 13500, 0, 13500, 101, -0.5, 100.5));
+    mOutList->Add(new TProfile("prof_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000;track multiplicity", 10001, -0.5, 10000.5));
 
     mOutList->Add(new TH1F("h_gRefmult_Vz_min6_min4", "gRefmult for Vz>-6 && Vz<=-4", 101, -0.5, 100.5));
     mOutList->Add(new TH1F("h_gRefmult_Vz_min4_min2", "gRefmult for Vz>-4 && Vz<=-2", 101, -0.5, 100.5));
@@ -328,7 +329,7 @@ int StPicoQAMaker::MakeHF() {
 
     TH2F *h_gRefmult = static_cast<TH2F *>(mOutList->FindObject("h_gRefmult"));
     TH2F *h_gRefmult_vs_ZDCx = static_cast<TH2F *>(mOutList->FindObject("h_gRefmult_vs_ZDCx"));
-    TH2F *h_gRefmult_vs_BBCx = static_cast<TH2F *>(mOutList->FindObject("h_gRefmult_vs_BBCx"));
+    TProfile *prof_gRefmult_vs_BBCx = static_cast<TProfile *>(mOutList->FindObject("prof_gRefmult_vs_BBCx"));
 
     TH1F *h_gRefmult_Vz_min6_min4 = static_cast<TH1F *>(mOutList->FindObject("h_gRefmult_Vz_min6_min4"));
     TH1F *h_gRefmult_Vz_min4_min2 = static_cast<TH1F *>(mOutList->FindObject("h_gRefmult_Vz_min4_min2"));
@@ -563,7 +564,7 @@ int StPicoQAMaker::MakeHF() {
     if (vertex_z_QA>4 && vertex_z_QA<=6) h_gRefmult_Vz_4_6->Fill(grefMult);
 
     h_gRefmult_vs_ZDCx->Fill(ZDC, grefMult);
-    h_gRefmult_vs_BBCx->Fill(BBC, grefMult);
+    prof_gRefmult_vs_BBCx->Fill(BBC, grefMult);
 
     h_QA_Vz->Fill(vertex_z_QA, RunIndex);
     h_QA_VzmVzVPD->Fill(fabs(vertex_z_QA - mPicoDst->event()->vzVpd()), RunIndex);

@@ -1,7 +1,7 @@
 #!/bin/bash
 cd workDir
 productionId=`date +%F_%H-%M`_mix
-analyzer="svomich"
+analyzer="palsp"
 
 mkdir $productionId
 cd $productionId
