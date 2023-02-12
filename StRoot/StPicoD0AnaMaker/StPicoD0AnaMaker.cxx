@@ -275,6 +275,15 @@ int StPicoD0AnaMaker::createCandidates() {
     Int_t nD0 = 0;
     Int_t nDstar = 0;
     nPrimary = 0;
+ 
+    Int_t nmatchedFast = 0;
+    for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
+    StPicoTrack* trk = mPicoDst->track(iTrack);
+    if (mHFCuts->isTOFmatched(trk) && mHFCuts->isBEMCmatched(trk)) nmatchedFast += 1;
+    }
+
+    if (nmatchedFast >= 2) {
+
 
     for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
         StPicoTrack* trk = mPicoDst->track(iTrack);
@@ -334,6 +343,8 @@ int StPicoD0AnaMaker::createCandidates() {
                 /////hKaonPt->Fill(trk->gPt());
             }
         }
+    }
+
     }
 
 
