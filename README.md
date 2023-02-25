@@ -1,4 +1,4 @@
-# Dmaker_pp500
+# Dmaker_pp500_r17
 
 Compile on STAR's RCAF:
 ```sh
@@ -40,7 +40,7 @@ Merging og job output files with script
 ```
 Analysis of job outputs in folder /scripts
 ```sh
-Danalysis_pp.s
+Danalysis_pp.c
 ```
 
 # DMaker_pp500
