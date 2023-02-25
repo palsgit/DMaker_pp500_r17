@@ -1,6 +1,6 @@
 #!/bin/bash
 cd workDir
-productionId=`date +%F_%H-%M`_D0
+productionId=`date +%F_%H-%M`_D0_Dtlusty
 analyzer="palsp"
 
 mkdir $productionId
