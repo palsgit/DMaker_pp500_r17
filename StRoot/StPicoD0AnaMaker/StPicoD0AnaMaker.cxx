@@ -307,38 +307,48 @@ int StPicoD0AnaMaker::createCandidates() {
     float BBCx = mPicoEvent->BBCx() / 1000.;
     float grefMult = mPicoEvent->grefMult();
     //h_gRefmult->Fill(RunId, grefMult);
-    h_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
-    prof_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
+    //h_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
+    //prof_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
 
     for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
         StPicoTrack* trk = mPicoDst->track(iTrack);
 
-//        cout<<"Pocet tracku "<<nTracks<<endl;
-//        TVector3 gMom = trk->gMom();
-//        cout <<"gMom "<< gMom.Mag() << endl;
-
-//        trk->Print();
-
-
-        if (abs(trk->gMom().PseudoRapidity())>1) continue;
-
-//        TVector3 pMom = trk->pMom();
-//        cout << pMom.Mag() << endl;
+      //        cout<<"Pocet tracku "<<nTracks<<endl;
+       //        TVector3 gMom = trk->gMom();
+       //        cout <<"gMom "<< gMom.Mag() << endl;
+        
+       //        trk->Print();
 
 
+      if (abs(trk->gMom().PseudoRapidity())>1) continue;
+
+       //        TVector3 pMom = trk->pMom();
+       //        cout << pMom.Mag() << endl;
 
 
-        if (trk->isPrimary()) {
-            nPrimary++;
-            primaryTracks.push_back(iTrack);
+
+
+      if (mHFCuts->isGoodTrack(trk)){
+           // 
+            if (trk->isPrimary()) 
+            { 
+              ///if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
+              //{
+              nPrimary++;
+              primaryTracks.push_back(iTrack);
+           
 
 
 
             
-            /////cout << RunId << "    "  << grefMult << endl;
+              /////cout << RunId << "    "  << grefMult << endl;
             
 
-            if (mHFCuts->isPionTPC(trk)){
+              if (mHFCuts->isPionTPC(trk)){
+                /////if (mHFCuts->isTPCPion(trk)){
+                /////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
+                /////if (mHFCuts->isTOFmatched(trk)) 
+                ///{
                 ntrackPion++;
                 
                 ///float BBCPion = mPicoEvent->BBCx() / 1000.;
@@ -346,9 +356,14 @@ int StPicoD0AnaMaker::createCandidates() {
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
                 float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.012;
                 h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
-            }
-
-            if (mHFCuts->isKaonTPC(trk)){
+                ////}
+              }
+            
+             if (mHFCuts->isKaonTPC(trk)){
+             /////if (mHFCuts->isTPCKaon(trk)){
+                ////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
+                /////if (mHFCuts->isTOFmatched(trk)) 
+                ////{
                 ntrackKaon++;
 
                 ////float BBCKaon = mPicoEvent->BBCx() / 1000.;
@@ -358,17 +373,28 @@ int StPicoD0AnaMaker::createCandidates() {
                 /////h_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
                 /////prof_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
                 h_QA_OneOverBetaDiffKaon->Fill(trk->gPt(), nk_TOFinvbeta);
-            }
+                /////}
+             }
 
 
-            if (mHFCuts->isGoodPion(trk)) {
+             if (mHFCuts->isGoodPion(trk)) {
+                /////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
+                /////if (mHFCuts->isTOFmatched(trk)) 
+                ///{
                 mIdxPicoPions.push_back(iTrack);
                 hPionPt->Fill(trk->gPt());
-            }
+                ///}
+             }
 
-            if (mHFCuts->isGoodKaon(trk)){
+             if (mHFCuts->isGoodKaon(trk)){
+                /////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
+                /////if (mHFCuts->isTOFmatched(trk)) 
+                ///{
                 mIdxPicoKaons.push_back(iTrack);
                 hKaonPt->Fill(trk->gPt());
+                //}
+              }
+              //}
             }
         }
     }
@@ -596,7 +622,7 @@ int StPicoD0AnaMaker::createCandidates() {
 
     
 
-    }
+   }
     return kStOK;
 }
 

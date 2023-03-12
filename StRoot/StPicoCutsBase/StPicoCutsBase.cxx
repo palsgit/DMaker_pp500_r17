@@ -20,8 +20,8 @@ ClassImp(StPicoCutsBase)
 // _________________________________________________________
 StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
                                    mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(6), mTOFResolution(0.013),
-                                   mBadRunListFileName("picoList_bad.list"), mVzMax(30.), mVzVpdVzMax(6.),
-                                   mNHitsFitMin(15), mRequireHFT(false), mNHitsFitnHitsMax(0.), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mHybridTof(false), mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
+                                   mBadRunListFileName("picoList_bad.list"), mVzMax(50.), mVzVpdVzMax(6.),
+                                   mNHitsFitMin(20), mRequireHFT(false), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false), mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
 
     for (Int_t idx = 0; idx < kPicoPIDMax; ++idx) {
         mPtRange[idx][0] = std::numeric_limits<float>::lowest();
@@ -55,8 +55,8 @@ StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
 // _________________________________________________________
 StPicoCutsBase::StPicoCutsBase(const Char_t *name) : TNamed(name, name),
                                                      mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(6), mTOFResolution(0.013),
-                                                     mBadRunListFileName("picoList_bad_MB.list"), mVzMax(30.), mVzVpdVzMax(6.),
-                                                     mNHitsFitMin(15), mRequireHFT(true), mNHitsFitnHitsMax(0.), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mHybridTof(false),mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
+                                                     mBadRunListFileName("picoList_bad_MB.list"), mVzMax(50.), mVzVpdVzMax(6.),
+                                                     mNHitsFitMin(20), mRequireHFT(true), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false),mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
     // -- constructor
 
     for (Int_t idx = 0; idx < kPicoPIDMax; ++idx) {
@@ -214,7 +214,7 @@ bool StPicoCutsBase::isGoodTrack(StPicoTrack const * const trk) const {
 //  StPicoBTofPidTraits* tofPidTraits;
 //  if (tofIndex >= 0)  tofPidTraits = mPicoDst->btofPidTraits(tofIndex);
 //  if (tofIndex >= 0 && tofPidTraits && tofPidTraits->btofMatchFlag() > 0)  TofMatch = kTRUE;
-    return (trk->nHitsFit() >= mNHitsFitMin && cutMaxDcaToPrimVertex(trk) && trk->gPt() > mPtMin);
+    return (trk->nHitsFit() >= mNHitsFitMin && (((float)trk->nHitsFit())/(trk->nHitsMax())) > mNHitsFitnHitsMax && cutMaxDcaToPrimVertex(trk) && trk->gPt() > mPtMin && abs(trk->gMom().PseudoRapidity()) < mEtaMax);
 //    return ((!mRequireHFT || trk->isHFTTrack()) && trk->nHitsFit() >= mNHitsFitMin && cutMaxDcaToPrimVertex(trk) && trk->gPt() > mPtMin);
 
 }
@@ -416,7 +416,7 @@ bool StPicoCutsBase::cutMinDcaToPrimVertex(StPicoTrack const * const trk, int pi
 bool StPicoCutsBase::cutMaxDcaToPrimVertex(StPicoTrack const * const trk) const {
     // -- check on max dca for all particles
     float dca = (mPrimVtx - trk->origin()).Mag();
-    return (dca <= mPrimaryDCAtoVtxMax);
+    return (dca < mPrimaryDCAtoVtxMax);
 }
 
 // _________________________________________________________

@@ -51,37 +51,52 @@ void runPicoD0AnaMaker(
     StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
     hfCuts->setBadRunListFileName(badRunListFileName);
+    
+    //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
-
-
-
-    hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
-    hfCuts->setCutVzMax(50.);
     hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setCutVzMax(50.);
+
+    //track cuts
     hfCuts->setCutNHitsFitMin(20);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
+    hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
+    hfCuts->setCutPtMin(0.16);
+    hfCuts->setCutEtaMax(1.0);
+    
+    /////hfCuts->setCutVzVpdVzMax(100.);
+    
+    
+    
+    /*
     hfCuts->setCutRequireHFT(false); //// Usable only for d+Au analysis
     hfCuts->setHybridTof(false); //// Does nothing (Proton PID)
     hfCuts->setHybridTofKaon(true); //// This cut and the one below work for the analysis without BEMC
     hfCuts->setHybridTofPion(true); ////
     hfCuts->setCheckHotSpot(false);
+    */
 
-    hfCuts->setCutTPCNSigmaPion(3.0);
+    hfCuts->setCutTPCNSigmaPion(2.0);
     hfCuts->setCutTPCNSigmaKaon(2.0);
+
+    hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
+    hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
+    
+    /*
     hfCuts->setCutTOFNSigmaPion(3.0);
     hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
-    hfCuts->setCutPtMin(0.15);
+    
 
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
+    
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
     hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     hfCuts->setHybridTofBetterBetaCutsPion(true); ////
 
     hfCuts->setHybridTofWithBEMC(false);
+    */
 
 //
     float dcaDaughtersMax = 10.;  // maximum toto ide

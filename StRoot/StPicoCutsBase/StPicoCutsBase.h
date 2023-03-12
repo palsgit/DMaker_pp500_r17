@@ -141,6 +141,7 @@ public:
     void setCutPrimaryDCAtoVtxMax(float f);
     void setCutPtRange(float min, float max, int pidFlag);
     void setCutPtMin(float min);
+    void setCutEtaMax(float max);
     void setCutDcaMin(float min, int pidFlag);
     void setCutDcaMinTertiary(float min, int pidFlag);
     void setCutTPCNSigma(float f, int pidFlag);
@@ -238,6 +239,7 @@ private:
     float mNHitsFitnHitsMax;
     float mPrimaryDCAtoVtxMax;         // used for primary selection for TOF Beta recalculation
     float mPtMin;
+    float mEtaMax;
     bool  mHybridTof;
     bool  mHybridTofKaon;
     bool  mHybridTofPion;
@@ -286,6 +288,7 @@ inline void StPicoCutsBase::setCutPtRange(float min, float max, int pidFlag)    
     mPtRange[pidFlag][1] = max; }
 
 inline void StPicoCutsBase::setCutPtMin(float min)            { mPtMin = min;}
+inline void StPicoCutsBase::setCutEtaMax(float max)            { mEtaMax = max;}
 
 inline void StPicoCutsBase::setCutDcaMin(float min, int pidFlag)                        { mDcaMin[pidFlag] = min; }
 inline void StPicoCutsBase::setCutDcaMinTertiary(float min, int pidFlag)                { mDcaMinTertiary[pidFlag] = min; }
