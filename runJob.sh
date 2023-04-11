@@ -1,6 +1,6 @@
 #!/bin/bash
 cd workDir
-productionId=`date +%F_%H-%M`_D0_DTlusty_thesis_magiccut
+productionId=`date +%F_%H-%M`_D0_my_cuts_whole_events
 analyzer="palsp"
 
 mkdir $productionId

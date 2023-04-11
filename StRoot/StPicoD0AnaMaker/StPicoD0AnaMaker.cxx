@@ -77,6 +77,7 @@ int StPicoD0AnaMaker::InitHF() {
 //    mOutList->Add(new TH2F("h_pTOFbeta","h_pTOFbeta",500,0,10, 300, 0, 1));
 //
 
+    /*
     mOutList->Add(new TH2F("hD0VsRemoved","hD0VsRemoved", 100, -0.5, 99.5, 100, -0.5, 99.5));
 
     mOutList->Add(new TH1F("hNTracksRemoved","hNTracksRemoved", 2000, -0.5, 1999.5));
@@ -85,6 +86,7 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TH1F("hNTracksDiffRemovedGlobal","hNTracksDiffRemovedGlobal", 5000, -0.5, 4999.5));
     mOutList->Add(new TH1F("hHotSpotDiffRemovedPrimary","hHotSpotDiffRemovedPrimary", 2000, -0.5, 1999.5));
     mOutList->Add(new TH1F("hNTracksGoodToFit","hNTracksGoodToFit", 2000, -0.5, 1999.5));
+    */
 
     mOutList->Add(new TH1F("hPionPt","hPionPt", 100, 0, 10));
     mOutList->Add(new TH1F("hKaonPt","hKaonPt", 100, 0, 10));
@@ -96,7 +98,8 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TProfile("prof_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000; gRefmult", 10001, -0.5, 10000.5));
     mOutList->Add(new TProfile("prof_nPrimaryTracks_vs_BBCx", "nPrimaryTracks vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 10001, -0.5, 10000.5));
 
-    /////mOutList->Add(new TH2F("h_gRefmult", "gRefmult;CountsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size(), 700, 0, 700));
+    //////mOutList->Add(new TH2F("h_gRefmult", "gRefmult;CountsvsRunIndex", RunNumberVector.size() + 1, -1, RunNumberVector.size(), 700, 0, 700));
+    mOutList->Add(new TProfile("prof_gRefmult_vs_RunID", "grefMult x runId;runId;grefMult", 200000, 18000000, 18200000));
     mOutList->Add(new TH2D("h_QA_OneOverBetaDiffPion", "h_QA_OneOverBetaDiffPion", 1000, 0,3.5,100,-10,10));
     mOutList->Add(new TH2D("h_QA_OneOverBetaDiffKaon", "h_QA_OneOverBetaDiffKaon", 1000, 0,3.5,100,-10,10));
    
@@ -110,8 +113,8 @@ int StPicoD0AnaMaker::InitHF() {
 
 //    mOutList->Add(new TH2F("h_dedx","h_dedx", 1000, 0, 10, 1000, 0, 10));
 //h_tracktest
-    mOutList->Add(new TH1D("h_tracktest","h_tracktest", 6, 0.5, 6.5));
-    mOutList->Add(new TH1D("h_tracktest_TOF","h_tracktest_TOF", 6, 0.5, 6.5));
+   //////mOutList->Add(new TH1D("h_tracktest","h_tracktest", 6, 0.5, 6.5));
+    //////mOutList->Add(new TH1D("h_tracktest_TOF","h_tracktest_TOF", 6, 0.5, 6.5));
 
     mOutFileBaseName = mOutFileBaseName.ReplaceAll(".root", "");
     TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:k_pt:k_p:k_dca:k_nSigma:k_nHitFit:k_TOFinvbeta:k_betaBase:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar"
@@ -256,7 +259,7 @@ int StPicoD0AnaMaker::createCandidates() {
 //    if (!(abs(mPrimVtx.x())<0.6)) return kStOK;
 //    if (!(abs(mPrimVtx.y())<0.6)) return kStOK;
 
-    TH2F *hD0VsRemoved = static_cast<TH2F*>(mOutList->FindObject("hD0VsRemoved"));
+    
 
     TH1F *hKaonPt = static_cast<TH1F*>(mOutList->FindObject("hKaonPt"));
     TH1F *hPionPt = static_cast<TH1F*>(mOutList->FindObject("hPionPt"));
@@ -265,7 +268,8 @@ int StPicoD0AnaMaker::createCandidates() {
     TProfile *prof_ntracksKaon_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksKaon_vs_BBCx"));
     TProfile *prof_ntracksPion_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksPion_vs_BBCx"));
     TProfile *prof_gRefmult_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_BBCx"));
-
+          
+    TProfile *prof_gRefmult_vs_RunID = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_RunID"));
     TH2F *h_nPrimaryTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTracks_vs_BBCx"));
     TH2F *h_ntracksKaon_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaon_vs_BBCx"));
     TH2F *h_ntracksPion_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPion_vs_BBCx"));
@@ -275,13 +279,16 @@ int StPicoD0AnaMaker::createCandidates() {
     TH2F *h_QA_OneOverBetaDiffKaon = static_cast<TH2F*>(mOutList->FindObject("h_QA_OneOverBetaDiffKaon"));
 
 
-
+       
+    /*/////
+    TH2F *hD0VsRemoved = static_cast<TH2F*>(mOutList->FindObject("hD0VsRemoved"));
     TH1F *hNTracksRemoved = static_cast<TH1F*>(mOutList->FindObject("hNTracksRemoved"));
     TH1F *hNTracksPrimary = static_cast<TH1F*>(mOutList->FindObject("hNTracksPrimary"));
     TH1F *hNTracksDiffRemovedPrimary = static_cast<TH1F*>(mOutList->FindObject("hNTracksDiffRemovedPrimary"));
     TH1F *hNTracksDiffRemovedGlobal = static_cast<TH1F*>(mOutList->FindObject("hNTracksDiffRemovedGlobal"));
     TH1F *hHotSpotDiffRemovedPrimary = static_cast<TH1F*>(mOutList->FindObject("hHotSpotDiffRemovedPrimary"));
     TH1F *hNTracksGoodToFit = static_cast<TH1F*>(mOutList->FindObject("hNTracksGoodToFit"));
+    *//////
 
     UInt_t nTracks = mPicoDst->numberOfTracks();
     ////UInt_t nTracks_Event = mPicoEvent->grefMult();
@@ -301,14 +308,14 @@ int StPicoD0AnaMaker::createCandidates() {
    if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk)) nmatchedFast += 1;
    }
    
-  if (nmatchedFast >= 2) {
+  /////if (nmatchedFast >= 2) {
 
     RunId = mPicoEvent->runId();
     float BBCx = mPicoEvent->BBCx() / 1000.;
     float grefMult = mPicoEvent->grefMult();
-    //h_gRefmult->Fill(RunId, grefMult);
-    //h_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
-    //prof_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
+    prof_gRefmult_vs_RunID->Fill(RunId, grefMult);
+    h_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
+    prof_gRefmult_vs_BBCx->Fill(BBCx, grefMult);
 
     for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
         StPicoTrack* trk = mPicoDst->track(iTrack);
@@ -320,7 +327,8 @@ int StPicoD0AnaMaker::createCandidates() {
        //        trk->Print();
 
 
-      if (abs(trk->gMom().PseudoRapidity())>1) continue;
+      /////if (abs(trk->gMom().PseudoRapidity())>1) continue;
+      if ((mHFCuts->isGoodTrack(trk))) nGoodTracks++;
 
        //        TVector3 pMom = trk->pMom();
        //        cout << pMom.Mag() << endl;
@@ -328,9 +336,9 @@ int StPicoD0AnaMaker::createCandidates() {
 
 
 
-      if (mHFCuts->isGoodTrack(trk)){
+      if (trk->isPrimary()){
            // 
-            if (trk->isPrimary()) 
+            if (mHFCuts->isGoodTrack(trk)) 
             { 
               ///if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
               //{
@@ -355,7 +363,8 @@ int StPicoD0AnaMaker::createCandidates() {
                 ///float grefMultPion = mPicoEvent->grefMult();
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
                 float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.012;
-                h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
+                ////h_QA_OneOverBetaDiffPion->Fill(trk->gPt(), npi1_TOFinvbeta);
+                h_QA_OneOverBetaDiffPion->Fill(trk->pMom().Mag(), npi1_TOFinvbeta);
                 ////}
               }
             
@@ -372,7 +381,8 @@ int StPicoD0AnaMaker::createCandidates() {
                 float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon) / 0.012;
                 /////h_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
                 /////prof_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
-                h_QA_OneOverBetaDiffKaon->Fill(trk->gPt(), nk_TOFinvbeta);
+                ////h_QA_OneOverBetaDiffKaon->Fill(trk->gPt(), nk_TOFinvbeta);
+                h_QA_OneOverBetaDiffKaon->Fill(trk->pMom().Mag(), nk_TOFinvbeta);
                 /////}
              }
 
@@ -396,7 +406,10 @@ int StPicoD0AnaMaker::createCandidates() {
               }
               //}
             }
+            else tracksToRemove.push_back(iTrack);
         }
+
+        
     }
 
 
@@ -501,10 +514,10 @@ int StPicoD0AnaMaker::createCandidates() {
 
 
             if (isD0) {
-                /////ntp_DMeson_Signal->Fill(ntVar);
+                ntp_DMeson_Signal->Fill(ntVar);
                 nD0++;
             } else {
-                /////ntp_DMeson_Background->Fill(ntVar);
+                ntp_DMeson_Background->Fill(ntVar);
             }
 
 
@@ -581,10 +594,10 @@ int StPicoD0AnaMaker::createCandidates() {
                     ntVar2[iii++] = triplet_pair;
 
                     if (isDstar) {
-                        /////ntp_DstarMeson_Signal->Fill(ntVar2);
+                        ntp_DstarMeson_Signal->Fill(ntVar2);
                         nDstar++;
                     } else {
-                    /////ntp_DstarMeson_Background->Fill(ntVar2);
+                       ntp_DstarMeson_Background->Fill(ntVar2);
                     }
 
 
@@ -595,6 +608,7 @@ int StPicoD0AnaMaker::createCandidates() {
         }  // for (unsigned short idxKaon = 0; idxKaon < mIdxPicoKaons.size(); ++idxKaon)
     } // for (unsigned short idxPion1 = 0; idxPion1 < mIdxPicoPions.size(); ++idxPion1)
 
+    /*/////
     if (nD0 > 0) {
         hNTracksRemoved->Fill(tracksToRemove.size());
         hNTracksGoodToFit->Fill(nGoodTracks);
@@ -607,6 +621,7 @@ int StPicoD0AnaMaker::createCandidates() {
     }
 
    hD0VsRemoved->Fill(tracksToRemove.size(), nD0);
+   *///////
 
     mIdxPicoPions.clear();
     mIdxPicoPions.shrink_to_fit();
@@ -622,7 +637,7 @@ int StPicoD0AnaMaker::createCandidates() {
 
     
 
-   }
+   /////}
     return kStOK;
 }
 
@@ -743,15 +758,19 @@ int StPicoD0AnaMaker::createCandidates() {
 
 //____________________________________________________________________________________
 int StPicoD0AnaMaker::analyzeCandidates() {
+    
+    /*/////////
     TH1D *h_tracktest = static_cast<TH1D*>(mOutList->FindObject("h_tracktest"));
     TH1D *h_tracktest_TOF = static_cast<TH1D*>(mOutList->FindObject("h_tracktest_TOF"));
 
-    const char *aNames[]   = {"all", "NHitFit>20", "pT>0.6", "dca<1.5","TPC pion", "TPC kaon"};
-    const char *aNamesTOF[]   = {"all TOF match", "NHitFit>20 & TOF", "pT>0.6 & TOF","dca<1.5 & TOF","TPC & TOF pion", "TPC & TOF kaon"};
-
+    /////const char *aNames[]   = {"all", "NHitFit>20", "pT>0.6", "dca<1.5","TPC pion", "TPC kaon"};
+    /////const char *aNamesTOF[]   = {"all TOF match", "NHitFit>20 & TOF", "pT>0.6 & TOF","dca<1.5 & TOF","TPC & TOF pion", "TPC & TOF kaon"};
+    
+    const char *aNames[]   = {"all", "NHitFit>20", "pT>0.16", "dca<1.5","TPC pion", "TPC kaon"};
+    const char *aNamesFast[]   = {"all TOF/BEMC match", "NHitFit>20 & TOF/BEMC", "pT>0.16 & TOF/BEMC","dca<1.5 & TOF/BEMC","TPC & TOF/BEMC pion", "TPC & TOF/BEMC kaon"};
     for (unsigned int ii = 0; ii < 6; ii++) {
         h_tracktest->GetXaxis()->SetBinLabel(ii+1, aNames[ii]);
-        h_tracktest_TOF->GetXaxis()->SetBinLabel(ii+1, aNamesTOF[ii]);
+        h_tracktest_Fast->GetXaxis()->SetBinLabel(ii+1, aNamesTOF[ii]);
     }
 
     for(unsigned int i=0;i<mPicoDst->numberOfTracks();i++) {
@@ -762,21 +781,21 @@ int StPicoD0AnaMaker::analyzeCandidates() {
         if (mHFCuts->isGoodTrack(t)) h_tracktest->Fill(2); // NhitsFit
 
         float pt=t->gPt();
-        if ((pt>0.6) && mHFCuts->isGoodTrack(t)) h_tracktest->Fill(3);
+        if ((pt>0.16) && mHFCuts->isGoodTrack(t)) h_tracktest->Fill(3);
         float dca = (mPrimVtx - t->origin()).Mag();
-        if (dca<1.5 && (pt>0.6) && mHFCuts->isGoodTrack(t)) h_tracktest->Fill(4);
+        if (dca<1.5 && (pt>0.16) && mHFCuts->isGoodTrack(t)) h_tracktest->Fill(4);
         bool tpcPion = mHFCuts->isTPCHadron(t, StPicoCutsBase::kPion);
         bool tpcKaon = mHFCuts->isTPCHadron(t, StPicoCutsBase::kKaon);
-        if ((pt>0.6) && (dca<1.5 ) && (mHFCuts->isGoodTrack(t))) {
+        if ((pt>0.16) && (dca<1.5 ) && (mHFCuts->isGoodTrack(t))) {
             if (tpcPion) h_tracktest->Fill(5);
            if (tpcKaon) h_tracktest->Fill(6);
         }
-        if (mHFCuts->isTOFmatched(t)) {
-            h_tracktest_TOF->Fill(1);
+        if (mHFCuts->isTOFmatched(t)||mHFCuts->isBEMCmatched(t)) {
+            h_tracktest_Fast->Fill(1);
             if (mHFCuts->isGoodTrack(t)) h_tracktest_TOF->Fill(2); // NhitsFit
-            if (pt>0.6 && mHFCuts->isGoodTrack(t)) h_tracktest_TOF->Fill(3);
-            if (dca<1.5 && pt>0.6 && mHFCuts->isGoodTrack(t)) h_tracktest_TOF->Fill(4);
-            if ((pt>0.6) && (dca<1.5 ) && (mHFCuts->isGoodTrack(t))) {
+            if (pt>0.16 && mHFCuts->isGoodTrack(t)) h_tracktest_TOF->Fill(3);
+            if (dca<1.5 && pt>0.16 && mHFCuts->isGoodTrack(t)) h_tracktest_TOF->Fill(4);
+            if ((pt>0.16) && (dca<1.5 ) && (mHFCuts->isGoodTrack(t))) {
 //                if (tpcPion && mHFCuts->isTOFHadronPID(t, mHFCuts->getTofBetaBase(t), StPicoCutsBase::kPion))  h_tracktest_TOF->Fill(5);
                 if (tpcPion)  h_tracktest_TOF->Fill(5);
                 if (tpcKaon && mHFCuts->isTOFHadronPID(t, mHFCuts->getTofBetaBase(t), StPicoCutsBase::kKaon))  h_tracktest_TOF->Fill(6);
@@ -794,5 +813,7 @@ int StPicoD0AnaMaker::analyzeCandidates() {
 //        StPicoTrack const *t = mPicoDst->track(mIdxPicoKaons[idxKaon]);
 //        ntp_kaon->Fill(t->gPt(), t->gMom().phi(), t->gMom().pseudoRapidity(), t->nSigmaKaon(), t->nHitsFit(), getOneOverBeta(t, mHFCuts->getTofBetaBase(t), StPicoCutsBase::kKaon), mPicoEvent->eventId(), mPicoEvent->runId());
 //    }
+     *//////////
     return kStOK;
+    
 }
