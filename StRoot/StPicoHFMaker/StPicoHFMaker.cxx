@@ -128,7 +128,8 @@ Int_t StPicoHFMaker::Make() {
 
   Int_t iReturn = kStOK;
 
-  if (setupEvent()) {
+
+  if (startEvent()) {
 //    UInt_t nTracks = mPicoDst->numberOfTracks();
 //    for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
 //        StPicoTrack* trk = mPicoDst->track(iTrack);
@@ -143,8 +144,9 @@ Int_t StPicoHFMaker::Make() {
     iReturn = MakeHF();
   }
 
-  // -- reset event to be in a defined state
-//  resetEvent();
+  // -- setup event to be in a defined state
+  setupEvent();
+
   return (kStOK && iReturn);
 }
 
@@ -157,11 +159,29 @@ bool StPicoHFMaker::setupEvent() {
   mPrimVtx = mPicoEvent->primaryVertex();
 
   int aEventStat[mHFCuts->eventStatMax()];
-  bool bResult = mHFCuts->isGoodEvent(mPicoDst, aEventStat);
+  bool bResult = mHFCuts->isBetterEvent(mPicoDst, aEventStat);
 
   fillEventStats(aEventStat);
 
   return bResult;
+}
+
+//__________________________________________________________
+
+bool StPicoHFMaker::startEvent() {
+  //------------ initilize the pico event, checks for goodrun and goodtriggers only 
+
+  mPicoEvent = mPicoDst->event();
+  mBField = mPicoEvent->bField();
+  mPrimVtx = mPicoEvent->primaryVertex();
+
+  int aEventProb[mHFCuts->eventStatMax()];
+  bool fResult = mHFCuts->isGoodEvent(mPicoDst, aEventProb);
+
+  //fillEventStats(aEventStat);
+
+  return fResult;
+
 }
 
 // _________________________________________________________

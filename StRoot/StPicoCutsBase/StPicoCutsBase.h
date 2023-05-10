@@ -1,6 +1,13 @@
 #ifndef STPICOCUTSBASE_H
 #define STPICOCUTSBASE_H
+#include <limits>
+#include <cmath>
+#include <algorithm>
+#include <fstream>
+#include <string>
 #include <vector>
+#include <iostream>
+
 #include "TNamed.h"
 #include "TString.h"
 #include "TVector3.h"
@@ -24,9 +31,11 @@ public:
 
     virtual void init() { initBase(); }
 
-    bool isGoodEvent(StPicoDst const * const picoDst, int *aEventCuts = NULL);
+    bool isGoodEvent(StPicoDst const * const picoDst, int *aEventNums = NULL);
+    bool isBetterEvent(StPicoDst const * const picoDst, int *aEventCuts = NULL);
     bool isGoodRun(StPicoEvent const * const picoEvent) const;
     bool isGoodTrigger(StPicoEvent const * const picoEvent) const;
+    int nMatchedFast(StPicoDst const * const picoDst);
     bool isGoodTrack(StPicoTrack const * const trk) const;
     bool isGoodPion(StPicoTrack const * const trk) const;
     bool isGoodKaon(StPicoTrack const * const trk) const;
@@ -84,6 +93,8 @@ public:
 
     bool isPionTPC(StPicoTrack const *trk) const;
     bool isKaonTPC(StPicoTrack const *trk) const;
+    bool isPionTOF(StPicoTrack const *trk) const;
+    bool isKaonTOF(StPicoTrack const *trk) const;
 
     // -- Is TOF particle in ptot range
     //    if track has no TOF information - return true
@@ -128,7 +139,10 @@ public:
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     void setBadRunListFileName(const char* fileName);
+    
     void addTriggerId(unsigned int triggerId);
+    void addTriggerByName(std::string name);
+    void showTriggers();
 
     void setCutVzMax(float f);
     void setCutVzVpdVzMax(float f);
@@ -187,6 +201,8 @@ public:
 
     void setHybridTofWithBEMC(bool t);
 
+    float getCutVzMax();
+    float getCutVzVpdVzMax();
 
     float tofPathLength(const TVector3* beginPoint, const TVector3* endPoint, float curvature) const;
 
@@ -275,6 +291,9 @@ inline void StPicoCutsBase::addTriggerId(unsigned int triggerId) {mVecTriggerIdL
 
 inline void StPicoCutsBase::setCutVzMax(float f)              { mVzMax            = f; }
 inline void StPicoCutsBase::setCutVzVpdVzMax(float f)         { mVzVpdVzMax       = f; }
+
+inline float StPicoCutsBase::getCutVzMax()              { return mVzMax; }
+inline float StPicoCutsBase::getCutVzVpdVzMax()         { return mVzVpdVzMax; }
 
 inline void StPicoCutsBase::setCheckHotSpot(bool b)         { mOnlyHotSpot       = b; }
 
@@ -381,6 +400,32 @@ inline bool StPicoCutsBase::isTOFPionBetterCuts(StPicoTrack const *trk,   float 
 inline bool StPicoCutsBase::isHybridTOFPionBetterCuts(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
     return isHybridTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
 inline bool StPicoCutsBase::isHybridTOFPionBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isHybridTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
+
+/*inline void StPicoCutsBase::addTriggerByName(std::string name) {
+    if (name == "y15ppall") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470202, 480202, 490202, 470404, 480404, 490404, 470401, 480401, 490401, 470405, 480405, 490405, 470402, 480402, 490402});
+    } else if (name == "y15ppht1") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470202, 480202, 490202, 500202, 510202}); //BHT1*VPDMB-30
+    } else if (name == "y15ppjp1") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470404, 480404, 480414, 490404}); //JP1
+    } else if (name == "y15ppjp2") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470401, 480401, 480411, 490401, 500401, 500411}); //JP2
+    } else if (name == "y15ppjp2l2") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470405, 480405, 480415, 490405, 500405, 500415}); //JP2*L2JetHigh
+    } else if (name == "y15ppjp2bsmd") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470402, 480402, 490402, 500402, 500412}); //JP2-bsmd
+    } else if (name == "y15ppmb") {
+        mVecTriggerIdList.insert(mVecTriggerIdList.end(), {470011, 470021, 480001, 490001, 500001}); //VPDMB-5-ssd; st_ssdmb
+    }
+}*/
+
+inline void StPicoCutsBase::showTriggers() {
+    std::cout << "Selected trigger ids: " << std::endl;
+    for(std::vector<unsigned int>::const_iterator iter = mVecTriggerIdList.begin(); iter != mVecTriggerIdList.end(); ++iter) {
+        std::cout << *iter << " ";
+    }
+    std::cout << std::endl;
+}
 
 
 

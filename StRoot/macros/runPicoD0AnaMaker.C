@@ -54,6 +54,7 @@ void runPicoD0AnaMaker(
     
     //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
+    hfCuts->showTriggers();
     hfCuts->setCutVzVpdVzMax(6.);
     hfCuts->setCutVzMax(50.);
 
@@ -85,8 +86,8 @@ void runPicoD0AnaMaker(
     
     
     hfCuts->setCutTOFNSigmaPion(2.0);
-    /*hfCuts->setCutTOFNSigmaKaon(3.0);
-    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
+    hfCuts->setCutTOFNSigmaKaon(2.0);
+    /*hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
     
 
@@ -94,7 +95,7 @@ void runPicoD0AnaMaker(
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
     */
-    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setHybridTofBetterBetaCutsKaon(false); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     hfCuts->setHybridTofBetterBetaCutsPion(false); ////
     
     hfCuts->setHybridTofWithBEMC(false);

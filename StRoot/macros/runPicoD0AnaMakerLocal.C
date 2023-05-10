@@ -26,7 +26,7 @@ void runPicoD0AnaMakerLocal(
 			const Char_t *inputFile="./picoLists/runs_local_test.list",
 			const Char_t *outputFile="outputLocal",
 			const Char_t *badRunListFileName = "./picoLists/picoList_bad.list") {
-    string SL_version = "SL22b";
+    string SL_version = "SL19c";
     string env_SL = getenv ("STAR");
     if (env_SL.find(SL_version)==string::npos) {
         cout<<"Environment Star Library does not match the requested library in run**.C. Exiting..."<<endl;
@@ -53,7 +53,8 @@ void runPicoD0AnaMakerLocal(
     hfCuts->setBadRunListFileName(badRunListFileName);
     
     //event cuts
-    hfCuts->addTriggerId(570001); //VPDMB-30
+    hfCuts->addTriggerId(480001); //VPDMB-5-ssd
+    hfCuts->showTriggers();
     hfCuts->setCutVzVpdVzMax(6.);
     hfCuts->setCutVzMax(50.);
 
@@ -85,8 +86,8 @@ void runPicoD0AnaMakerLocal(
     
     
     hfCuts->setCutTOFNSigmaPion(2.0);
-    /*hfCuts->setCutTOFNSigmaKaon(3.0);
-    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
+    hfCuts->setCutTOFNSigmaKaon(2.0);
+    /*hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
     
 
@@ -94,7 +95,7 @@ void runPicoD0AnaMakerLocal(
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
     */
-    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setHybridTofBetterBetaCutsKaon(false); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     hfCuts->setHybridTofBetterBetaCutsPion(false); ////
     
     hfCuts->setHybridTofWithBEMC(false);
