@@ -54,6 +54,69 @@ void runPicoMixedEventLocal(
   StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
     hfCuts->setBadRunListFileName(badRunListFileName);
+
+    //event cuts
+    hfCuts->addTriggerId(570001); //VPDMB-30
+    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setCutVzMax(50.);
+
+    //track cuts
+    hfCuts->setCutNHitsFitMin(20);
+    hfCuts->setCutNHitsFitnHitsMax(0.52);
+    hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
+    hfCuts->setCutPtMin(0.16);
+    hfCuts->setCutEtaMax(1.0);
+    
+    /////hfCuts->setCutVzVpdVzMax(100.);
+    
+    
+    
+    /*
+    hfCuts->setCutRequireHFT(false); //// Usable only for d+Au analysis
+    hfCuts->setHybridTof(false); //// Does nothing (Proton PID)
+    */
+    hfCuts->setHybridTofKaon(false); //// This cut and the one below work for the analysis without BEMC
+    hfCuts->setHybridTofPion(false); ////
+    ///hfCuts->setCheckHotSpot(false);
+    
+
+    hfCuts->setCutTPCNSigmaPion(2.0);
+    hfCuts->setCutTPCNSigmaKaon(2.0);
+
+    //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
+    //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
+    
+    
+    hfCuts->setCutTOFNSigmaPion(2.0);
+    /*hfCuts->setCutTOFNSigmaKaon(3.0);
+    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
+    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
+    
+
+    
+
+    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
+    */
+    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setHybridTofBetterBetaCutsPion(false); ////
+    
+    hfCuts->setHybridTofWithBEMC(false);
+    
+
+//
+    float dcaDaughtersMax = 10.;  // maximum toto ide
+    float decayLengthMin  = 0.00000000; // minimum
+    float decayLengthMax  = 9999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
+    float cosThetaMin     = -20.;   // minimum
+    float minMass         = 0.1;
+    float maxMass         = 3.5;
+    float pairDcaMax      = 99.9;
+
+    hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
+
+
+
+    /*
     hfCuts->addTriggerId(570001); //VPDMB-30
 
 
@@ -91,7 +154,7 @@ void runPicoMixedEventLocal(
 
 
   hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
-
+ */
   StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
 //  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
   StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile);

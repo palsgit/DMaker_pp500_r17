@@ -66,6 +66,7 @@ private:
     TVector3 refitVertex(bool);
 
     TNtuple *ntp_DMeson_Signal;
+    TNtuple *ntp_DMeson_Rotated;
     TNtuple *ntp_DMeson_Background;
 
     TNtuple *ntp_DstarMeson_Signal;

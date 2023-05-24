@@ -84,6 +84,8 @@ public:
 
     bool isPionTPC(StPicoTrack const *trk) const;
     bool isKaonTPC(StPicoTrack const *trk) const;
+    bool isPionTOF(StPicoTrack const *trk) const;
+    bool isKaonTOF(StPicoTrack const *trk) const;
 
     // -- Is TOF particle in ptot range
     //    if track has no TOF information - return true
