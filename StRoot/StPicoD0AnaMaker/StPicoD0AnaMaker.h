@@ -57,6 +57,8 @@ protected:
     std::vector<unsigned short> mIdxPicoKaons;
     std::vector<int> tracksToRemove;
     std::vector<int> primaryTracks;
+    std::vector<std::vector<float>> vect_daughter_id;
+    std::vector<float> daughter_id;
 
 private:
     int nGoodTracks;
@@ -64,10 +66,11 @@ private:
     int createCandidates();
     int analyzeCandidates();
     TVector3 refitVertex(bool);
+    bool isVectorInVectorOfVectors(const std::vector<std::vector<float>> vectorOfVectors, const std::vector<float> targetVector);
 
-    TNtuple *ntp_DMeson_Signal;
+    TNtuple *ntp_DMeson_UnlikeSign;
     TNtuple *ntp_DMeson_Rotated;
-    TNtuple *ntp_DMeson_Background;
+    TNtuple *ntp_DMeson_LikeSign;
 
     TNtuple *ntp_DstarMeson_Signal;
     TNtuple *ntp_DstarMeson_Background;

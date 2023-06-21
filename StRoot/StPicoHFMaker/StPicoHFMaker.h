@@ -61,6 +61,7 @@ class StPicoHFMaker : public StMaker
 private:
     void  resetEvent();
     bool  setupEvent();
+    bool  startEvent();
     TFile*          mOutputFileList;     // ptr to file saving the list of histograms
 
     void  initializeEventStats();

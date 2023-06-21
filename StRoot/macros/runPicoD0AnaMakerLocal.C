@@ -8,6 +8,7 @@
 #include "StPicoHFMaker/StPicoHFEvent.h"
 #include "StPicoHFMaker/StHFCuts.h"
 #include "StPicoEvent/StPicoEvent.h"
+#include "StPicoMixedEventMaker/StPicoMixedEventMaker.h"
 #include "macros/loadSharedHFLibraries.C"
 //#include "StPicoMixedEventMaker/StPicoMixedEventMaker.h"
 #include <iostream>
@@ -54,15 +55,18 @@ void runPicoD0AnaMakerLocal(
     
     //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
+    hfCuts->showTriggers();
+    hfCuts->setnMatchedFast(2);
     hfCuts->setCutVzVpdVzMax(6.);
     hfCuts->setCutVzMax(50.);
 
     //track cuts
-    hfCuts->setCutNHitsFitMin(20);
+    hfCuts->setCutNHitsFitMin(17);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
     hfCuts->setCutPtMin(0.16);
-    hfCuts->setCutEtaMax(1.0);
+    hfCuts->setCutEtaMax(1.2);
+    hfCuts->setCutEtaMin(-1.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
     
@@ -77,14 +81,17 @@ void runPicoD0AnaMakerLocal(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPion(2.0);
-    hfCuts->setCutTPCNSigmaKaon(2.0);
+    hfCuts->setCutTPCNSigmaPionMax(4.0);
+    hfCuts->setCutTPCNSigmaPionMin(-3.5);
+    hfCuts->setCutTPCNSigmaKaonMax(4.0);
+    hfCuts->setCutTPCNSigmaKaonMin(-3.0);
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPion(2.0);
+    hfCuts->setCutTOFNSigmaPionMax(2.2);
+    hfCuts->setCutTOFNSigmaPionMin(-2.0);
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -97,7 +104,7 @@ void runPicoD0AnaMakerLocal(
     hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     hfCuts->setHybridTofBetterBetaCutsPion(false); ////
     
-    hfCuts->setHybridTofWithBEMC(false);
+    hfCuts->setHybridTofWithBEMC(true);
     
 
 //
@@ -130,6 +137,7 @@ void runPicoD0AnaMakerLocal(
     chain->Init();
     Int_t nEvents = picoDstMaker->chain()->GetEntries();
     cout << " Total entries = " << nEvents << endl;
+
     for (Int_t i=0; i<nEvents; ++i) {
         if(i%10==0)       cout << "Working on eventNumber " << i << endl;
         chain->Clear();
