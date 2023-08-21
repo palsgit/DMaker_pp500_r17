@@ -54,18 +54,21 @@ void runPicoMixedEventLocal(
   StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
     hfCuts->setBadRunListFileName(badRunListFileName);
-
+    
     //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
-    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->showTriggers();
+    hfCuts->setnMatchedFast(0);
+    hfCuts->setCutVzVpdVzMax(10.);
     hfCuts->setCutVzMax(50.);
 
     //track cuts
-    hfCuts->setCutNHitsFitMin(20);
+    hfCuts->setCutNHitsFitMin(17);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
-    hfCuts->setCutPtMin(0.16);
-    hfCuts->setCutEtaMax(1.0);
+    hfCuts->setCutPtMin(0.20);
+    hfCuts->setCutEtaMax(1000.0);
+    hfCuts->setCutEtaMin(-1000.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
     
@@ -80,14 +83,17 @@ void runPicoMixedEventLocal(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPion(2.0);
-    hfCuts->setCutTPCNSigmaKaon(2.0);
+    hfCuts->setCutTPCNSigmaPionMax(2.0);
+    hfCuts->setCutTPCNSigmaPionMin(-2.0);
+    hfCuts->setCutTPCNSigmaKaonMax(2.0);
+    hfCuts->setCutTPCNSigmaKaonMin(-2.0);
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPion(2.0);
+    hfCuts->setCutTOFNSigmaPionMax(2.2);
+    hfCuts->setCutTOFNSigmaPionMin(-2.0);
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -101,64 +107,22 @@ void runPicoMixedEventLocal(
     hfCuts->setHybridTofBetterBetaCutsPion(false); ////
     
     hfCuts->setHybridTofWithBEMC(false);
-    
 
-//
     float dcaDaughtersMax = 10.;  // maximum toto ide
-    float decayLengthMin  = 0.00000000; // minimum
-    float decayLengthMax  = 9999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
+    float decayLengthMin  = 0.000000000; // minimum
+    float decayLengthMax  = 99999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
     float cosThetaMin     = -20.;   // minimum
     float minMass         = 0.1;
     float maxMass         = 3.5;
     float pairDcaMax      = 99.9;
 
-    hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
-
-
-
-    /*
-    hfCuts->addTriggerId(570001); //VPDMB-30
-
-
-    hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
-    hfCuts->setCutVzMax(30.);
-    hfCuts->setCutVzVpdVzMax(100.);
-    hfCuts->setCutNHitsFitMin(20);
-    hfCuts->setCutNHitsFitnHitsMax(0.52);
-    hfCuts->setCutRequireHFT(false);
-    hfCuts->setHybridTof(false); // Does nothing (Proton PID)
-    hfCuts->setHybridTofKaon(true);
-    hfCuts->setHybridTofPion(false);
-    hfCuts->setCheckHotSpot(false);
-
-    hfCuts->setCutTPCNSigmaPion(3.0);
-    hfCuts->setCutTPCNSigmaKaon(2.0);
-    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
-    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
-    hfCuts->setCutPtMin(0.15);
-
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
-
-    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
-    hfCuts->setHybridTofBetterBetaCutsKaon(true);
-    hfCuts->setHybridTofBetterBetaCutsPion(false);
-
-    float dcaDaughtersMax = 10;  // maximum toto ide
-    float decayLengthMin  = 0.00000000; // minimum
-    float decayLengthMax  = 99999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
-    float cosThetaMin     = -20.;   // minimum
-    float minMass         = 0.5;
-    float maxMass         = 3.5;
-    float pairDcaMax      = 99.9;
-
 
   hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
- */
+
   StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
 //  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
   StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile);
-  picoMixedEventMaker->setBufferSize(6);
+  picoMixedEventMaker->setBufferSize(10);
 
 //  clock_t start = clock(); // getting starting time
   chain->Init();

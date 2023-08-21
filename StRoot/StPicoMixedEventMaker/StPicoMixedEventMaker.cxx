@@ -21,11 +21,14 @@ using namespace std;
 
 ClassImp(StPicoMixedEventMaker)
 
-//static const int m_nmultEdge = 7;
-//static float constexpr m_multEdge[m_nmultEdge+1] = {0, 4, 8, 12, 16, 20, 24, 200};
+static const int m_nmultEdge = 6;
+static float constexpr m_multEdge[m_nmultEdge+1] = {0, 7.5, 9.5, 12.5, 15.5, 19.5, 200};
 
-static const int m_nmultEdge = 1;
-static float constexpr m_multEdge[m_nmultEdge+1] = {0, 2000};
+static const int m_nVzEdge = 10;
+static float constexpr m_VzEdge[m_nVzEdge+1] = {-50.5, -23.5, -17.5, -12.5, -6.5, -1.5, 2.5, 7.5, 13.5, 19.5, 50.5};
+
+///static const int m_nmultEdge = 1;
+///static float constexpr m_multEdge[m_nmultEdge+1] = {0, 2000};
 
 // _________________________________________________________
 StPicoMixedEventMaker::StPicoMixedEventMaker(char const* name, StPicoDstMaker* picoMaker, StHFCuts* hfCuts, char const* outputBaseFileName) :
@@ -174,7 +177,7 @@ Int_t StPicoMixedEventMaker::Make() {
     }
 
     int aEventStat[mHFCuts->eventStatMax()];
-    bool eventTest = mHFCuts->isGoodEvent(picoDst, aEventStat);
+    bool eventTest = mHFCuts->isBetterEvent(picoDst, aEventStat);
     fillEventStats(aEventStat);
 
     if (!eventTest) return kStOk;
@@ -185,9 +188,14 @@ Int_t StPicoMixedEventMaker::Make() {
     int centrality = getMultIndex(multiplicity);
 
     if(centrality < 0 || centrality > m_nmultEdge+1 ) return kStOk;
-    int const vz_bin = (int)((30 +pVtx.z())/1.2) ;
+    ////int const vz_bin = (int)((50 +pVtx.z())/10) ;
+    int vz_bin;
+    for (int i = 0; i < m_nVzEdge; i++){
+        if ((pVtx.z() >= m_VzEdge[i]) && (multiplicity < m_VzEdge[i + 1])) vz_bin = i;
+    }
+
     if(vz_bin < 0 || vz_bin > 9 ) return kStOk;
-    if(pVtx.z() < -30 || pVtx.z() > 30 ) return kStOk;
+    if(pVtx.z() < -50 || pVtx.z() > 50 ) return kStOk;
 
 
     if( mPicoEventMixer[vz_bin][centrality] -> addPicoEvent(picoDst, 1)) {
@@ -203,8 +211,8 @@ Int_t StPicoMixedEventMaker::SetCategories() {
 // _________________________________________________________
 int StPicoMixedEventMaker::categorize(StPicoDst const * picoDst ) {
     TVector3 pVertex = (picoDst->event())->primaryVertex();
-    if( fabs(pVertex.z())>6.0 ) return -99;
-    int bin = -6.0 + (pVertex.z()+6.0)/1.2;
+    if( fabs(pVertex.z())>50.0 ) return -99;
+    int bin = -50.0 + (pVertex.z()+50.0)/10;
     return bin;
 }
 // _________________________________________________________
@@ -219,7 +227,7 @@ int StPicoMixedEventMaker::getMultIndex(float multiplicity){
 void StPicoMixedEventMaker::initializeEventStats() {
     // -- Initialize event statistics histograms
 
-    const char *aEventCutNames[]   = {"all", "good run", "trigger", "2x matching in Fast", "#it{v}_{z}", "#it{v}_{z}-#it{v}^{VPD}_{z}", "accepted"};
+    const char *aEventCutNames[]   = {"all", "good run", "trigger", "#it{v}_{z}", "#it{v}_{z}-#it{v}^{VPD}_{z}", "accepted"};
 
     mOutList->Add(new TH1F("hEventStat0","Event cut statistics 0;Event Cuts;Events", mHFCuts->eventStatMax(), -0.5, mHFCuts->eventStatMax()-0.5));
     TH1F *hEventStat0 = static_cast<TH1F*>(mOutList->Last());

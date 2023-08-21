@@ -141,14 +141,14 @@ void StPicoEventMixer::mixEvents() {
 
                 int ii=0;
                 float ntVar[23];
-                ntVar[ii++] = pion.gPt();
-                ntVar[ii++] = pion.gPtot();
+                ntVar[ii++] = pion.pPt();
+                ntVar[ii++] = pion.pPtot();
                 ntVar[ii++] = pair->particle1Dca();
                 ntVar[ii++] = pion.nSigmaPion();
                 ntVar[ii++] = pion.nHitsFit();
                 ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion); //probably not working now, you are in weong event, so calc. for TOF traits is not right
-                ntVar[ii++] = kaon.gPt();
-                ntVar[ii++] = kaon.gPtot();
+                ntVar[ii++] = kaon.pPt();
+                ntVar[ii++] = kaon.pPtot();
                 ntVar[ii++] = pair->particle2Dca();
                 ntVar[ii++] = kaon.nSigmaKaon();
                 ntVar[ii++] = kaon.nHitsFit();
@@ -248,9 +248,9 @@ void StPicoEventMixer::fillNtpMixedEvtPair(float ntVar[], int charge) {
 //            case StHFCuts::kPion:   trk = evt->pionAt(i);
 //                break;
 //        }
-//        const float eta = trk.gMom().pseudoRapidity();
-//        const float phi = trk.gMom().phi();
-//        const float pt = trk.gMom().perp();
+//        const float eta = trk.pMom().pseudoRapidity();
+//        const float phi = trk.pMom().phi();
+//        const float pt = trk.pMom().perp();
 //        const float dca  = (trk.origin() - evt->vertex()).Mag();
 //
 ////        etaPhiHist->Fill(phi,eta,weight);

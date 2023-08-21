@@ -33,7 +33,7 @@ StMixerPair::StMixerPair(StPicoTrack const&  particle1, StPicoTrack const& parti
                          TVector3 const& vtx1, TVector3 const& vtx2, float const bField) :  mLorentzVector(TLorentzVector()), mDecayVertex(TVector3()),
     mPointingAngle(std::numeric_limits<float>::quiet_NaN()), mDecayLength(std::numeric_limits<float>::quiet_NaN()),
     mParticle1Dca(std::numeric_limits<float>::quiet_NaN()), mParticle2Dca(std::numeric_limits<float>::quiet_NaN()),
-    mParticle1Mom(particle1.gMom()), mParticle2Mom(particle2.gMom()),
+    mParticle1Mom(particle1.pMom()), mParticle2Mom(particle2.pMom()),
     mDcaDaughters(std::numeric_limits<float>::max()), mCosThetaStar(std::numeric_limits<float>::quiet_NaN()) {
     // -- Create pair out of 2 tracks
     //     prefixes code:
@@ -43,8 +43,8 @@ StMixerPair::StMixerPair(StPicoTrack const&  particle1, StPicoTrack const& parti
 
     TVector3 dVtx = vtx1 -vtx2;
 
-    StPicoPhysicalHelix p1Helix(particle1.gMom(), particle1.origin(),bField*kilogauss, particle1.charge());
-    StPicoPhysicalHelix p2Helix(particle2.gMom(), particle2.origin() + dVtx, bField*kilogauss,  particle2.charge());
+    StPicoPhysicalHelix p1Helix(particle1.pMom(), particle1.origin(),bField*kilogauss, particle1.charge());
+    StPicoPhysicalHelix p2Helix(particle2.pMom(), particle2.origin() + dVtx, bField*kilogauss,  particle2.charge());
 //    StPhysicalHelixD p1Helix = particle1->helix(bField);
 //    StPhysicalHelixD p2Helix = particle2->helix(bField);
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 cd workDir
 productionId=`date +%F_%H-%M`_SIM
-analyzer="palsp"
+analyzer="lkramarik"
 
 mkdir $productionId
 cd $productionId

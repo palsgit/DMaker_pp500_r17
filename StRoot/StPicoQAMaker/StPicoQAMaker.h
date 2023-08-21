@@ -20,7 +20,6 @@
 
 #include "TH1F.h"
 #include "TH3F.h"
-#include "TProfile.h"
 #include <ctime>
 
 class StPicoDst;

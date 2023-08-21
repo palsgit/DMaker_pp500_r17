@@ -1,3 +1,4 @@
+
 #ifndef __CINT__
 #include "TROOT.h"
 #include "TSystem.h"
@@ -54,17 +55,17 @@ void runPicoD0AnaMaker(
     //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
     hfCuts->showTriggers();
-    hfCuts->setnMatchedFast(2);
-    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setnMatchedFast(0);
+    hfCuts->setCutVzVpdVzMax(10.);
     hfCuts->setCutVzMax(50.);
 
     //track cuts
     hfCuts->setCutNHitsFitMin(17);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
-    hfCuts->setCutPtMin(0.16);
-    hfCuts->setCutEtaMax(1.2);
-    hfCuts->setCutEtaMin(-1.0);
+    hfCuts->setCutPtMin(0.20);
+    hfCuts->setCutEtaMax(1000.0);
+    hfCuts->setCutEtaMin(-1000.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
     
@@ -79,10 +80,10 @@ void runPicoD0AnaMaker(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPionMax(4.0);
-    hfCuts->setCutTPCNSigmaPionMin(-3.5);
-    hfCuts->setCutTPCNSigmaKaonMax(4.0);
-    hfCuts->setCutTPCNSigmaKaonMin(-3.0);
+    hfCuts->setCutTPCNSigmaPionMax(2.0);
+    hfCuts->setCutTPCNSigmaPionMin(-2.0);
+    hfCuts->setCutTPCNSigmaKaonMax(2.0);
+    hfCuts->setCutTPCNSigmaKaonMin(-2.0);
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
@@ -102,8 +103,7 @@ void runPicoD0AnaMaker(
     hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     hfCuts->setHybridTofBetterBetaCutsPion(false); ////
     
-    hfCuts->setHybridTofWithBEMC(true);
-    
+    hfCuts->setHybridTofWithBEMC(false);
 
 //
     float dcaDaughtersMax = 10.;  // maximum toto ide

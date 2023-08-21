@@ -450,6 +450,7 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
 bool StPicoCutsBase::isTOFPionCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const {
     if (tofBeta <= 0) {return false;}
     //////double ptot    = trk->gPtot();
+    bool tofpion = false;
     double ptot    = trk->pPtot();
     float betaInv = ptot / sqrt(ptot*ptot + mHypotheticalMass2[pidFlag]);
   /*  float pion_higher = 6-8/3*ptot;
@@ -467,11 +468,13 @@ bool StPicoCutsBase::isTOFPionCutOK(StPicoTrack const *trk, float const & tofBet
 
 
     if(ptot<1.5) {
-        return ((1 / tofBeta - 1 / betaInv) / 0.011 < pion_higher && (1 / tofBeta - 1 / betaInv) / 0.011 > pion_lower);
+        tofpion =  ((1 / tofBeta - 1 / betaInv) / 0.011 < pion_higher && (1 / tofBeta - 1 / betaInv) / 0.011 > pion_lower);
     }
     if(ptot>1.5) {
-        return ((1 / tofBeta - 1 / betaInv) / 0.011 < 3 && (1 / tofBeta - 1 / betaInv) / 0.011 > -3);
+        tofpion =  ((1 / tofBeta - 1 / betaInv) / 0.011 < 3 && (1 / tofBeta - 1 / betaInv) / 0.011 > -3);
     }
+
+    return tofpion;
 
 
     }
@@ -550,12 +553,12 @@ bool StPicoCutsBase::isTOFKaonCutOK(StPicoTrack const *trk, float const & tofBet
     /////float f_res = 1.12190e+00 + 1.04744e-01/pow((ptot - 1.41968e-01),1.37291e+00);  //sigma
     /////float f_pos = 7.84921e-02 + 4.22205e-04/pow((ptot + 6.17544e-02),6.95657e+00);  //mean
 
-    float f_res =  1.09889 + 0.0115498/pow((ptot + 0.0612253), 4.39129);  //sigma
-    float f_pos = 0.0345587 + 0.513216/pow((ptot + 0.682501), 14.3189);  //mean
+    float f_res =  1.07078 + 0.0194723/pow((ptot + 0.0183138), 3.41348);  //sigma
+    float f_pos = 0.0283416 + 0.00230815/pow((ptot + 0.0270787), 4.96298);  //mean
 
 
-    float kaon_higher = 2.0*f_res + f_pos;
-    float kaon_lower = -1.15*f_res + f_pos;
+    float kaon_higher = 1.8*f_res + f_pos;
+    float kaon_lower = -1.2*f_res + f_pos;
 
 
     return ( (1/tofBeta - 1/betaInv)/0.012 < kaon_higher && (1/tofBeta - 1/betaInv)/0.012 > kaon_lower );

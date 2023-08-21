@@ -23,8 +23,8 @@ void OneOverbeta()
     TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
     TH2D *h_OneOverBetaDiffK_TPC = (TH2D*) list1->FindObject("h_OneOverBetaDiffK_TPC");
     h_OneOverBetaDiffK_TPC->SetTitle("nSigmaTOF_Kaon; p [GeV]; n#sigma_{K}^{TOF}; Counts");
-    /////TH2D *h_QA_OneOverBetaDiffPion = (TH2D*) list1->FindObject("h_QA_OneOverBetaDiffPion");
-    /////h_QA_OneOverBetaDiffPion->SetTitle("nSigmaTOF_Pion; p [GeV]; n#sigma_{#pi}^{TOF}; Counts");
+    TH2D *h_OneOverBetaDiffPi_TPC = (TH2D*) list1->FindObject("h_OneOverBetaDiffPi_TPC");
+    h_OneOverBetaDiffPi_TPC->SetTitle("nSigmaTOF_Pion; p [GeV]; n#sigma_{#pi}^{TOF}; Counts");
 
     h_OneOverBetaDiffK_TPC->GetXaxis()->SetRangeUser(0.2, 3.5);
 
@@ -191,7 +191,7 @@ canvas->SaveAs("fitted_slices.pdf");
   ////TFile* dataRes = new TFile("Projections.root","RECREATE");
      
     h_OneOverBetaDiffK_TPC->Write();
-    ////h_QA_OneOverBetaDiffPion->Write();
+    h_OneOverBetaDiffPi_TPC->Write();
     dataRes->Close();
     file1->Close();
 

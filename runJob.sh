@@ -1,7 +1,7 @@
 #!/bin/bash
 cd workDir
-productionId=`date +%F_%H-%M`_D0_my_cuts_whole_events
-analyzer="palsp"
+productionId=`date +%F_%H-%M`_D0
+analyzer="svomich"
 
 mkdir $productionId
 cd $productionId

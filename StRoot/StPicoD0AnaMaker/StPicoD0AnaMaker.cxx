@@ -211,8 +211,8 @@ int StPicoD0AnaMaker::InitHF() {
 
 
     mOutFileBaseName = mOutFileBaseName.ReplaceAll(".root", "");
-    TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC";
-    TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC";
+    TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
+    TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
     ////TString ntpVars3 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_nSigma:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:pi2_pt:pi2_p:pi2_nSigma:pi2_nHitFit:pi2_TOFinvbeta:pi2_betaBase:pi2_charge:primVz:primVzVpd:Dstar_pt:Dstar_mass:D_rapidity:triplet_pair";
 
 //    ntp_kaon = new TNtuple("ntp_kaon", "kaon tree","k_pt:k_phi:k_eta:k_nSigma:k_nHitFit:k_TOFinvbeta:pi_eventId:pi_runId");
@@ -813,6 +813,9 @@ int StPicoD0AnaMaker::createCandidates() {
 
             ntVar[ii++] = VzVPD_VzTPC;
 
+            ntVar[ii++] = pair->phi();
+            ntVar[ii++] = pair->eta();
+
             const int nNtVars2 = ntp_DMeson_Rotated->GetNvar();
             float ntVar2[nNtVars2];
             int iiii=0;
@@ -863,6 +866,9 @@ int StPicoD0AnaMaker::createCandidates() {
             ntVar2[iiii++] = rotpair->rapidity();
 
             ntVar2[iiii++] = VzVPD_VzTPC;
+
+            ntVar2[iiii++] = rotpair->phi();
+            ntVar2[iiii++] = rotpair->eta();
 
 
 

@@ -57,44 +57,59 @@ void runQAAnaMakerLocal(
     StHFCuts* hfCuts = new StHFCuts("hfBaseCuts");
 
     hfCuts->setBadRunListFileName(badRunListFileName);
+    
+    //event cuts
     hfCuts->addTriggerId(570001); //VPDMB-30
+    hfCuts->showTriggers();
+    hfCuts->setnMatchedFast(0);
+    hfCuts->setCutVzVpdVzMax(10.);
+    hfCuts->setCutVzMax(50.);
 
-
-    hfCuts->setCutPrimaryDCAtoVtxMax(1.5);
-    hfCuts->setCutVzMax(30.);
-    hfCuts->setCutVzVpdVzMax(100.);
-    hfCuts->setCutNHitsFitMin(20);
+    //track cuts
+    hfCuts->setCutNHitsFitMin(17);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
-    hfCuts->setCutRequireHFT(false);
-    hfCuts->setHybridTof(false); // Does nothing (Proton PID)
-    hfCuts->setHybridTofKaon(true);
-    hfCuts->setHybridTofPion(true);
-    hfCuts->setCheckHotSpot(false);
+    hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
+    hfCuts->setCutPtMin(0.20);
+    hfCuts->setCutEtaMax(1000.0);
+    hfCuts->setCutEtaMin(-1000.0);
+    
+    /////hfCuts->setCutVzVpdVzMax(100.);
+    
+    
+    
+    /*
+    hfCuts->setCutRequireHFT(false); //// Usable only for d+Au analysis
+    hfCuts->setHybridTof(false); //// Does nothing (Proton PID)
+    */
+    hfCuts->setHybridTofKaon(false); //// This cut and the one below work for the analysis without BEMC
+    hfCuts->setHybridTofPion(false); ////
+    ///hfCuts->setCheckHotSpot(false);
+    
 
-    hfCuts->setCutTPCNSigmaPion(3.0);
-    hfCuts->setCutTPCNSigmaKaon(2.0);
-//    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
-//    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
-//    hfCuts->setCutPtMin(0.15);
+    hfCuts->setCutTPCNSigmaPionMax(2.0);
+    hfCuts->setCutTPCNSigmaPionMin(-2.0);
+    hfCuts->setCutTPCNSigmaKaonMax(2.0);
+    hfCuts->setCutTPCNSigmaKaonMin(-2.0);
 
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
-    hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
+    //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
+    //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
+    
+    
+    hfCuts->setCutTOFNSigmaPionMax(2.2);
+    hfCuts->setCutTOFNSigmaPionMin(-2.0);
+    /*hfCuts->setCutTOFNSigmaKaon(3.0);
+    hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
+    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
+    
+
+    
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
-    hfCuts->setHybridTofBetterBetaCutsKaon(true);
-    hfCuts->setHybridTofBetterBetaCutsPion(false);
-
-    //Single track pt
-    hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kPion); //0.2 , 50.0
-    hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kKaon); //0.2, 50.0
-    //TPC setters
-    hfCuts->setCutTPCNSigmaPion(10.); //3
-    hfCuts->setCutTPCNSigmaKaon(10.); //3
-    //TOF setters, need to set pt range as well
-    hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kKaon); // v podstate 5 sigma; nastavene = f * (sigmaTOF), sigma TOF je 0.013
-    hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kKaon);
-    hfCuts->setCutTOFDeltaOneOverBeta(0.1, StHFCuts::kPion); // v podstate 6 sigma
-    hfCuts->setCutPtotRangeHybridTOF(0.2,50.0,StHFCuts::kPion);
+    */
+    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setHybridTofBetterBetaCutsPion(false); ////
+    
+    hfCuts->setHybridTofWithBEMC(false);
 
 
     float dcaDaughtersMax = 0.2;  // maximum
