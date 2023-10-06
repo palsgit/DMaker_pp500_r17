@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "runPicoMixedEventLocal.C": "cpp"
+        "runPicoMixedEventLocal.C": "cpp",
+        "runPicoD0AnaMaker.C": "cpp",
+        "runPicoD0AnaMakerLocal.C": "cpp",
+        "runQAAnaMakerLocal.C": "cpp",
+        "runPicoMixedEvent.C": "cpp"
     }
 }

@@ -59,14 +59,15 @@ void runPicoD0AnaMakerLocal(
     hfCuts->setnMatchedFast(0);
     hfCuts->setCutVzVpdVzMax(10.);
     hfCuts->setCutVzMax(50.);
+    hfCuts->setCutVrMax(0.25);
 
     //track cuts
     hfCuts->setCutNHitsFitMin(17);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
     hfCuts->setCutPtMin(0.20);
-    hfCuts->setCutEtaMax(1000.0);
-    hfCuts->setCutEtaMin(-1000.0);
+    hfCuts->setCutEtaMax(1.0);
+    hfCuts->setCutEtaMin(-1.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
     
@@ -81,17 +82,17 @@ void runPicoD0AnaMakerLocal(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPionMax(2.0);
-    hfCuts->setCutTPCNSigmaPionMin(-2.0);
-    hfCuts->setCutTPCNSigmaKaonMax(2.0);
-    hfCuts->setCutTPCNSigmaKaonMin(-2.0);
+    hfCuts->setCutTPCNSigmaPionMax(2.4);
+    hfCuts->setCutTPCNSigmaPionMin(-2.4);
+    hfCuts->setCutTPCNSigmaKaonMax(2.4);
+    hfCuts->setCutTPCNSigmaKaonMin(-2.4);
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPionMax(2.2);
-    hfCuts->setCutTOFNSigmaPionMin(-2.0);
+    hfCuts->setCutTOFNSigmaPionMax(2.4);
+    hfCuts->setCutTOFNSigmaPionMin(-1.6);
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -108,7 +109,7 @@ void runPicoD0AnaMakerLocal(
     
 
 //
-    float dcaDaughtersMax = 10.;  // maximum toto ide
+   /* float dcaDaughtersMax = 10.;  // maximum toto ide
     float decayLengthMin  = 0.00000000; // minimum
     float decayLengthMax  = 9999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
     float cosThetaMin     = -20.;   // minimum
@@ -117,6 +118,7 @@ void runPicoD0AnaMakerLocal(
     float pairDcaMax      = 99.9;
 
     hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
+    */
 
 /*    hfCuts->setCutSecondaryPairPtBin(1,      2,              0.007,          0.012,         0.5,      0.005,    0.009, 0.007);
     hfCuts->setCutSecondaryPairPtBin(2,      3,              0.016,          0.003,         0.5,      0.0065,   0.009, 0.01);

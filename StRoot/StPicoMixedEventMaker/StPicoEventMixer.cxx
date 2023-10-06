@@ -11,6 +11,7 @@
 #include "StPicoEvent/StPicoEvent.h"
 #include "StPicoEvent/StPicoTrack.h"
 #include "StPicoEvent/StPicoDst.h"
+#include "StPicoEvent/StPicoBTofPidTraits.h"
 
 #include "StPicoMixedEventMaker/StPicoMixedEventMaker.h"
 #include "StPicoMixedEventMaker/StMixerEvent.h"
@@ -27,11 +28,11 @@ ClassImp(StPicoEventMixer)
 
 //-----------------------------------------------------------
 StPicoEventMixer::StPicoEventMixer(char* category):
-//        mEvents(),
+          mEvents(),
 //        mHists(NULL),
-//        mHFCuts(NULL),
+       mHFCuts(NULL),
         mEventsBuffer(10),
-//        filledBuffer(0),
+        filledBuffer(0),
         mSETupleSig(NULL),
         mSETupleBack(NULL),
         mMETupleSig(NULL),
@@ -62,6 +63,9 @@ bool StPicoEventMixer::addPicoEvent(StPicoDst const* const picoDst, float weight
     StMixerEvent* event = new StMixerEvent(pVertex, picoDst->event()->bField());
     event->addPicoEvent(*(picoDst->event()));
 
+    ///TH1F *h_tofnsigma_pion;
+    ////TH1F *h_tofnsigma_kaon;
+
 
 
     for(unsigned int iTrk = 0; iTrk < nTracks; ++iTrk) {
@@ -70,15 +74,21 @@ bool StPicoEventMixer::addPicoEvent(StPicoDst const* const picoDst, float weight
 
 
         if(mHFCuts->isGoodPion(trk)) {
+            if (trk->dEdx() != 0 ){
             saveTrack = true;
             event->addPion(event->getNoTracks());
-
+            /////h_tofnsigma_pion->Fill(picoDst->btofPidTraits(trk->bTofPidTraitsIndex())->nSigmaPion());
+            }
+           
         }
 
         if(mHFCuts->isGoodKaon(trk)) {
+            if (trk->dEdx() != 0 ){
             saveTrack = true;
             event->addKaon(event->getNoTracks());
+            ////h_tofnsigma_kaon->Fill(picoDst->btofPidTraits(trk->bTofPidTraitsIndex())->nSigmaKaon());
 //            cout<<mHFCuts->getOneOverBeta(trk, mHFCuts->getTofBetaBase(trk), StPicoCutsBase::kKaon)<<endl;
+            }
         }
 
         if(saveTrack){
@@ -95,7 +105,8 @@ bool StPicoEventMixer::addPicoEvent(StPicoDst const* const picoDst, float weight
 
     }
 
-
+    ///h_tofnsigma_pion->Write();
+    ///h_tofnsigma_kaon->Write();
 
 
     //Returns true if need to do mixing, false if buffer has space still
@@ -135,35 +146,51 @@ void StPicoEventMixer::mixEvents() {
                                  mHFCuts->getHypotheticalMass(StHFCuts::kPion),
                                  mHFCuts->getHypotheticalMass(StHFCuts::kKaon),
                                  mEvents.at(0)->vertex(), mEvents.at(iEvt2)->vertex(),
-                                 mEvents.at(0)->field() );
+                                 mEvents.at(0)->field());
 
-                if (!isCloseMixerPair(pair)) continue;
+                ////if (!isCloseMixerPair(pair)) continue;
 
                 int ii=0;
-                float ntVar[23];
+                const int nNtVars = mMETupleSig->GetNvar();
+                float ntVar[nNtVars];
+
                 ntVar[ii++] = pion.pPt();
                 ntVar[ii++] = pion.pPtot();
                 ntVar[ii++] = pair->particle1Dca();
                 ntVar[ii++] = pion.nSigmaPion();
+                ntVar[ii++] = (float)((float) pion.nHitsFit()/(float) pion.nHitsMax());;
                 ntVar[ii++] = pion.nHitsFit();
-                ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion); //probably not working now, you are in weong event, so calc. for TOF traits is not right
+                ntVar[ii++] = mHFCuts->getnSigmaTOF(&pion, StPicoCutsBase::kPion);
+                ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion);//probably not working now, you are in weong event, so calc. for TOF traits is not right
+                ntVar[ii++] = mHFCuts->getTofBetaBase(&pion);
+                ntVar[ii++] = pion.charge();
+                ntVar[ii++] = pion.pMom().PseudoRapidity();
+
                 ntVar[ii++] = kaon.pPt();
                 ntVar[ii++] = kaon.pPtot();
                 ntVar[ii++] = pair->particle2Dca();
                 ntVar[ii++] = kaon.nSigmaKaon();
+                ntVar[ii++] = (float)((float)kaon.nHitsFit()/(float)kaon.nHitsMax());
                 ntVar[ii++] = kaon.nHitsFit();
+                ntVar[ii++] = mHFCuts->getnSigmaTOF(&kaon, StPicoCutsBase::kKaon);
                 ntVar[ii++] = mHFCuts->getOneOverBeta(&kaon, mHFCuts->getTofBetaBase(&kaon), StPicoCutsBase::kKaon);
+                ntVar[ii++] = mHFCuts->getTofBetaBase(&kaon);
+                ntVar[ii++] = kaon.charge();
+                ntVar[ii++] = kaon.pMom().PseudoRapidity();
+
                 ntVar[ii++] = pair->dcaDaughters();
-                ntVar[ii++] = pair->rapidity();
+                
                 ntVar[ii++] = pair->pointingAngle();
                 ntVar[ii++] = cos(pair->pointingAngle());
                 ntVar[ii++] = pair->decayLength();
                 ntVar[ii++] = pair->DcaToPrimaryVertex(); //(pair->decayLength())*sin(pair->pointingAngle());
-                ntVar[ii++] = pair->phi();
-                ntVar[ii++] = pair->eta();
                 ntVar[ii++] = pair->cosThetaStar();
                 ntVar[ii++] = pair->pt();
                 ntVar[ii++] = pair->m();
+                ntVar[ii++] = pair->rapidity();
+
+                ntVar[ii++] = pair->phi();
+                ntVar[ii++] = pair->eta();
 
 
 

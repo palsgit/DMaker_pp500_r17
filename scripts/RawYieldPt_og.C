@@ -1,7 +1,6 @@
 Double_t bgfitfunction(Double_t *x, Double_t *par)
 	{
-		if (x[0] > 1.82 && x[0] < 1.92) {
-			////if (x[0] > 1.84 && x[0] < 1.92) {
+		if (x[0] > 1.83 && x[0] < 1.89) {
 			TF1::RejectPoint();
 			return 0;
 		}
@@ -61,7 +60,7 @@ Double_t fitFunction(Double_t *x, Double_t *par) {
 void PlotLine(Double_t x1_val, Double_t x2_val, Double_t y1_val,
               Double_t y2_val, Int_t Line_Col, Int_t LineWidth, Int_t LineStyle);
 
-void RawYieldPt_minus(float pT1, float pT2, int rebin) {
+void RawYieldPt_og(float pT1, float pT2, int rebin) {
 	
 	float x1,x2,xs1,xs2,lowEdge,highEdge,normEdge1,normEdge2,ptBin1,ptBin2;
 	int nBinsInvMass;
@@ -198,18 +197,18 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	RotateBg->SetLineColor(8);
 	RotateBg->SetLineWidth(2);
 	RotateBg->Draw("hist C same");	
-	leg->AddEntry(Unlike,"Unlike-Sign (left scale)","pf");
+	leg->AddEntry(Unlike,"Unlike sign","pf");
 //	leg->AddEntry(MixedBg,"Mixed","l");
-	leg->AddEntry(LikeBg,"Like-Sign (left scale)","l");
-	leg->AddEntry(RotateBg,"Rotated Momentum (left scale)","l");
+	leg->AddEntry(LikeBg,"Like sign","l");
+	leg->AddEntry(RotateBg,"Rotated","l");
 	
 	
 	
 	// **************************************************************************************************************
 	// ************************************************ Mixed Event *************************************************
 	// **************************************************************************************************************
-	x1 = 1.75;
-	x2 = 2.05;	
+	x1 = 1.7;
+	x2 = 2.1;	
 	nBinsInvMass = MixedBg->GetNbinsX();
 	lowEdge = MixedBg->GetBinLowEdge(1);
 	highEdge = MixedBg->GetBinLowEdge(nBinsInvMass+1);
@@ -234,8 +233,8 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	D0_mixed->SetFillColor(2);
 	
 	TF1 *fOutskirt = new TF1("fOutskirt",bgfitfunction,x1,x2,4);
-	//////fOutskirt->FixParameter(3,0.);
-	//////fOutskirt->FixParameter(2,0.);
+	fOutskirt->FixParameter(3,0.);
+	fOutskirt->FixParameter(2,0.);
 	D0_mixed->Fit("fOutskirt","N","",x1,x2);
 	cout<<"*****************************************************************************"<<endl;
 	cout<<"Mixed residual bg chisquare/ndf="<<fOutskirt->GetChisquare()<<"/"<<fOutskirt->GetNDF()<<endl;
@@ -308,8 +307,8 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	// **************************************************************************************************************
 	// ********************************************* Rotated momentum ***********************************************
 	// **************************************************************************************************************	
-	x1 = 1.75;
-	x2 = 2.05;
+	x1 = 1.72;
+	x2 = 2.1;
 //    xs1 = 1.8;
 //    xs2 = 1.92;
 	TCanvas *c3 = new TCanvas("c3");
@@ -366,7 +365,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 //	}
 	
 	rotClon->SetTitle("");
-	/////rotClon->Draw();
+	rotClon->Draw();
 	rotClon->GetXaxis()->SetTitle("m_{K#pi} [GeV/c^{2}]");
 	rotClon->SetMarkerStyle(8);
 	rotClon->GetXaxis()->SetRangeUser(x1,x2);
@@ -390,39 +389,11 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 //	fSignalRotate->FixParameter(6,0.10);
 //	fSignalRotate->FixParameter(0,par[0]);
 //	fSignalRotate->FixParameter(1,par[1]);
-	//////fSignalRotate->FixParameter(2,par[2]);
-	//////fSignalRotate->FixParameter(3,par[3]);
-	///rotClon->Fit("fSignalRotate","","N",x1,x2);
+	fSignalRotate->FixParameter(2,par[2]);
+	fSignalRotate->FixParameter(3,par[3]);
+	rotClon->Fit("fSignalRotate","","N",xs1,xs2);
 	fSignalRotate->SetLineColor(kGreen+2);
-	
-
-	TF1 *fbackgroundrot = new TF1("fbackgroundrot",parabola,x1,x2,4);
-	fbackgroundrot->FixParameter(0,fOutskirt->GetParameter(0));
-	fbackgroundrot->FixParameter(1,fOutskirt->GetParameter(1));
-	fbackgroundrot->FixParameter(2,fOutskirt->GetParameter(2));
-	fbackgroundrot->FixParameter(3,fOutskirt->GetParameter(3));
-
-	for (int bin = 1; bin <= rotClon->GetNbinsX(); ++bin)
-    {
-        double invariantMass = rotClon->GetBinCenter(bin);
-        double background = fbackgroundrot->Eval(invariantMass);
-
-		if (background < 0) continue; 
-
-		cout << "background" << "    " << background << "   " << invariantMass << endl;
-		////double background = 0.0;
-        double subtractedValue = rotClon->GetBinContent(bin) - background;
-        ////if (subtractedValue < 0) subtractedValue = 0; // Ensure the result is non-negative
-        rotClon->SetBinContent(bin, subtractedValue);
-    }
-	
-    ////rotClon->SetLineColor(kBlack);
-	////rotClon->SetMarkerColor(kBlack);
-	rotClon->Fit("fSignalRotate","","N",x1,x2);
-    fSignalRotate->Draw("same");
-
-	
-
+	fSignalRotate->Draw("same");
 	signal = fSignalRotate->GetParameter(4)/rotClon->GetBinWidth(1);
 	signalerror = fSignalRotate->GetParError(4)/rotClon->GetBinWidth(1);
 	sprintf(parstring,"RwYld = %.0f #pm %.0f",signal,signalerror);
@@ -444,37 +415,16 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	tl.SetTextColor(1);
 	sprintf(parstring,"p_{T} = %.1f:%.1f [GeV/c]",pT1,pT2);
 	tl.DrawLatex(0.05,0.25,parstring);
-	//////sprintf(parstring,"dm_{K#pi} = %.3f [GeV/c^{2}]",rotClon->GetBinWidth(1));
-	//////tl.DrawLatex(0.05,0.1,parstring);
-
-	float x1a = (fSignalRotate->GetParameter(5) - (3*fSignalRotate->GetParameter(6)));
-	float x2a = (fSignalRotate->GetParameter(5) + (3*fSignalRotate->GetParameter(6)));
-
-	int x1aBin = rotClon->FindBin(x1a);
-	int x2aBin = rotClon->FindBin(x2a);
-
-	double residual = (fbackgroundrot->Integral(x1a,x2a));
-	if (residual < 0) residual == 0;
-
-	float sg = (rotClon->Integral(x1aBin,x2aBin))/sqrt(((RotateBg->Integral(x1aBin,x2aBin))) + ((rotClon->Integral(x1aBin,x2aBin))) + residual);
-
-
-	cout << (D0_Rotate->Integral(x1aBin,x2aBin)) << endl;
-	cout << (RotateBg->Integral(x1aBin,x2aBin)) << endl;
-    
-	cout << (rotClon->Integral(x1aBin,x2aBin))/sqrt(((RotateBg->Integral(x1aBin,x2aBin))) + ((rotClon->Integral(x1aBin,x2aBin)))) << "     " << "significance"<< endl;	
-	
-	sprintf(parstring,"sg = %.3f",sg);
+	sprintf(parstring,"dm_{K#pi} = %.3f [GeV/c^{2}]",rotClon->GetBinWidth(1));
 	tl.DrawLatex(0.05,0.1,parstring);
-
 	
-
+	
 	
 	// **************************************************************************************************************
 	// ********************************************* Like sign ***********************************************
 	// **************************************************************************************************************	
-	x1 = 1.75;
-	x2 = 2.05;
+	x1 = 1.72;
+	x2 = 2.1;
 //    xs1=1.8;
 //    xs2=1.92;
 	TCanvas *c4 = new TCanvas("c4");
@@ -533,7 +483,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 //		likeClon->SetBinError(i+2,0);
 //	}
 	likeClon->SetTitle("");
-	///likeClon->Draw();
+	likeClon->Draw();
 	likeClon->GetXaxis()->SetTitle("m_{K#pi} [GeV/c^{2}]");
 	likeClon->SetMarkerStyle(8);
 	likeClon->GetXaxis()->SetRangeUser(x1,x2);
@@ -560,35 +510,9 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 //	fSignalLike->FixParameter(1,par[1]);
 	fSignalLike->FixParameter(2,par[2]);
 	fSignalLike->FixParameter(3,par[3]);
-	////////likeClon->Fit("fSignalLike","","N",xs1,xs2);
+	likeClon->Fit("fSignalLike","","N",xs1,xs2);
 	fSignalLike->SetLineColor(4);
-	/////fSignalLike->Draw("same");
-
-
-	TF1 *fbackgroundlike = new TF1("fbackgroundlike",parabola,x1,x2,4);
-	fbackgroundlike->FixParameter(0,fOutskirt->GetParameter(0));
-	fbackgroundlike->FixParameter(1,fOutskirt->GetParameter(1));
-	fbackgroundlike->FixParameter(2,fOutskirt->GetParameter(2));
-	fbackgroundlike->FixParameter(3,fOutskirt->GetParameter(3));
-
-	for (int bin = 1; bin <= likeClon->GetNbinsX(); ++bin)
-    {
-        double invariantMass = likeClon->GetBinCenter(bin);
-        double background = fbackgroundlike->Eval(invariantMass);
-
-		if (background < 0) continue; 
-
-		cout << "background" << "    " << background << "   " << invariantMass << endl;
-		////double background = 0.0;
-        double subtractedValue = likeClon->GetBinContent(bin) - background;
-        ////if (subtractedValue < 0) subtractedValue = 0; // Ensure the result is non-negative
-        likeClon->SetBinContent(bin, subtractedValue);
-    }
-	
-    ////rotClon->SetLineColor(kBlack);
-	////rotClon->SetMarkerColor(kBlack);
-	likeClon->Fit("fSignalLike","","N",x1,x2);
-    fSignalLike->Draw("same");
+	fSignalLike->Draw("same");
 	signal = fSignalLike->GetParameter(4)/likeClon->GetBinWidth(1);
 	signalerror = fSignalLike->GetParError(4)/likeClon->GetBinWidth(1);
 	sprintf(parstring,"RwYld = %.0f #pm %.0f",signal,signalerror);
@@ -610,27 +534,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	tl.SetTextColor(1);
 	sprintf(parstring,"p_{T} = %.1f:%.1f [GeV/c]",pT1,pT2);
 	tl.DrawLatex(0.05,0.25,parstring);
-	/////sprintf(parstring,"dm_{K#pi} = %.3f [GeV/c^{2}]",likeClon->GetBinWidth(1));
-	/////tl.DrawLatex(0.05,0.1,parstring);
-
-	x1a = (fSignalLike->GetParameter(5) - (3*fSignalLike->GetParameter(6)));
-	x2a = (fSignalLike->GetParameter(5) + (3*fSignalLike->GetParameter(6)));
-
-	x1aBin = likeClon->FindBin(x1a);
-	x2aBin = likeClon->FindBin(x2a);
-
-	sg = (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBin))) + ((likeClon->Integral(x1aBin,x2aBin))) + residual);
-
-	///////sprintf(parstring,"sg = %.3f",sg);
-	///////tl.DrawLatex(0.05,0.1,parstring);
-
-cout << (likeClon->Integral(x1aBin,x2aBin)) << endl;
-cout << (D0_Like->Integral(x1aBin,x2aBin)) << endl;
-	cout << (LikeBg->Integral(x1aBin,x2aBin)) << endl;
-
-cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBin))) + ((D0_Like->Integral(x1aBin,x2aBin)))) << "     " << "significance"<< endl;	
-	
-	sprintf(parstring,"sg = %.3f",sg);
+	sprintf(parstring,"dm_{K#pi} = %.3f [GeV/c^{2}]",likeClon->GetBinWidth(1));
 	tl.DrawLatex(0.05,0.1,parstring);
 
 	TCanvas *c20 = new TCanvas("c20");
@@ -689,7 +593,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 //	gPad->SetBottomMargin(0.2);
 //	gPad->SetLeftMargin(0.15);
 	rotClon->SetTitle("After Rotated bg. subtracted");
-	rotClon->GetXaxis()->SetRangeUser(1.75,2.05);
+	rotClon->GetXaxis()->SetRangeUser(1.73,2.05);
 	rotClon->GetYaxis()->SetRangeUser(-1200,3500);
 	rotClon->GetYaxis()->SetTitle("Raw Yield (/0.01 GeV/c^{2})");
 	rotClon->GetYaxis()->SetTitleOffset(1.4);
@@ -701,7 +605,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	rotClon->GetXaxis()->SetLabelFont(42);
 	rotClon->GetYaxis()->SetTitleFont(42);
 	rotClon->GetXaxis()->SetTitleFont(42);
-	rotClon->SetMarkerSize(1);
+	rotClon->SetMarkerSize(2);
 	rotClon->SetLineWidth(2);
 	//	rotClon->SetMarkerStyle(8);
 	rotClon->SetMarkerColor(kGreen+1);
@@ -715,7 +619,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	c11->SetTicky();
 	c11->SetLeftMargin(0.15);
 	likeClon->SetTitle("After Like-sign bg. subtracted");
-	likeClon->GetXaxis()->SetRangeUser(1.75,2.05);
+	likeClon->GetXaxis()->SetRangeUser(1.73,2.05);
 	likeClon->GetYaxis()->SetRangeUser(-1200,3500);
 	likeClon->GetYaxis()->SetTitle("Raw Yield (/0.01 GeV/c^{2})");
 	likeClon->GetYaxis()->SetTitleOffset(1.4);
@@ -729,7 +633,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	likeClon->GetXaxis()->SetTitleFont(42);
 	//	likeClon->SetMarkerStyle(8);
 	likeClon->SetMarkerColor(4);
-	likeClon->SetMarkerSize(1);
+	likeClon->SetMarkerSize(2);
 	likeClon->SetLineWidth(2);
 	likeClon->Draw();
 	infoLike->SetPad(0.6,0.5,1.,0.9);
@@ -760,7 +664,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	CloneR->Draw("same");
 	CloneL->Draw("same");
 
-	TGaxis* RawYieldAxis = new TGaxis(2.5,0,2.5,0.3e6,0,0.15e6,510,"+L");
+	TGaxis* RawYieldAxis = new TGaxis(2.5,0,2.5,14e4,0,7e4,510,"+L");
 	//+ : draw on positive side
 	//L : left adjusted
 	RawYieldAxis->SetName("RawYieldAxis");
@@ -771,8 +675,8 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	RawYieldAxis->SetLabelFont(42);
 	RawYieldAxis->Draw();
 
-	leg->AddEntry(CloneL,"(Unlike - Like) (right scale)","p");
-	leg->AddEntry(CloneR,"(Unlike - Rotated) (right scale)","p");
+	leg->AddEntry(CloneL,"2*(Unlike - Like)","p");
+	leg->AddEntry(CloneR,"2*(Unlike - Rotated)","p");
 
 	leg->Draw("same");
 

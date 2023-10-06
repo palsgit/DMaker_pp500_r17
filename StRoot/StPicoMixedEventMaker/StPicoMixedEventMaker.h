@@ -65,7 +65,7 @@ private:
     StPicoEvent*    mPicoEvent;         
     StHFCuts*	    mHFCuts;
 
-    StPicoEventMixer* mPicoEventMixer[10][9];
+    StPicoEventMixer* mPicoEventMixer[10][5];
 
     TString         mOuputFileBaseName; 
     int		    mBufferSize;

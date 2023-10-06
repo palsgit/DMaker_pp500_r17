@@ -8,7 +8,10 @@
 #include "phys_constants.h"
 #include "StPicoD0AnaMaker.h"
 #include "TComplex.h"
-////#include "TProfile.h"
+#include "TProfile.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "TNtuple.h"
 
 #include "Math/Vector4D.h"
 
@@ -99,23 +102,23 @@ int StPicoD0AnaMaker::InitHF() {
     //mOutList->Add(new TH1F("hNTracksGoodToFit","hNTracksGoodToFit", 8001, -0.5, 8000.5));
     
     mOutList->Add(new TH1F("hPrimVtZ", "hPrimVtZ before event selection", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY", "hPrimVtXY before event selection; #it{v}_{x}; #it{v}_{y}", 200, -2.0, 2.0, 200, -2.0, 2.0));
+    mOutList->Add(new TH2F("hPrimVtXY", "hPrimVtXY before event selection; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
     mOutList->Add(new TH2F("hVzVpdVzMax", "Vz and VzVPD before event selection; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
     mOutList->Add(new TH1F("hVzVpdVzMaxDiff", "Vz - VzVPD before event selection", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_beforematch", "hPrimVtZ before 2x matching in Fast", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_beforematch", "hPrimVtXY before 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 200, -2.0, 2.0, 200, -2.0, 2.0));
+    mOutList->Add(new TH2F("hPrimVtXY_beforematch", "hPrimVtXY before 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
     mOutList->Add(new TH2F("hVzVpdVzMax_beforematch", "Vz and VzVPD before 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
     mOutList->Add(new TH1F("hVzVpdVzMaxDiff_beforematch", "Vz - VzVPD before 2x matching in Fast", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_checkvzvpdtpc", "hPrimVtZ to check vzVPD vzTPC correlation", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_checkvzvpdtpc", "hPrimVtXY to check vzVPD vzTPC correlation; #it{v}_{x}; #it{v}_{y}", 200, -2.0, 2.0, 200, -2.0, 2.0));
+    mOutList->Add(new TH2F("hPrimVtXY_checkvzvpdtpc", "hPrimVtXY to check vzVPD vzTPC correlation; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
     mOutList->Add(new TH2F("hVzVpdVzMax_checkvzvpdtpc", "Vz and VzVPD to check vzVPD vzTPC correlation; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
     mOutList->Add(new TH1F("hVzVpdVzMaxDiff_checkvzvpdtpc", "Vz - VzVPD to check vzVPD vzTPC correlation", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_wmatch", "hPrimVtZ after 2x matching in Fast", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_wmatch", "hPrimVtXY after 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 200, -2.0, 2.0, 200, -2.0, 2.0));
+    mOutList->Add(new TH2F("hPrimVtXY_wmatch", "hPrimVtXY after 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
     mOutList->Add(new TH2F("hVzVpdVzMax_wmatch", "Vz and VzVPD after 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
     mOutList->Add(new TH1F("hVzVpdVzMaxDiff_wmatch", "Vz - VzVPD after 2x matching in Fast", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_evcut", "hPrimVtZ after event selection", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_evcut", "hPrimVtXY after event selection; #it{v}_{x}; #it{v}_{y}", 200, -2.0, 2.0, 200, -2.0, 2.0));
+    mOutList->Add(new TH2F("hPrimVtXY_evcut", "hPrimVtXY after event selection; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
     mOutList->Add(new TH2F("hVzVpdVzMax_evcut", "Vz and VzVPD after event selection; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
     mOutList->Add(new TH1F("hVzVpdVzMaxDiff_evcut", "Vz - VzVPD before event selection", 5000, -500, 500));
     
@@ -124,7 +127,8 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TH1F("h_RefMult", "RefMult distribution after event cuts; RefMult; Events", 1000, 0, 1000));
     mOutList->Add(new TH1F("h_gRefMult", "gRrefMult distribution after event cuts; gRefMult; Events", 1000, 0, 1000));
     mOutList->Add(new TH2F("h_gRefMultVsRefMult","gRefMult vs. RefMult after event selection;RefMult;gRefMult",1000,0,1000,1000,0,1000));
-    mOutList->Add(new TH2F("hTofMultVsRefMult","TofMult vs. RefMult before event selection;RefMult;TofMult",1000,0,1000,1000,0,1000));
+    mOutList->Add(new TH1F("h_TofMult_matched", "TofMult distribution after event cuts; RefMult; Events", 1000, 0, 1000));
+    /////mOutList->Add(new TH2F("hTofMultVsRefMult","TofMult vs. RefMult before event selection;RefMult;TofMult",1000,0,1000,1000,0,1000));
     mOutList->Add(new TH2F("hTofMultVsRefMult_evcut","TofMult vs. RefMult after event selection;RefMult;TofMult",1000,0,1000,1000,0,1000));
 
     mOutList->Add(new TProfile("prof_ntracksPionTPC_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 8001, -0.5, 8000.5));
@@ -166,8 +170,8 @@ int StPicoD0AnaMaker::InitHF() {
     //------------------------ Energy Loss Check----------------------------------------//
 
     mOutList->Add(new TH2F("hDedx_tr", "dE/dx after track cut;p*charge[GeV/c];dEdx", 1000, -10, 10, 5000, 0, 75));
-    mOutList->Add(new TH2D("h_nSigmadEdXPion", "n#sigma_{#pi} vs. p;p;n#sigma_{#pi}", 1000, -10, 10, 5000, -50, 50));
-	mOutList->Add(new TH2D("h_nSigmadEdXKaon", "n#sigma_{K} vs. p;p;n#sigma_{K}", 1000, -10, 10, 5000, -50, 50));
+    /////mOutList->Add(new TH2D("h_nSigmadEdXPion", "n#sigma_{#pi} vs. p;p;n#sigma_{#pi}", 1000, -10, 10, 5000, -50, 50));
+	/////mOutList->Add(new TH2D("h_nSigmadEdXKaon", "n#sigma_{K} vs. p;p;n#sigma_{K}", 1000, -10, 10, 5000, -50, 50));
     mOutList->Add(new TH2F("hPiDedx_TOF", "Pion dE/dx after TOF cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
     mOutList->Add(new TH2F("hPiDedx_TOF_TPC", "Pion dE/dx after TOF and TPC cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
     mOutList->Add(new TH2F("hKDedx_TOF", "Kaon dE/dx after TOF cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
@@ -184,20 +188,20 @@ int StPicoD0AnaMaker::InitHF() {
 
    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PID cuts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 
-    mOutList->Add(new TH2F("h_OneOverBetaDiffPi_tr", "nOneOverBetaDiffPion after track cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_OneOverBetaDiffPi_TPC", "nOneOverBetaDiffPion after TPC cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_OneOverBetaDiffPi_TOF_TPC", "nOneOverBetaDiffPion after TOF and TPC cut;p[GeV/c] ;nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_OneOverBetaDiffK_tr", "nOneOverBetaDiffKaon after track cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_OneOverBetaDiffK_TPC", "nOneOverBetaDiffKaon after TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_OneOverBetaDiffK_TOF_TPC", "nOneOverBetaDiffKaon after TOF and TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_tr", "nnSigmaOneOverBetaPion after track cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TPC", "nnSigmaOneOverBetaPion after TPC cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TOF_TPC", "nnSigmaOneOverBetaPion after TOF and TPC cut;p[GeV/c] ;nSigmaPi_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_tr", "nnSigmaOneOverBetaKaon after track cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TPC", "nnSigmaOneOverBetaKaon after TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TOF_TPC", "nnSigmaOneOverBetaKaon after TOF and TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
     
     
-    mOutList->Add(new TH2F("h_nSigmaPi_tr", "h_nSigmaPi after track cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaPi_TOF", "h_nSigmaPi after TOF cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaPi_TOF_TPC", "h_nSigmaPi after TOF and TPC cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaK_tr", "h_nSigmaK after track cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaK_TOF", "h_nSigmaK after TOF cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaK_TOF_TPC", "h_nSigmaK after TOF and TPC cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_tr", "h_nSigmadEdxPi after track cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF", "h_nSigmadEdxPi after TOF cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF_TPC", "h_nSigmadEdxPi after TOF and TPC cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_tr", "h_nSigmadEdxK after track cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF", "h_nSigmadEdxK after TOF cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF_TPC", "h_nSigmadEdxK after TOF and TPC cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
    
     mOutList->Add(new TH1F("hPionPt","hPionPt after all cuts", 200, 0, 20));
     mOutList->Add(new TH1F("hKaonPt","hKaonPt after all cuts", 200, 0, 20));
@@ -211,8 +215,8 @@ int StPicoD0AnaMaker::InitHF() {
 
 
     mOutFileBaseName = mOutFileBaseName.ReplaceAll(".root", "");
-    TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
-    TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
+    TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigmaTPC:pi1_nHitsratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigmaTPC:k_nHitsratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
+    TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigmaTPC:pi1_nHitsratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigmaTPC:k_nHitsratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
     ////TString ntpVars3 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_nSigma:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:pi2_pt:pi2_p:pi2_nSigma:pi2_nHitFit:pi2_TOFinvbeta:pi2_betaBase:pi2_charge:primVz:primVzVpd:Dstar_pt:Dstar_mass:D_rapidity:triplet_pair";
 
 //    ntp_kaon = new TNtuple("ntp_kaon", "kaon tree","k_pt:k_phi:k_eta:k_nSigma:k_nHitFit:k_TOFinvbeta:pi_eventId:pi_runId");
@@ -409,7 +413,8 @@ int StPicoD0AnaMaker::createCandidates() {
     TH1F *h_RefMult = static_cast<TH1F*>(mOutList->FindObject("h_RefMult"));
     TH1F *h_gRefMult = static_cast<TH1F*>(mOutList->FindObject("h_gRefMult"));
     TH2F *h_gRefMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("h_gRefMultVsRefMult"));
-    TH2F *hTofMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult"));
+    TH1F *h_TofMult_matched = static_cast<TH1F*>(mOutList->FindObject("h_TofMult_matched"));
+    ////TH2F *hTofMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult"));
     TH2F *hTofMultVsRefMult_evcut = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult_evcut"));
 
     TProfile *prof_nPrimaryTracks_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_nPrimaryTracks_vs_BBCx"));
@@ -432,8 +437,8 @@ int StPicoD0AnaMaker::createCandidates() {
     TH2F *h_gRefmult_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx"));
     
     TH2F *hDedx_tr = static_cast<TH2F*>(mOutList->FindObject("hDedx_tr"));
-    TH2D *h_nSigmadEdXPion = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXPion"));
-    TH2D *h_nSigmadEdXKaon = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXKaon"));
+    /////TH2D *h_nSigmadEdXPion = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXPion"));
+    /////TH2D *h_nSigmadEdXKaon = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXKaon"));
     TH2F *hPiDedx_TOF = static_cast<TH2F*>(mOutList->FindObject("hPiDedx_TOF"));
     TH2F *hKDedx_TOF = static_cast<TH2F*>(mOutList->FindObject("hKDedx_TOF"));
     TH2F *hPiDedx_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("hPiDedx_TOF_TPC"));
@@ -445,19 +450,19 @@ int StPicoD0AnaMaker::createCandidates() {
     TH2F *hPiBetavsP_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("hPiBetavsP_TOF_TPC"));
     TH2F *hKBetavsP_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("hKBetavsP_TOF_TPC"));
     
-    TH2F *h_OneOverBetaDiffPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffPi_tr"));
-    TH2F *h_OneOverBetaDiffK_tr = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffK_tr"));
-    TH2F *h_OneOverBetaDiffPi_TPC = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffPi_TPC"));
-    TH2F *h_OneOverBetaDiffK_TPC = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffK_TPC"));
-    TH2F *h_OneOverBetaDiffPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffPi_TOF_TPC"));
-    TH2F *h_OneOverBetaDiffK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBetaDiffK_TOF_TPC"));
+    TH2F *h_nSigmaOneOverBetaPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaPi_tr"));
+    TH2F *h_nSigmaOneOverBetaK_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaK_tr"));
+    TH2F *h_nSigmaOneOverBetaPi_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaPi_TPC"));
+    TH2F *h_nSigmaOneOverBetaK_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaK_TPC"));
+    TH2F *h_nSigmaOneOverBetaPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaPi_TOF_TPC"));
+    TH2F *h_nSigmaOneOverBetaK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaK_TOF_TPC"));
     
-    TH2F *h_nSigmaPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaPi_tr"));
-    TH2F *h_nSigmaK_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaK_tr"));
-    TH2F *h_nSigmaPi_TOF = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaPi_TOF"));
-    TH2F *h_nSigmaK_TOF = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaK_TOF"));
-    TH2F *h_nSigmaPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaPi_TOF_TPC"));
-    TH2F *h_nSigmaK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaK_TOF_TPC"));
+    TH2F *h_nSigmadEdxPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxPi_tr"));
+    TH2F *h_nSigmadEdxK_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxK_tr"));
+    TH2F *h_nSigmadEdxPi_TOF = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxPi_TOF"));
+    TH2F *h_nSigmadEdxK_TOF = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxK_TOF"));
+    TH2F *h_nSigmadEdxPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxPi_TOF_TPC"));
+    TH2F *h_nSigmadEdxK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxK_TOF_TPC"));
 
    //====================================================================================================// 
 
@@ -475,13 +480,17 @@ int StPicoD0AnaMaker::createCandidates() {
     Int_t ntrackKaonTOF = 0;
     Int_t ntrackPionTOF_TPC = 0;
     Int_t ntrackKaonTOF_TPC = 0;
+    TVector3 pMom;
+
+    float tofMult = 0;
     
  
     RunId = mPicoEvent->runId();
     float BBCx = mPicoEvent->BBCx() / 1000.;
     float refMult = mPicoEvent->refMult();
     float gRefMult = mPicoEvent->grefMult();
-    float tofMult = mPicoDst->numberOfBTofHits();
+    float tofMult_matched = mPicoEvent->nBTOFMatch();
+    /////float tofMult = mPicoDst->numberOfBTofHits();
 
    hPrimVtZ->Fill(mPrimVtx.z());
    hPrimVtXY->Fill(mPrimVtx.x(), mPrimVtx.y());
@@ -511,7 +520,7 @@ int StPicoD0AnaMaker::createCandidates() {
         hVzVpdVzMax_wmatch->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
         hVzVpdVzMaxDiff_wmatch->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
 
-        hTofMultVsRefMult->Fill(tofMult, refMult);
+        //////hTofMultVsRefMult->Fill(tofMult, refMult);
         
         if (mHFCuts->isBetterEvent(mPicoDst)){
 
@@ -525,8 +534,9 @@ int StPicoD0AnaMaker::createCandidates() {
 
             h_RefMult->Fill(refMult);
             h_gRefMult->Fill(gRefMult);
+            h_TofMult_matched->Fill(tofMult_matched);
             h_gRefMultVsRefMult->Fill(gRefMult, refMult);
-            hTofMultVsRefMult_evcut->Fill(tofMult, refMult);
+            /////
 
             h_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
             prof_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
@@ -534,14 +544,21 @@ int StPicoD0AnaMaker::createCandidates() {
 
             for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
             StPicoTrack* trk = mPicoDst->track(iTrack);
+            //////int bTOFPidTraitsIndex = trk->bTofPidTraitsIndex();
+            //////StPicoBTofPidTraits* tofPidTraits = mPicoDst->btofPidTraits(bTOFPidTraitsIndex);
+
+            float nsigmaTOFpion = mHFCuts->getnSigmaTOF(trk, StPicoCutsBase::kPion);
+            float nsigmaTOFkaon = mHFCuts->getnSigmaTOF(trk, StPicoCutsBase::kKaon);
 
 
-                TVector3 pMom = trk->pMom(); //Global momentum
+
+                
                 float invBeta = mHFCuts->getTofBetaBase(trk);
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
-                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) / 0.011;
+                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) ; // /0.011;
                 float BetaKaon = mHFCuts->getTofBetaBase(trk);
-                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon) / 0.012;
+                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon); // /0.012;
+                
 
        
 
@@ -550,7 +567,8 @@ int StPicoD0AnaMaker::createCandidates() {
               //{
               nPrimary++;
               primaryTracks.push_back(iTrack);
-           
+              pMom = trk->pMom(); //Primary momentum
+
                     //----------------- Filling histogram before track cut --------------------//
 
                     hpT_tr->Fill(trk->pPt());
@@ -565,6 +583,8 @@ int StPicoD0AnaMaker::createCandidates() {
             if (mHFCuts->isGoodTrack(trk)){
               
                         nGoodTracks++;
+
+                        if (mHFCuts->isTOFmatched(trk)) tofMult += 1;
             
                
                         //----------------------- Filling Histogram after track cut --------------//
@@ -580,13 +600,12 @@ int StPicoD0AnaMaker::createCandidates() {
                         hDedx_tr->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
                         hBetavsP_tr->Fill(pMom.Mag(), 1.0 / invBeta);
 
-                        h_nSigmaPi_tr->Fill(pMom.Mag(), trk->nSigmaPion());
-                        h_nSigmaK_tr->Fill(pMom.Mag(), trk->nSigmaKaon());
+                        h_nSigmadEdxPi_tr->Fill(pMom.Mag(), trk->nSigmaPion());
+                        h_nSigmadEdxK_tr->Fill(pMom.Mag(), trk->nSigmaKaon());
 
-                        h_OneOverBetaDiffPi_tr->Fill(pMom.Mag(), npi1_TOFinvbeta);
-                        h_OneOverBetaDiffK_tr->Fill(pMom.Mag(), nk_TOFinvbeta);
-                        h_nSigmadEdXPion->Fill(trk->pMom().Mag(), trk->nSigmaPion());
-                        h_nSigmadEdXKaon->Fill(trk->pMom().Mag(), trk->nSigmaKaon());
+                        h_nSigmaOneOverBetaPi_tr->Fill(pMom.Mag(), nsigmaTOFpion);
+                        h_nSigmaOneOverBetaK_tr->Fill(pMom.Mag(), nsigmaTOFkaon);
+                        
 
                         //-------------------- Filling TOF histogram after TPC cuts---------------//
                
@@ -599,9 +618,9 @@ int StPicoD0AnaMaker::createCandidates() {
                 
                 ///float BBCPion = mPicoEvent->BBCx() / 1000.;
                 ///float grefMultPion = mPicoEvent->grefMult();
-                ////h_QA_OneOverBetaDiffPion->Fill(trk->pPt(), npi1_TOFinvbeta);
+                ////h_QA_nSigmaOneOverBetaPion->Fill(trk->pPt(), npi1_TOFinvbeta);
                             hPiBetavsP_TPC->Fill(pMom.Mag(), 1.0 / BetaPion);
-                            h_OneOverBetaDiffPi_TPC->Fill(pMom.Mag(), npi1_TOFinvbeta);
+                            h_nSigmaOneOverBetaPi_TPC->Fill(pMom.Mag(), nsigmaTOFpion);
                 ////}
               }
             
@@ -617,9 +636,9 @@ int StPicoD0AnaMaker::createCandidates() {
                 ////float grefMultKaon = mPicoEvent->grefMult();
                 /////h_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
                 /////prof_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
-                ////h_QA_OneOverBetaDiffKaon->Fill(trk->pPt(), nk_TOFinvbeta);
+                ////h_QA_nSigmaOneOverBetaKaon->Fill(trk->pPt(), nk_TOFinvbeta);
                             hKBetavsP_TPC->Fill(pMom.Mag(), 1.0 / BetaKaon);
-                            h_OneOverBetaDiffK_TPC->Fill(pMom.Mag(), nk_TOFinvbeta);
+                            h_nSigmaOneOverBetaK_TPC->Fill(pMom.Mag(), nsigmaTOFkaon);
                 /////}
              }
 
@@ -630,7 +649,7 @@ int StPicoD0AnaMaker::createCandidates() {
                             ntrackPionTOF++;
 
                             hPiDedx_TOF->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
-                            h_nSigmaPi_TOF->Fill(pMom.Mag(), trk->nSigmaPion());
+                            h_nSigmadEdxPi_TOF->Fill(pMom.Mag(), trk->nSigmaPion());
               }
 
               if (mHFCuts->isKaonTOF(trk)){
@@ -638,7 +657,7 @@ int StPicoD0AnaMaker::createCandidates() {
                             ntrackKaonTOF++;
 
                             hKDedx_TOF->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
-                            h_nSigmaK_TOF->Fill(pMom.Mag(), trk->nSigmaKaon());
+                            h_nSigmadEdxK_TOF->Fill(pMom.Mag(), trk->nSigmaKaon());
 
               }
 
@@ -655,8 +674,8 @@ int StPicoD0AnaMaker::createCandidates() {
                             hPiDedx_TOF_TPC->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
                             hPiBetavsP_TOF_TPC->Fill(pMom.Mag(), 1.0 / BetaPion);
                             hPionPt->Fill(trk->pPt());
-                            h_OneOverBetaDiffPi_TOF_TPC->Fill(pMom.Mag(), npi1_TOFinvbeta);
-                            h_nSigmaPi_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaPion());
+                            h_nSigmaOneOverBetaPi_TOF_TPC->Fill(pMom.Mag(), nsigmaTOFpion);
+                            h_nSigmadEdxPi_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaPion());
                 }
              }
 
@@ -671,8 +690,8 @@ int StPicoD0AnaMaker::createCandidates() {
                             hKDedx_TOF_TPC->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
                             hKBetavsP_TOF_TPC->Fill(pMom.Mag(), 1.0 / BetaKaon);
                             hKaonPt->Fill(trk->pPt());
-                            h_OneOverBetaDiffK_TOF_TPC->Fill(pMom.Mag(), nk_TOFinvbeta);
-                            h_nSigmaK_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaKaon());
+                            h_nSigmaOneOverBetaK_TOF_TPC->Fill(pMom.Mag(), nsigmaTOFkaon);
+                            h_nSigmadEdxK_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaKaon());
                 }
               }
             }
@@ -681,6 +700,8 @@ int StPicoD0AnaMaker::createCandidates() {
 
         
     }
+
+    hTofMultVsRefMult_evcut->Fill(refMult, tofMult);
             
 
             //------------------------- Histograms for Pile-up check -------------------// 
@@ -733,7 +754,7 @@ int StPicoD0AnaMaker::createCandidates() {
             StHFPair *pair = new StHFPair(pion1, kaon, mHFCuts->getHypotheticalMass(StPicoCutsBase::kPion),mHFCuts->getHypotheticalMass(StPicoCutsBase::kKaon), mIdxPicoPions[idxPion1],mIdxPicoKaons[idxKaon], useVertex, mBField, kTRUE);
             StHFRotPair *rotpair = new StHFRotPair(pion1, kaon, mHFCuts->getHypotheticalMass(StPicoCutsBase::kPion),mHFCuts->getHypotheticalMass(StPicoCutsBase::kKaon), mIdxPicoPions[idxPion1],mIdxPicoKaons[idxKaon], useVertex, mBField, kTRUE);
 
-            if (!mHFCuts->isGoodSecondaryVertexPair(pair)) continue;
+            /////if (!mHFCuts->isGoodSecondaryVertexPair(pair)) continue;
             /////if((pair->pt())<=0) continue;
 			/////if((TMath::Abs(pair->rapidity()))>1) continue;
             ////if(pair->cosThetaStar() == 1) continue;
@@ -781,21 +802,25 @@ int StPicoD0AnaMaker::createCandidates() {
             ntVar[ii++] = pion1->pPtot();
             ntVar[ii++] = pair->particle1Dca();
             ntVar[ii++] = pion1->nSigmaPion();
-            ntVar[ii++] = pion1->nHits();
+            ntVar[ii++] = (float)((float) pion1->nHitsFit()/(float) pion1->nHitsMax());
             ntVar[ii++] = pion1->nHitsFit();
+            ntVar[ii++] = mPicoDst->btofPidTraits(pion1->bTofPidTraitsIndex())->nSigmaPion();
             ntVar[ii++] = mHFCuts->getOneOverBeta(pion1, mHFCuts->getTofBetaBase(pion1), StPicoCutsBase::kPion);
             ntVar[ii++] = mHFCuts->getTofBetaBase(pion1);
             ntVar[ii++] = pion1->charge();
+            ntVar[ii++] = pion1->pMom().PseudoRapidity(); 
 
             ntVar[ii++] = kaon->pPt();
             ntVar[ii++] = kaon->pPtot();
             ntVar[ii++] = pair->particle2Dca();
             ntVar[ii++] = kaon->nSigmaKaon();
-            ntVar[ii++] = kaon->nHits();
+            ntVar[ii++] = (float)((float)kaon->nHitsFit()/(float)kaon->nHitsMax());
             ntVar[ii++] = kaon->nHitsFit();
+            ntVar[ii++] = mPicoDst->btofPidTraits(kaon->bTofPidTraitsIndex())->nSigmaKaon();
             ntVar[ii++] = mHFCuts->getOneOverBeta(kaon, mHFCuts->getTofBetaBase(kaon), StPicoCutsBase::kKaon);
             ntVar[ii++] = mHFCuts->getTofBetaBase(kaon);
             ntVar[ii++] = kaon->charge();
+            ntVar[ii++] = kaon->pMom().PseudoRapidity();
 
             ntVar[ii++] = pair->dcaDaughters();
             ntVar[ii++] = mPrimVtx.z();
@@ -835,21 +860,26 @@ int StPicoD0AnaMaker::createCandidates() {
             ntVar2[iiii++] = pion1->pPtot();
             ntVar2[iiii++] = rotpair->particle1Dca();
             ntVar2[iiii++] = pion1->nSigmaPion();
-            ntVar2[iiii++] = pion1->nHits();
+            ntVar2[iiii++] = (float)((float) pion1->nHitsFit()/(float) pion1->nHitsMax());
             ntVar2[iiii++] = pion1->nHitsFit();
+            ntVar2[iiii++] = mPicoDst->btofPidTraits(pion1->bTofPidTraitsIndex())->nSigmaPion();
             ntVar2[iiii++] = mHFCuts->getOneOverBeta(pion1, mHFCuts->getTofBetaBase(pion1), StPicoCutsBase::kPion);
             ntVar2[iiii++] = mHFCuts->getTofBetaBase(pion1);
             ntVar2[iiii++] = pion1->charge();
+            ntVar2[iiii++] = pion1->pMom().PseudoRapidity();
+            
 
             ntVar2[iiii++] = kaon->pPt();
             ntVar2[iiii++] = kaon->pPtot();
             ntVar2[iiii++] = rotpair->particle2Dca();
             ntVar2[iiii++] = kaon->nSigmaKaon();
-            ntVar2[iiii++] = kaon->nHits();
+            ntVar2[iiii++] = (float)((float)kaon->nHitsFit()/(float) kaon->nHitsMax());
             ntVar2[iiii++] = kaon->nHitsFit();
+            ntVar2[iiii++] = mPicoDst->btofPidTraits(kaon->bTofPidTraitsIndex())->nSigmaKaon();
             ntVar2[iiii++] = mHFCuts->getOneOverBeta(kaon, mHFCuts->getTofBetaBase(kaon), StPicoCutsBase::kKaon);
             ntVar2[iiii++] = mHFCuts->getTofBetaBase(kaon);
             ntVar2[iiii++] = kaon->charge();
+            ntVar2[iiii++] = kaon->pMom().PseudoRapidity();
 
             ntVar2[iiii++] = rotpair->dcaDaughters();
             ntVar2[iiii++] = mPrimVtx.z();

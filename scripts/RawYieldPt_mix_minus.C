@@ -1,7 +1,6 @@
 Double_t bgfitfunction(Double_t *x, Double_t *par)
 	{
-		if (x[0] > 1.82 && x[0] < 1.92) {
-			////if (x[0] > 1.84 && x[0] < 1.92) {
+		if (x[0] > 1.82 && x[0] < 1.88) {
 			TF1::RejectPoint();
 			return 0;
 		}
@@ -61,11 +60,11 @@ Double_t fitFunction(Double_t *x, Double_t *par) {
 void PlotLine(Double_t x1_val, Double_t x2_val, Double_t y1_val,
               Double_t y2_val, Int_t Line_Col, Int_t LineWidth, Int_t LineStyle);
 
-void RawYieldPt_minus(float pT1, float pT2, int rebin) {
+void RawYieldPt_mix_minus(float pT1, float pT2, int rebin) {
 	
 	float x1,x2,xs1,xs2,lowEdge,highEdge,normEdge1,normEdge2,ptBin1,ptBin2;
 	int nBinsInvMass;
-	bool GeometricMean = true;
+	bool GeometricMean = false;
 	double par[10];
 	char *parstring = new char[50];
 	gROOT->Reset();
@@ -169,9 +168,9 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	Scalefactor = Unlike->Integral(normEdge1,normEdge2)/RotateBg->Integral(normEdge1,normEdge2); 
 	RotateBg->Scale(Scalefactor);
   cout<<"Rotated momentum scale factor: "<<Scalefactor<<endl;
-	Scalefactor = Unlike->Integral(normEdge1,normEdge2)/LikeBg->Integral(normEdge1,normEdge2);
-	LikeBg->Scale(Scalefactor);
-  cout<<"Like sign scale factor: "<<Scalefactor<<endl;
+	Scalefactor = Unlike->Integral(normEdge1,normEdge2)/MixedBg->Integral(normEdge1,normEdge2);
+	MixedBg->Scale(Scalefactor);
+  cout<<"Mixed Event scale factor: "<<Scalefactor<<endl;
 
 	//********************************************* Draw Invariant mass **********************************************
 	TCanvas *c1 = new TCanvas("c1");
@@ -218,6 +217,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	c2->cd();
 	c2->SetRightMargin(0.05);
 
+	
 	TH1D *D0_mixed = new TH1D("D0_mixed","N_{K^{-}#pi^{+}}+N_{K^{+}#pi^{-}} - (N_{K^{-}#pi^{+}}+N_{K^{+}#pi^{-}})_{buffer event}",nBinsInvMass,lowEdge,highEdge);
 	D0_mixed->Sumw2();
 	for(int i=0; i<D0_mixed->GetNbinsX(); i++){
@@ -322,7 +322,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 		D0_Rotate->SetBinContent(i+1,Unlike->GetBinContent(1+i) - RotateBg->GetBinContent(1+i));
 		D0_Rotate->SetBinError(i+1,TMath::Sqrt(Unlike->GetBinError(1+i)*Unlike->GetBinError(1+i)+
 											  RotateBg->GetBinError(1+i)*RotateBg->GetBinError(1+i)));
-	}	
+	}
 	D0_Rotate->Draw("bar");
 	D0_Rotate->GetXaxis()->SetTitle("m_{K#pi} [GeV/c^{2}]");
 	D0_Rotate->GetYaxis()->SetTitle("counts");
@@ -446,7 +446,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	tl.DrawLatex(0.05,0.25,parstring);
 	//////sprintf(parstring,"dm_{K#pi} = %.3f [GeV/c^{2}]",rotClon->GetBinWidth(1));
 	//////tl.DrawLatex(0.05,0.1,parstring);
-
+	
 	float x1a = (fSignalRotate->GetParameter(5) - (3*fSignalRotate->GetParameter(6)));
 	float x2a = (fSignalRotate->GetParameter(5) + (3*fSignalRotate->GetParameter(6)));
 
@@ -486,9 +486,9 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 
 	D0_Like->Sumw2();
 	for(int i=0; i<D0_Like->GetNbinsX(); i++){
-		D0_Like->SetBinContent(i+1,Unlike->GetBinContent(1+i) - LikeBg->GetBinContent(1+i));
+		D0_Like->SetBinContent(i+1,Unlike->GetBinContent(1+i) - MixedBg->GetBinContent(1+i));
 		D0_Like->SetBinError(i+1,TMath::Sqrt(Unlike->GetBinError(1+i)*Unlike->GetBinError(1+i)+
-											   LikeBg->GetBinError(1+i)*LikeBg->GetBinError(1+i)));
+											   MixedBg->GetBinError(1+i)*MixedBg->GetBinError(1+i)));
 	}	
 	D0_Like->Draw("bar");
 	D0_Like->GetXaxis()->SetTitle("m_{K#pi} [GeV/c^{2}]");
@@ -562,7 +562,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 	fSignalLike->FixParameter(3,par[3]);
 	////////likeClon->Fit("fSignalLike","","N",xs1,xs2);
 	fSignalLike->SetLineColor(4);
-	/////fSignalLike->Draw("same");
+/////fSignalLike->Draw("same");
 
 
 	TF1 *fbackgroundlike = new TF1("fbackgroundlike",parabola,x1,x2,4);
@@ -588,7 +588,7 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
     ////rotClon->SetLineColor(kBlack);
 	////rotClon->SetMarkerColor(kBlack);
 	likeClon->Fit("fSignalLike","","N",x1,x2);
-    fSignalLike->Draw("same");
+	fSignalLike->Draw("same");
 	signal = fSignalLike->GetParameter(4)/likeClon->GetBinWidth(1);
 	signalerror = fSignalLike->GetParError(4)/likeClon->GetBinWidth(1);
 	sprintf(parstring,"RwYld = %.0f #pm %.0f",signal,signalerror);
@@ -621,14 +621,14 @@ void RawYieldPt_minus(float pT1, float pT2, int rebin) {
 
 	sg = (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBin))) + ((likeClon->Integral(x1aBin,x2aBin))) + residual);
 
-	///////sprintf(parstring,"sg = %.3f",sg);
+///////sprintf(parstring,"sg = %.3f",sg);
 	///////tl.DrawLatex(0.05,0.1,parstring);
 
 cout << (likeClon->Integral(x1aBin,x2aBin)) << endl;
-cout << (D0_Like->Integral(x1aBin,x2aBin)) << endl;
-	cout << (LikeBg->Integral(x1aBin,x2aBin)) << endl;
-
-cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBin))) + ((D0_Like->Integral(x1aBin,x2aBin)))) << "     " << "significance"<< endl;	
+	cout << (D0_Like->Integral(x1aBin,x2aBin)) << endl;
+	cout << (MixedBg->Integral(x1aBin,x2aBin)) << endl;
+    
+	cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBin))) + ((D0_Like->Integral(x1aBin,x2aBin)))) << "     " << "significance"<< endl;	
 	
 	sprintf(parstring,"sg = %.3f",sg);
 	tl.DrawLatex(0.05,0.1,parstring);
@@ -714,7 +714,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	c11->SetTickx();
 	c11->SetTicky();
 	c11->SetLeftMargin(0.15);
-	likeClon->SetTitle("After Like-sign bg. subtracted");
+	likeClon->SetTitle("After Mixed Event bg. subtracted");
 	likeClon->GetXaxis()->SetRangeUser(1.75,2.05);
 	likeClon->GetYaxis()->SetRangeUser(-1200,3500);
 	likeClon->GetYaxis()->SetTitle("Raw Yield (/0.01 GeV/c^{2})");
@@ -771,7 +771,7 @@ cout << (likeClon->Integral(x1aBin,x2aBin))/sqrt(((LikeBg->Integral(x1aBin,x2aBi
 	RawYieldAxis->SetLabelFont(42);
 	RawYieldAxis->Draw();
 
-	leg->AddEntry(CloneL,"(Unlike - Like) (right scale)","p");
+	leg->AddEntry(CloneL,"(Unlike - Mixed) (right scale)","p");
 	leg->AddEntry(CloneR,"(Unlike - Rotated) (right scale)","p");
 
 	leg->Draw("same");

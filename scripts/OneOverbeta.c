@@ -21,12 +21,12 @@ void OneOverbeta()
 {
     TFile *file1 = TFile::Open("output_all.root", "READ");
     TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
-    TH2D *h_OneOverBetaDiffK_TPC = (TH2D*) list1->FindObject("h_OneOverBetaDiffK_TPC");
-    h_OneOverBetaDiffK_TPC->SetTitle("nSigmaTOF_Kaon; p [GeV]; n#sigma_{K}^{TOF}; Counts");
-    TH2D *h_OneOverBetaDiffPi_TPC = (TH2D*) list1->FindObject("h_OneOverBetaDiffPi_TPC");
-    h_OneOverBetaDiffPi_TPC->SetTitle("nSigmaTOF_Pion; p [GeV]; n#sigma_{#pi}^{TOF}; Counts");
+    TH2D *h_nSigmaOneOverBetaK_TPC = (TH2D*) list1->FindObject("h_nSigmaOneOverBetaK_TPC");
+    h_nSigmaOneOverBetaK_TPC->SetTitle("nSigmaTOF_Kaon; p [GeV]; n#sigma_{K}^{TOF}; Entries");
+    /////TH2D *h_QA_OneOverBetaDiffPion = (TH2D*) list1->FindObject("h_QA_OneOverBetaDiffPion");
+    /////h_QA_OneOverBetaDiffPion->SetTitle("nSigmaTOF_Pion; p [GeV]; n#sigma_{#pi}^{TOF}; Counts");
 
-    h_OneOverBetaDiffK_TPC->GetXaxis()->SetRangeUser(0.2, 3.5);
+    h_nSigmaOneOverBetaK_TPC->GetXaxis()->SetRangeUser(0.2, 3.5);
 
     int nSlices = 60;
 float sliceWidth = 0.02;
@@ -102,7 +102,7 @@ for (int i = 0; i < nSlices; i++) {
     gPad->SetTopMargin(0.05);
 
     // Project the 2D histogram onto the y-axis within the slice range
-    TH1D *slice = h_OneOverBetaDiffK_TPC->ProjectionY(Form("slice_%d", i), h_OneOverBetaDiffK_TPC->GetXaxis()->FindBin(sliceMin), h_OneOverBetaDiffK_TPC->GetXaxis()->FindBin(sliceMax));
+    TH1D *slice = h_nSigmaOneOverBetaK_TPC->ProjectionY(Form("slice_%d", i), h_nSigmaOneOverBetaK_TPC->GetXaxis()->FindBin(sliceMin), h_nSigmaOneOverBetaK_TPC->GetXaxis()->FindBin(sliceMax));
     slice->SetMarkerStyle(27);
     slice->SetMarkerSize(1);
 
@@ -190,8 +190,8 @@ canvas->SaveAs("fitted_slices.pdf");
 
   ////TFile* dataRes = new TFile("Projections.root","RECREATE");
      
-    h_OneOverBetaDiffK_TPC->Write();
-    h_OneOverBetaDiffPi_TPC->Write();
+    h_nSigmaOneOverBetaK_TPC->Write();
+    ///h_nSigmaOneOverBetaPi_TPC->Write();
     dataRes->Close();
     file1->Close();
 

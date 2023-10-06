@@ -21,8 +21,8 @@ using namespace std;
 
 ClassImp(StPicoMixedEventMaker)
 
-static const int m_nmultEdge = 6;
-static float constexpr m_multEdge[m_nmultEdge+1] = {0, 7.5, 9.5, 12.5, 15.5, 19.5, 200};
+static const int m_nmultEdge = 5;
+static float constexpr m_multEdge[m_nmultEdge+1] = {0, 1.5, 3.5, 5.5, 7.5, 200};
 
 static const int m_nVzEdge = 10;
 static float constexpr m_VzEdge[m_nVzEdge+1] = {-50.5, -23.5, -17.5, -12.5, -6.5, -1.5, 2.5, 7.5, 13.5, 19.5, 50.5};
@@ -49,9 +49,7 @@ StPicoMixedEventMaker::StPicoMixedEventMaker(char const* name, StPicoDstMaker* p
         mOutputFileTreeBackSE(NULL),
         mOutputFileTreeBackME(NULL)
 {
-    const string varList ="pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:"
-                          "k_pt:k_p:k_dca:k_nSigma:k_nHitFit:k_TOFinvbeta:"
-                          "dcaDaughters:D_rapidity:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_phi:D_eta:D_cosThetaStar:D_pt:D_mass";
+    const string varList ="pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigma:k_nHitratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
 
     TH1::AddDirectory(false);
     // -- create OutputTree
@@ -184,14 +182,14 @@ Int_t StPicoMixedEventMaker::Make() {
 
     TVector3 const pVtx = picoDst->event()->primaryVertex();
 
-    int multiplicity = mPicoDst->event()->refMult();
+    int multiplicity = picoDst->event()->nBTOFMatch();
     int centrality = getMultIndex(multiplicity);
 
     if(centrality < 0 || centrality > m_nmultEdge+1 ) return kStOk;
     ////int const vz_bin = (int)((50 +pVtx.z())/10) ;
     int vz_bin;
     for (int i = 0; i < m_nVzEdge; i++){
-        if ((pVtx.z() >= m_VzEdge[i]) && (multiplicity < m_VzEdge[i + 1])) vz_bin = i;
+        if ((pVtx.z() >= m_VzEdge[i]) && (pVtx.z() < m_VzEdge[i + 1])) vz_bin = i;
     }
 
     if(vz_bin < 0 || vz_bin > 9 ) return kStOk;
@@ -227,7 +225,7 @@ int StPicoMixedEventMaker::getMultIndex(float multiplicity){
 void StPicoMixedEventMaker::initializeEventStats() {
     // -- Initialize event statistics histograms
 
-    const char *aEventCutNames[]   = {"all", "good run", "trigger", "#it{v}_{z}", "#it{v}_{z}-#it{v}^{VPD}_{z}", "accepted"};
+    const char *aEventCutNames[]   = {"all", "good run", "trigger", "#it{v}_{z}", "#it{v}_{z}-#it{v}^{VPD}_{z}", "#it{v}_{r}", "accepted"};
 
     mOutList->Add(new TH1F("hEventStat0","Event cut statistics 0;Event Cuts;Events", mHFCuts->eventStatMax(), -0.5, mHFCuts->eventStatMax()-0.5));
     TH1F *hEventStat0 = static_cast<TH1F*>(mOutList->Last());

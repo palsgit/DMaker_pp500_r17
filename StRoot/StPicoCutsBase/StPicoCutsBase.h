@@ -71,7 +71,12 @@ public:
     bool isTOFHadronPID(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
 
     bool isTOFHadron(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isTOFHadron(StPicoTrack const *trk, int pidFlag) const;
+
     bool isHybridTOFHadron(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isHybridTOFHadron(StPicoTrack const *trk, int pidFlag) const;
+
+    
 
     // -- Is TOF particle in ptot range
     //    if track has no TOF information - return false
@@ -112,8 +117,10 @@ public:
 
     // Comparing kaon parameters with functions and not constants
 
-    bool isTOFKaonCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
-    bool isTOFBetterKaon(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    ///old bool isTOFKaonCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isTOFKaonCutOK(StPicoTrack const *trk) const;
+    ///old bool isTOFBetterKaon(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isTOFBetterKaon(StPicoTrack const *trk) const;
     bool isHybridTOFBetterKaon(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
     bool isTOFKaonBetterCuts(StPicoTrack const *trk) const;
     bool isTOFKaonBetterCuts(StPicoTrack const *trk, float const & tofBeta) const;
@@ -121,8 +128,10 @@ public:
     bool isHybridTOFKaonBetterCuts(StPicoTrack const *trk, float const & tofBeta) const;
 
 
-    bool isTOFPionCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
-    bool isTOFBetterPion(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    ///old bool isTOFPionCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isTOFPionCutOK(StPicoTrack const *trk) const;
+    ///old bool isTOFBetterPion(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
+    bool isTOFBetterPion(StPicoTrack const *trk) const;
     bool isHybridTOFBetterPion(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
     bool isTOFPionBetterCuts(StPicoTrack const *trk) const;
     bool isTOFPionBetterCuts(StPicoTrack const *trk, float const & tofBeta) const;
@@ -146,6 +155,7 @@ public:
     
     void setnMatchedFast(int i);
     void setCutVzMax(float f);
+    void setCutVrMax(float f);
     void setCutVzVpdVzMax(float f);
     void setCheckHotSpot(bool b);
 
@@ -233,6 +243,8 @@ public:
                      TVector3 const & tertiaryMother,  TVector3 const & tertiaryVtx) const;
 
     const float& getHypotheticalMass(int pidFlag)           const;
+    // -- calculate nSigmaTOF of track -- basic calculation
+    float getnSigmaTOF(StPicoTrack const * const trk, int pidFlag) const;
 
 private:
 
@@ -259,6 +271,7 @@ private:
     int   mnMatchedFast;
     float mVzMax;
     float mVzVpdVzMax;
+    float mVrMax;
 
     // -- tracking
     int   mNHitsFitMin;
@@ -291,6 +304,10 @@ private:
 
     float mTPCNSigmaMax[kPicoPIDMax];
     float mTPCNSigmaMin[kPicoPIDMax];
+
+    float mTOFNSigmaMax[kPicoPIDMax];
+    float mTOFNSigmaMin[kPicoPIDMax];
+
     float mTOFDeltaOneOverBetaMax[kPicoPIDMax];
     float mTOFDeltaOneOverBetaMin[kPicoPIDMax];
 
@@ -305,6 +322,7 @@ inline void StPicoCutsBase::addTriggerId(unsigned int triggerId) {mVecTriggerIdL
 
 inline void StPicoCutsBase::setnMatchedFast(int i)              { mnMatchedFast    = i; }
 inline void StPicoCutsBase::setCutVzMax(float f)              { mVzMax            = f; }
+inline void StPicoCutsBase::setCutVrMax(float f)              { mVrMax            = f; }
 inline void StPicoCutsBase::setCutVzVpdVzMax(float f)         { mVzVpdVzMax       = f; }
 
 inline float StPicoCutsBase::getCutVzMax()              { return mVzMax; }
@@ -331,14 +349,18 @@ inline void StPicoCutsBase::setCutDcaMinTertiary(float min, int pidFlag)        
 inline void StPicoCutsBase::setCutTPCNSigmaMax(float f, int pidFlag)                       { mTPCNSigmaMax[pidFlag] = f; }
 inline void StPicoCutsBase::setCutTPCNSigmaMin(float f, int pidFlag)                       { mTPCNSigmaMin[pidFlag] = f; }
 inline void StPicoCutsBase::setCutTOFNSigmaMax(float f, int pidFlag)     { 
-    if (pidFlag == kPion) mTOFResolution = 0.011;
+    /*Old if (pidFlag == kPion) mTOFResolution = 0.011;
     if (pidFlag == kKaon) mTOFResolution = 0.012;
-    mTOFDeltaOneOverBetaMax[pidFlag] = f*mTOFResolution;
+    mTOFDeltaOneOverBetaMax[pidFlag] = f*mTOFResolution;*/
+
+    mTOFNSigmaMax[pidFlag] = f;
     }
 inline void StPicoCutsBase::setCutTOFNSigmaMin(float f, int pidFlag)     { 
-    if (pidFlag == kPion) mTOFResolution = 0.011;
+    /*Old if (pidFlag == kPion) mTOFResolution = 0.011;
     if (pidFlag == kKaon) mTOFResolution = 0.012;
-    mTOFDeltaOneOverBetaMin[pidFlag] = f*mTOFResolution;
+    mTOFDeltaOneOverBetaMin[pidFlag] = f*mTOFResolution;*/
+
+    mTOFNSigmaMin[pidFlag] = f;
     }
 inline void StPicoCutsBase::setCutTOFDeltaOneOverBeta(float f, int pidFlag)             { mTOFDeltaOneOverBetaMax[pidFlag] = f;}
 inline void StPicoCutsBase::setCutPtotRangeTOF(float min, float max, int pidFlag)       { mPtotRangeTOF[pidFlag][0] = min;
@@ -397,12 +419,9 @@ inline bool StPicoCutsBase::isTPCPion(StPicoTrack const * const trk)   const {re
 inline bool StPicoCutsBase::isTPCKaon(StPicoTrack const * const trk)   const {return isTPCHadron(trk, StPicoCutsBase::kKaon); }
 inline bool StPicoCutsBase::isTPCProton(StPicoTrack const * const trk) const {return isTPCHadron(trk, StPicoCutsBase::kProton); }
 
-inline bool StPicoCutsBase::isTOFPion(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
-    return isTOFHadron(trk, tofBeta, StPicoCutsBase::kPion); }
-inline bool StPicoCutsBase::isTOFKaon(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
-    return isTOFHadron(trk, tofBeta, StPicoCutsBase::kKaon); }
-inline bool StPicoCutsBase::isTOFProton(StPicoTrack const *trk) const { float tofBeta = getTofBeta(trk);
-    return isTOFHadron(trk, tofBeta, StPicoCutsBase::kProton); }
+inline bool StPicoCutsBase::isTOFPion(StPicoTrack const *trk)   const { return isTOFHadron(trk, StPicoCutsBase::kPion); }
+inline bool StPicoCutsBase::isTOFKaon(StPicoTrack const *trk)   const { return isTOFHadron(trk, StPicoCutsBase::kKaon); }
+inline bool StPicoCutsBase::isTOFProton(StPicoTrack const *trk) const { return isTOFHadron(trk, StPicoCutsBase::kProton); }
 
 inline bool StPicoCutsBase::isTOFPion(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFHadron(trk, tofBeta, StPicoCutsBase::kPion); }
 inline bool StPicoCutsBase::isTOFKaon(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFHadron(trk, tofBeta, StPicoCutsBase::kKaon); }
@@ -419,16 +438,15 @@ inline bool StPicoCutsBase::isHybridTOFPion(StPicoTrack const *trk,   float cons
 inline bool StPicoCutsBase::isHybridTOFKaon(StPicoTrack const *trk,   float const & tofBeta) const { return isHybridTOFHadron(trk, tofBeta, StPicoCutsBase::kKaon); }
 inline bool StPicoCutsBase::isHybridTOFProton(StPicoTrack const *trk, float const & tofBeta) const { return isHybridTOFHadron(trk, tofBeta, StPicoCutsBase::kProton); }
 
-inline bool StPicoCutsBase::isTOFKaonBetterCuts(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
-    return isTOFBetterKaon(trk, tofBeta, StPicoCutsBase::kKaon); }
-inline bool StPicoCutsBase::isTOFKaonBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFBetterKaon(trk, tofBeta, StPicoCutsBase::kKaon); }
+////old inline bool StPicoCutsBase::isTOFKaonBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFBetterKaon(trk, tofBeta, StPicoCutsBase::kKaon); }
+inline bool StPicoCutsBase::isTOFKaonBetterCuts(StPicoTrack const *trk)   const { return isTOFBetterKaon(trk); }
 inline bool StPicoCutsBase::isHybridTOFKaonBetterCuts(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
     return isHybridTOFBetterKaon(trk, tofBeta, StPicoCutsBase::kKaon); }
 inline bool StPicoCutsBase::isHybridTOFKaonBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isHybridTOFBetterKaon(trk, tofBeta, StPicoCutsBase::kKaon); }
 
-inline bool StPicoCutsBase::isTOFPionBetterCuts(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
-    return isTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
-inline bool StPicoCutsBase::isTOFPionBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
+////old inline bool StPicoCutsBase::isTOFPionBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
+inline bool StPicoCutsBase::isTOFPionBetterCuts(StPicoTrack const *trk)   const {return isTOFBetterPion(trk); }
+
 inline bool StPicoCutsBase::isHybridTOFPionBetterCuts(StPicoTrack const *trk)   const { float tofBeta = getTofBeta(trk);
     return isHybridTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }
 inline bool StPicoCutsBase::isHybridTOFPionBetterCuts(StPicoTrack const *trk,   float const & tofBeta) const { return isHybridTOFBetterPion(trk, tofBeta, StPicoCutsBase::kPion); }

@@ -50,7 +50,8 @@ void Danalysis_test()
     TChain *ntp_Rotated = new TChain("ntp_Rotated");
     ntp_Rotated->Add("output_all.root");
     TChain *ntp_ME = new TChain("ntp_signal_ME");
-    ntp_ME->Add("output_mixedevent_sig.root");
+    ///ntp_ME->Add("output_mixedevent_sig.root");
+    ntp_ME->Add("outputLocal.picoMEtree.sigME.root");
     TChain *ntp_LikeSign = new TChain("ntp_LikeSign");
     ntp_LikeSign->Add("output_all.root");
 
@@ -70,7 +71,7 @@ void Danalysis_test()
     Int_t nSoftPions = 0;
 
 
-    Float_t D0_mass, D0_rapidity, D0_decayL, D0_theta, cosTheta, D0_pt, pi1_pt, k_pt,  pi1_dca, k_dca, k_nSigma, pi1_nSigma, pi1_TOFinvbeta, k_TOFinvbeta, pi1_betaBase, k_betaBase, D_cosThetaStar, dcaD0ToPv, dcaDaughters, primVz, primVzVpd, k_nHitFit, dcaMax, pi1_eventId, k_eventId,  pi1_nHitFit, pi1_p, k_p, pi1_charge, k_charge, VzVPD_VzTPC, D_phi, D_eta;
+    Float_t D0_mass, D0_rapidity, D0_decayL, D0_theta, cosTheta, D0_pt, pi1_pt, k_pt,  pi1_dca, k_dca, k_nSigmaTPC, pi1_nSigmaTPC, pi1_TOFinvbeta, k_TOFinvbeta, pi1_betaBase, k_betaBase, D_cosThetaStar, dcaD0ToPv, dcaDaughters, primVz, primVzVpd, k_nHitFit, dcaMax, pi1_eventId, k_eventId,  pi1_nHitFit, pi1_p, k_p, pi1_charge, k_charge, VzVPD_VzTPC, D_phi, D_eta;
     ntp_signal -> SetBranchAddress("D_mass", &D0_mass);
     ntp_signal -> SetBranchAddress("D_rapidity", &D0_rapidity);
     ntp_signal -> SetBranchAddress("D_decayL", &D0_decayL);
@@ -81,8 +82,8 @@ void Danalysis_test()
     ntp_signal -> SetBranchAddress("k_pt", &k_pt);
     ntp_signal -> SetBranchAddress("pi1_dca", &pi1_dca);
     ntp_signal -> SetBranchAddress("k_dca", &k_dca);
-    ntp_signal -> SetBranchAddress("k_nSigma", &k_nSigma);
-    ntp_signal -> SetBranchAddress("pi1_nSigma", &pi1_nSigma);
+    ntp_signal -> SetBranchAddress("k_nSigmaTPC", &k_nSigmaTPC);
+    ntp_signal -> SetBranchAddress("pi1_nSigmaTPC", &pi1_nSigmaTPC);
     ntp_signal -> SetBranchAddress("pi1_TOFinvbeta", &pi1_TOFinvbeta);
     ntp_signal -> SetBranchAddress("k_TOFinvbeta", &k_TOFinvbeta);
     ntp_signal -> SetBranchAddress("pi1_betaBase", &pi1_betaBase);
@@ -104,7 +105,7 @@ void Danalysis_test()
     
     
     
-    Float_t rD0_mass, rD0_rapidity, rD0_decayL, rD0_theta, rcosTheta,  rD0_pt, rpi1_pt, rk_pt,  rpi1_dca, rk_dca, rk_nSigma, rpi1_nSigma, rpi1_TOFinvbeta, rk_TOFinvbeta, rpi1_betaBase, rk_betaBase, rD_cosThetaStar, rdcaD0ToPv, rdcaDaughters, rprimVz, rprimVzVpd, rk_nHitFit, rdcaMax, rpi1_eventId, rk_eventId,  rpi1_nHitFit, rpi1_p, rk_p, rpi1_charge, rk_charge, rVzVPD_VzTPC, rD_phi, rD_eta;
+    Float_t rD0_mass, rD0_rapidity, rD0_decayL, rD0_theta, rcosTheta,  rD0_pt, rpi1_pt, rk_pt,  rpi1_dca, rk_dca, rk_nSigmaTPC, rpi1_nSigmaTPC, rpi1_TOFinvbeta, rk_TOFinvbeta, rpi1_betaBase, rk_betaBase, rD_cosThetaStar, rdcaD0ToPv, rdcaDaughters, rprimVz, rprimVzVpd, rk_nHitFit, rdcaMax, rpi1_eventId, rk_eventId,  rpi1_nHitFit, rpi1_p, rk_p, rpi1_charge, rk_charge, rVzVPD_VzTPC, rD_phi, rD_eta;
     ntp_Rotated -> SetBranchAddress("D_mass", &rD0_mass);
     ntp_Rotated -> SetBranchAddress("D_rapidity", &rD0_rapidity);
     ntp_Rotated -> SetBranchAddress("D_decayL", &rD0_decayL);
@@ -115,8 +116,8 @@ void Danalysis_test()
     ntp_Rotated -> SetBranchAddress("k_pt", &rk_pt);
     ntp_Rotated -> SetBranchAddress("pi1_dca", &rpi1_dca);
     ntp_Rotated -> SetBranchAddress("k_dca", &rk_dca);
-    ntp_Rotated -> SetBranchAddress("k_nSigma", &rk_nSigma);
-    ntp_Rotated -> SetBranchAddress("pi1_nSigma", &rpi1_nSigma);
+    ntp_Rotated -> SetBranchAddress("k_nSigmaTPC", &rk_nSigmaTPC);
+    ntp_Rotated -> SetBranchAddress("pi1_nSigmaTPC", &rpi1_nSigmaTPC);
     ntp_Rotated -> SetBranchAddress("pi1_TOFinvbeta", &rpi1_TOFinvbeta);
     ntp_Rotated -> SetBranchAddress("k_TOFinvbeta", &rk_TOFinvbeta);
     ntp_Rotated -> SetBranchAddress("pi1_betaBase", &rpi1_betaBase);
@@ -137,7 +138,7 @@ void Danalysis_test()
     ntp_Rotated -> SetBranchAddress("D_eta", &rD_eta);
 
 
-    Float_t mD0_mass, mD0_rapidity, mD0_decayL, mD0_theta, mcosTheta, mD0_pt, mpi1_pt, mk_pt,  mpi1_dca, mk_dca, mk_nSigma, mpi1_nSigma, mpi1_TOFinvbeta, mk_TOFinvbeta, mpi1_betaBase, mk_betaBase, mD_cosThetaStar, mdcaD0ToPv, mdcaDaughters, mprimVz, mprimVzVpd, mk_nHitFit, mdcaMax, mpi1_eventId, mk_eventId,  mpi1_nHitFit, mpi1_p, mk_p, mpi1_charge, mk_charge, mVzVPD_VzTPC, mD_phi, mD_eta;
+    Float_t mD0_mass, mD0_rapidity, mD0_decayL, mD0_theta, mcosTheta, mD0_pt, mpi1_pt, mk_pt,  mpi1_dca, mk_dca, mk_nSigmaTPC, mpi1_nSigmaTPC, mpi1_TOFinvbeta, mk_TOFinvbeta, mpi1_betaBase, mk_betaBase, mD_cosThetaStar, mdcaD0ToPv, mdcaDaughters, mprimVz, mprimVzVpd, mk_nHitFit, mdcaMax, mpi1_eventId, mk_eventId,  mpi1_nHitFit, mpi1_p, mk_p, mpi1_charge, mk_charge, mVzVPD_VzTPC, mD_phi, mD_eta;
     ntp_ME -> SetBranchAddress("D_mass", &mD0_mass);
     ntp_ME -> SetBranchAddress("D_rapidity", &mD0_rapidity);
     ntp_ME -> SetBranchAddress("D_decayL", &mD0_decayL);
@@ -148,8 +149,8 @@ void Danalysis_test()
     ntp_ME -> SetBranchAddress("k_pt", &mk_pt);
     ntp_ME -> SetBranchAddress("pi1_dca", &mpi1_dca);
     ntp_ME -> SetBranchAddress("k_dca", &mk_dca);
-    ntp_ME -> SetBranchAddress("k_nSigma", &mk_nSigma);
-    ntp_ME -> SetBranchAddress("pi1_nSigma", &mpi1_nSigma);
+    ntp_ME -> SetBranchAddress("k_nSigma", &mk_nSigmaTPC);
+    ntp_ME -> SetBranchAddress("pi1_nSigma", &mpi1_nSigmaTPC);
     ntp_ME -> SetBranchAddress("pi1_TOFinvbeta", &mpi1_TOFinvbeta);
     ntp_ME -> SetBranchAddress("k_TOFinvbeta", &mk_TOFinvbeta);
     ntp_ME -> SetBranchAddress("pi1_betaBase", &mpi1_betaBase);
@@ -169,7 +170,7 @@ void Danalysis_test()
     ntp_ME -> SetBranchAddress("D_phi", &mD_phi);
     ntp_ME -> SetBranchAddress("D_eta", &mD_eta);
 
-    Float_t lD0_mass, lD0_rapidity, lD0_decayL, lD0_theta, lcosTheta, lD0_pt, lpi1_pt, lk_pt,  lpi1_dca, lk_dca, lk_nSigma, lpi1_nSigma, lpi1_TOFinvbeta, lk_TOFinvbeta, lpi1_betaBase, lk_betaBase, lD_cosThetaStar, ldcaD0ToPv, ldcaDaughters, lprimVz, lprimVzVpd, lk_nHitFit, ldcaMax, lpi1_eventId, lk_eventId,  lpi1_nHitFit, lpi1_p, lk_p, lpi1_charge, lk_charge, lVzVPD_VzTPC, lD_phi, lD_eta;
+    Float_t lD0_mass, lD0_rapidity, lD0_decayL, lD0_theta, lcosTheta, lD0_pt, lpi1_pt, lk_pt,  lpi1_dca, lk_dca, lk_nSigmaTPC, lpi1_nSigmaTPC, lpi1_TOFinvbeta, lk_TOFinvbeta, lpi1_betaBase, lk_betaBase, lD_cosThetaStar, ldcaD0ToPv, ldcaDaughters, lprimVz, lprimVzVpd, lk_nHitFit, ldcaMax, lpi1_eventId, lk_eventId,  lpi1_nHitFit, lpi1_p, lk_p, lpi1_charge, lk_charge, lVzVPD_VzTPC, lD_phi, lD_eta;
     ntp_LikeSign -> SetBranchAddress("D_mass", &lD0_mass);
     ntp_LikeSign -> SetBranchAddress("D_rapidity", &lD0_rapidity);
     ntp_LikeSign -> SetBranchAddress("D_decayL", &lD0_decayL);
@@ -180,8 +181,8 @@ void Danalysis_test()
     ntp_LikeSign -> SetBranchAddress("k_pt", &lk_pt);
     ntp_LikeSign -> SetBranchAddress("pi1_dca", &lpi1_dca);
     ntp_LikeSign -> SetBranchAddress("k_dca", &lk_dca);
-    ntp_LikeSign -> SetBranchAddress("k_nSigma", &lk_nSigma);
-    ntp_LikeSign -> SetBranchAddress("pi1_nSigma", &lpi1_nSigma);
+    ntp_LikeSign -> SetBranchAddress("k_nSigmaTPC", &lk_nSigmaTPC);
+    ntp_LikeSign -> SetBranchAddress("pi1_nSigmaTPC", &lpi1_nSigmaTPC);
     ntp_LikeSign -> SetBranchAddress("pi1_TOFinvbeta", &lpi1_TOFinvbeta);
     ntp_LikeSign -> SetBranchAddress("k_TOFinvbeta", &lk_TOFinvbeta);
     ntp_LikeSign -> SetBranchAddress("pi1_betaBase", &lpi1_betaBase);
@@ -225,6 +226,8 @@ void Danalysis_test()
     TH1D *D_eta_unlike = new TH1D("D_eta_unlike","D_eta; #pi K pair eta; Entries",400,-20.0, 20.0);
     TH1D *pi_DCA_unlike = new TH1D("pi_DCA_unlike","pi_DCA; DCA #pi [cm] ; Entries",100,-1.0, 5.0);
     TH1D *k_DCA_unlike = new TH1D("k_DCA_unlike","k_DCA;  DCA k [cm]; Entries",100,-1.0, 5.0);
+    TH2D *D_y_D_eta_unlike = new TH2D("D_y_D_eta_unlike","D_{y}_D_{#eta}_unlike; D_{y}; D_{#eta}",2000,-10.,10.,2000,-10.,10.);
+
 
     TH1D *dcaDaughters_like = new TH1D("dcaDaughters_like","dcaDaughters; dca[cm]; Entries",300,-1.0, 5.0);
     TH1D *D_theta_like = new TH1D("D_theta_like","D_theta; #theta_{point} [rad]; Entries",300,-1.0, 4.0);
@@ -239,6 +242,7 @@ void Danalysis_test()
     TH1D *D_eta_like = new TH1D("D_eta_like","D_eta; #pi K pair eta; Entries",400,-20.0, 20.0);
     TH1D *pi_DCA_like = new TH1D("pi_DCA_like","pi_DCA; DCA #pi [cm] ; Entries",100,-1.0, 5.0);
     TH1D *k_DCA_like = new TH1D("k_DCA_like","k_DCA;  DCA k [cm]; Entries",100,-1.0, 5.0);
+    TH2D *D_y_D_eta_like = new TH2D("D_y_D_eta_like","D_{y}_D_{#eta}_like; D_{y}; D_{#eta}",2000,-10.,10.,2000,-10.,10.);
 
 
     TH1D *dcaDaughters_rot = new TH1D("dcaDaughters_rot","dcaDaughters; dca[cm]; Entries",300,-1.0, 5.0);
@@ -254,6 +258,7 @@ void Danalysis_test()
     TH1D *D_eta_rot = new TH1D("D_eta_rot","D_eta; #pi K pair eta; Entries",400,-20.0, 20.0);
     TH1D *pi_DCA_rot = new TH1D("pi_DCA_rot","pi_DCA; DCA #pi [cm] ; Entries",100,-1.0, 5.0);
     TH1D *k_DCA_rot = new TH1D("k_DCA_rot","k_DCA;  DCA k [cm]; Entries",100,-1.0, 5.0);
+    TH2D *D_y_D_eta_rot = new TH2D("D_y_D_eta_rot","D_{y}_D_{#eta}_rot; D_{y}; D_{#eta}",2000,-10.,10.,2000,-10.,10.);
 
     TH1D *dcaDaughters_mixed = new TH1D("dcaDaughters_mixed","dcaDaughters; dca[cm]; Entries",300,-1.0, 5.0);
     TH1D *D_theta_mixed = new TH1D("D_theta_mixed","D_theta; #theta_{point} [rad]; Entries",300,-1.0, 4.0);
@@ -268,6 +273,7 @@ void Danalysis_test()
     TH1D *D_eta_mixed = new TH1D("D_eta_mixed","D_eta; #pi K pair eta; Entries",400,-20.0, 20.0);
     TH1D *pi_DCA_mixed = new TH1D("pi_DCA_mixed","pi_DCA; DCA #pi [cm] ; Entries",100,-1.0, 5.0);
     TH1D *k_DCA_mixed = new TH1D("k_DCA_mixed","k_DCA;  DCA k [cm]; Entries",100,-1.0, 5.0);
+    TH2D *D_y_D_eta_mixed = new TH2D("D_y_D_eta_mixed","D_{y}_D_{#eta}_mixed; D_{y}; D_{#eta}",2000,-10.,10.,2000,-10.,10.);
 
     /*TH2F *hRapidityD = new TH2F("RapidityD","#pi K pair rapidity",100,0.,5.,100,-5.,5.);
     TH2F *hDptPiPt = new TH2F("hDptPiPt","X:D^{0} p_{T}, Y:#pi p_{T}",200,0.,10.,200,0.,10.);
@@ -292,22 +298,22 @@ void Danalysis_test()
         if (i%10000000==0) {cout<<"Unlike D0 "<<i<<endl;}
         ntp_signal -> GetEntry(i);
         ///if (D0_pt<=0) continue;
-        //////if ((D0_pt<1.1) || (D0_pt>2.1))  continue;
+        ///////if ((D0_pt<1.1) || (D0_pt>2.1))  continue;
         if(TMath::Abs(D0_rapidity)>1.0) continue;
         
         //////if(D0_decayL < 1.0) continue;  ///could be strict
         //////if(dcaDaughters > 0.48) continue; ///????
-        ///////if(dcaD0ToPv < 0.5) continue;  ///could be strict
-        if(TMath::Abs(cosTheta) > 0.75) continue;
-        ////if(D_eta > 0.7) continue;
+        if(dcaD0ToPv > 99.9) continue;  ///could be strict
+        ///////if(TMath::Abs(cosTheta) > 0.90) continue; ////come back here
+        ///////if(TMath::Abs(D_eta) > 1.0) continue;
         
-        if(D_cosThetaStar > 0.77) continue;  ///???
+        //////if(D_cosThetaStar > 0.77) continue;  ////come back here
         /////if(pi1_dca > 0.62) continue;  ///????
         /////if(k_dca < 0.38) continue;
         
         if(pi1_charge == 1 && k_charge == -1 ) {
             ////if(((D0_mass>1.75) && (D0_mass<1.85)) || ((D0_mass>1.9) && (D0_mass<2.0))){
-            if(((D0_mass>1.78) && (D0_mass<1.83))){
+            /////if(((D0_mass>1.78) && (D0_mass<1.83))){
                /*nD0Candidates++;
                hNHitsKvsD0pt->Fill(D0_pt,k_nHitFit);
 			   hNHitsPivsD0pt->Fill(D0_pt,pi1_nHitFit);
@@ -329,7 +335,8 @@ void Danalysis_test()
                D_eta_unlike->Fill(D_eta);
                pi_DCA_unlike->Fill(pi1_dca);
                k_DCA_unlike->Fill(k_dca);
-            }
+               D_y_D_eta_unlike->Fill(D0_rapidity, D_eta);
+            /////}
             /////if(D0_pt>pTforCos) {
             //////if((D_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(D0_theta)) > cosThetapointD0cut)) {
                 ///////if((D_cosThetaStar < cosThetaStarCutD0)){
@@ -346,7 +353,7 @@ void Danalysis_test()
 
         if(pi1_charge == -1 && k_charge == 1 ) {
              ////if(((D0_mass>1.75) && (D0_mass<1.85)) || ((D0_mass>1.9) && (D0_mass<2.0))){
-             if(((D0_mass>1.78) && (D0_mass<1.83))){
+             ///////if(((D0_mass>1.78) && (D0_mass<1.83))){
                /*hNHitsKvsD0pt->Fill(D0_pt,k_nHitFit);
 			   hNHitsPivsD0pt->Fill(D0_pt,pi1_nHitFit);
                hDptPiPt->Fill(D0_pt,pi1_pt);
@@ -369,7 +376,8 @@ void Danalysis_test()
                D_eta_unlike->Fill(D_eta);
                pi_DCA_unlike->Fill(pi1_dca);
                k_DCA_unlike->Fill(k_dca);
-            }
+               D_y_D_eta_unlike->Fill(D0_rapidity, D_eta);
+            //////}
             //////if(D0_pt>pTforCos) {
             //////if((D_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(D0_theta)) > cosThetapointD0cut)) {
             ///////if((D_cosThetaStar < cosThetaStarCutD0)){
@@ -393,22 +401,23 @@ void Danalysis_test()
         if (i%10000000==0) {cout<< "Rotated D0 "<<i<<endl;}
         ntp_Rotated -> GetEntry(i);
         ///if (D0_pt<=0) continue;
-        //////if ((rD0_pt<1.1) || (rD0_pt>2.1))  continue;
+        ////if ((rD0_pt<1.1) || (rD0_pt>2.1))  continue;
         if((TMath::Abs(rD0_rapidity)>1.0)) continue;
         
-        //////if(rD0_decayL < 1.0) continue;  ///could be strict
-        //////if(rdcaDaughters > 0.48) continue;
-        ///////if(rdcaD0ToPv < 0.5) continue;  ///could be strict
-        if(TMath::Abs(rcosTheta) > 0.75) continue;
-        ////if(D_eta > 0.7) continue;
+        //////if(rD0_decayL < 0.0 || rD0_decayL > 9999999.) continue;  ///could be strict
+        //////if(rdcaDaughters > 10.0) continue;
+        if(rdcaD0ToPv > 99.9) continue;  ///could be strict
+        //////if(TMath::Abs(rcosTheta) > 0.9) continue;  ////come back here
+        //////if(TMath::Abs(rD_eta) > 1.0) continue;
         
-        if(rD_cosThetaStar > 0.77) continue;
+        /////if(rD_cosThetaStar > 0.77) continue;   ////come back here
         ////if(rpi1_dca > 0.62) continue;
         ////if(rk_dca < 0.38) continue;
+        //////if(rD0_mass>3.5 || rD0_mass<0.1) continue;
         
         if(rpi1_charge == 1 && rk_charge == -1) {
             ////if(((rD0_mass>1.75) && (rD0_mass<1.85)) || ((rD0_mass>1.9) && (rD0_mass<2.0))){
-            if(((rD0_mass>1.78) && (rD0_mass<1.83))){
+            /////if(((rD0_mass>1.78) && (rD0_mass<1.83))){
                dcaDaughters_rot->Fill(rdcaDaughters);
                D_theta_rot->Fill(rD0_theta);
                cosTheta_rot->Fill(rcosTheta);
@@ -422,7 +431,8 @@ void Danalysis_test()
                D_eta_rot->Fill(rD_eta);
                pi_DCA_rot->Fill(rpi1_dca);
                k_DCA_rot->Fill(rk_dca);
-            }
+               D_y_D_eta_rot->Fill(rD0_rapidity, rD_eta);
+            /////}
             /////if((bD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(bD0_theta)) > cosThetapointD0cut)) {
           ////////if((bD_cosThetaStar < cosThetaStarCutD0)){
             DRotate->Fill(rD0_pt,rD0_mass);
@@ -430,7 +440,7 @@ void Danalysis_test()
         }
         if(rpi1_charge == -1 && rk_charge == 1) {
              ////if(((rD0_mass>1.75) && (rD0_mass<1.85)) || ((rD0_mass>1.9) && (rD0_mass<2.0))){
-            if(((rD0_mass>1.78) && (rD0_mass<1.83))){
+            ////if(((rD0_mass>1.78) && (rD0_mass<1.83))){
                dcaDaughters_rot->Fill(rdcaDaughters);
                D_theta_rot->Fill(rD0_theta);
                cosTheta_rot->Fill(rcosTheta);
@@ -444,7 +454,8 @@ void Danalysis_test()
                D_eta_rot->Fill(rD_eta);
                pi_DCA_rot->Fill(rpi1_dca);
                k_DCA_rot->Fill(rk_dca);
-            }
+               D_y_D_eta_rot->Fill(rD0_rapidity, rD_eta);
+            /////}
             /////if((bD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(bD0_theta)) > cosThetapointD0cut)) {
            ///////if((bD_cosThetaStar < cosThetaStarCutD0)){
             DbarRotate->Fill(rD0_pt,rD0_mass);
@@ -453,6 +464,7 @@ void Danalysis_test()
    
     }
   
+    
     numberEntr = ntp_ME -> GetEntries();
     cout<<"Number of entries in Ntuple: "<<numberEntr<<endl;
     for (Long64_t i = 0; i < numberEntr; i++) {
@@ -464,16 +476,16 @@ void Danalysis_test()
         
         //////if(rD0_decayL < 1.0) continue;  ///could be strict
         //////if(rdcaDaughters > 0.48) continue;
-        ///////if(rdcaD0ToPv < 0.5) continue;  ///could be strict
-        if(TMath::Abs(mcosTheta) > 0.75) continue;
-        ////if(D_eta > 0.7) continue;
+        if(mdcaD0ToPv > 99.9) continue;  ///could be strict
+        //////if(TMath::Abs(mcosTheta) > 0.90) continue;  ////come back here
+        //////if(TMath::Abs(mD_eta) > 1.0) continue;
         
-        if(mD_cosThetaStar > 0.77) continue;
+        ////////if(mD_cosThetaStar > 0.77) continue;   ////come back here
         ////if(rpi1_dca > 0.62) continue;
         ////if(rk_dca < 0.38) continue;
         if(mpi1_charge == 1 && mk_charge == -1 ) {
             ////if(((mD0_mass>1.75) && (mD0_mass<1.85)) || ((mD0_mass>1.9) && (mD0_mass<2.0))){
-            if(((mD0_mass>1.78) && (mD0_mass<1.83))){
+            /////if(((mD0_mass>1.78) && (mD0_mass<1.83))){
                dcaDaughters_mixed->Fill(mdcaDaughters);
                D_theta_mixed->Fill(mD0_theta);
                cosTheta_mixed->Fill(mcosTheta);
@@ -487,7 +499,8 @@ void Danalysis_test()
                D_eta_mixed->Fill(mD_eta);
                pi_DCA_mixed->Fill(mpi1_dca);
                k_DCA_mixed->Fill(mk_dca);
-            }
+               D_y_D_eta_mixed->Fill(mD0_rapidity, mD_eta);
+            ////}
             ///////if(mD0_pt>pTforCos) {
             ///////if((mD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(mD0_theta)) > cosThetapointD0cut)) {
             /////if((mD_cosThetaStar < cosThetaStarCutD0)){
@@ -501,7 +514,7 @@ void Danalysis_test()
         }
         if(mpi1_charge == -1 && mk_charge == 1 ) {
                   ////if(((mD0_mass>1.75) && (mD0_mass<1.85)) || ((mD0_mass>1.9) && (mD0_mass<2.0))){
-            if(((mD0_mass>1.78) && (mD0_mass<1.83))){
+            /////if(((mD0_mass>1.78) && (mD0_mass<1.83))){
                dcaDaughters_mixed->Fill(mdcaDaughters);
                D_theta_mixed->Fill(mD0_theta);
                cosTheta_mixed->Fill(mcosTheta);
@@ -515,7 +528,8 @@ void Danalysis_test()
                D_eta_mixed->Fill(mD_eta);
                pi_DCA_mixed->Fill(mpi1_dca);
                k_DCA_mixed->Fill(mk_dca);
-            }
+               D_y_D_eta_mixed->Fill(mD0_rapidity, mD_eta);
+            ////}
             ///////if(mD0_pt>pTforCos) {
             ///////if((mD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(mD0_theta)) > cosThetapointD0cut)) {
             ///////if((mD_cosThetaStar < cosThetaStarCutD0)){
@@ -529,6 +543,7 @@ void Danalysis_test()
         }
    
     }
+    
 
 
     numberEntr = ntp_LikeSign -> GetEntries();
@@ -542,17 +557,17 @@ void Danalysis_test()
         
         //////if(rD0_decayL < 1.0) continue;  ///could be strict
         //////if(rdcaDaughters > 0.48) continue;
-        ///////if(rdcaD0ToPv < 0.5) continue;  ///could be strict
-        if(TMath::Abs(lcosTheta) > 0.75) continue;
-        ////if(D_eta > 0.7) continue;
+        if(ldcaD0ToPv > 99.9) continue;  ///could be strict
+        ///////if(TMath::Abs(lcosTheta) > 0.90) continue;  ////come back here
+        ///////if(TMath::Abs(lD_eta) > 1.0) continue;
         
-        if(lD_cosThetaStar > 0.77) continue;
+        /////if(lD_cosThetaStar > 0.77) continue;  ////come back here
         ////if(rpi1_dca > 0.62) continue;
         ////if(rk_dca < 0.38) continue;
 
         if(lpi1_charge == 1 && lk_charge == 1 ) {
                ////if(((lD0_mass>1.75) && (lD0_mass<1.85)) || ((lD0_mass>1.9) && (lD0_mass<2.0))){
-            if(((lD0_mass>1.78) && (lD0_mass<1.83))){
+            /////if(((lD0_mass>1.78) && (lD0_mass<1.83))){
                dcaDaughters_like->Fill(ldcaDaughters);
                D_theta_like->Fill(lD0_theta);
                cosTheta_like->Fill(lcosTheta);
@@ -566,7 +581,8 @@ void Danalysis_test()
                D_eta_like->Fill(lD_eta);
                pi_DCA_like->Fill(lpi1_dca);
                k_DCA_like->Fill(lk_dca);
-            }
+               D_y_D_eta_like->Fill(lD0_rapidity, lD_eta);
+           ///// }
             ///////if(lD0_pt>pTforCos) {
             ///////if((lD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(lD0_theta)) > cosThetapointD0cut)) {
             /////if((lD_cosThetaStar < cosThetaStarCutD0)){
@@ -581,7 +597,7 @@ void Danalysis_test()
         if(lpi1_charge == -1 && lk_charge == -1 ) {
 
             ////if(((lD0_mass>1.75) && (lD0_mass<1.85)) || ((lD0_mass>1.9) && (lD0_mass<2.0))){
-            if(((lD0_mass>1.78) && (lD0_mass<1.83))){
+            ////if(((lD0_mass>1.78) && (lD0_mass<1.83))){
                dcaDaughters_like->Fill(ldcaDaughters);
                D_theta_like->Fill(lD0_theta);
                cosTheta_like->Fill(lcosTheta);
@@ -595,7 +611,8 @@ void Danalysis_test()
                D_eta_like->Fill(lD_eta);
                pi_DCA_like->Fill(lpi1_dca);
                k_DCA_like->Fill(lk_dca);
-            }
+               D_y_D_eta_like->Fill(lD0_rapidity, lD_eta);
+            /////}
             ///////if(lD0_pt>pTforCos) {
             ///////if((lD_cosThetaStar < cosThetaStarCutD0) && (TMath::Abs(cos(lD0_theta)) > cosThetapointD0cut)) {
             ///////if((lD_cosThetaStar < cosThetaStarCutD0)){
@@ -614,7 +631,7 @@ void Danalysis_test()
 
 
    
-    TFile* dataRes = new TFile("pp500_D0_prereqgDCA1.5_all_y1.0_costheta_0.75_costhetastar_0.77_ppt.root","RECREATE");
+    TFile* dataRes = new TFile("pp500_D0_prereqgDCA1.5_TOFPID_noDMasscut_rapiditycut1.0_pvdcacut.root","RECREATE");
 
 
     D->Write();
@@ -666,6 +683,7 @@ void Danalysis_test()
     D_eta_unlike->Write();
     pi_DCA_unlike->Write();
     k_DCA_unlike->Write();
+    D_y_D_eta_unlike->Write();
 
 
     /*dcaDaughters_like->Scale(1.0/dcaDaughters_like->GetEntries());
@@ -693,6 +711,7 @@ void Danalysis_test()
     D_eta_like->Write();
     pi_DCA_like->Write();
     k_DCA_like->Write();
+    D_y_D_eta_like->Write();
 
     /*dcaDaughters_rot->Scale(1.0/dcaDaughters_rot->GetEntries());
     D_theta_rot->Scale(1.0/D_theta_rot->GetEntries());
@@ -719,6 +738,7 @@ void Danalysis_test()
     D_eta_rot->Write();
     pi_DCA_rot->Write();
     k_DCA_rot->Write();
+    D_y_D_eta_rot->Write();
 
 
     /*dcaDaughters_mixed->Scale(1.0/dcaDaughters_mixed->GetEntries());
@@ -746,6 +766,7 @@ void Danalysis_test()
     D_eta_mixed->Write();
     pi_DCA_mixed->Write();
     k_DCA_mixed->Write();
+    D_y_D_eta_mixed->Write();
 
 
     TCanvas *c1 = new TCanvas("c1");
