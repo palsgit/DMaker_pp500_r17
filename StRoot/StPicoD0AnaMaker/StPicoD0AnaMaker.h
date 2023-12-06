@@ -67,13 +67,16 @@ private:
     int analyzeCandidates();
     TVector3 refitVertex(bool);
     bool isVectorInVectorOfVectors(const std::vector<std::vector<float>> vectorOfVectors, const std::vector<float> targetVector);
+    int ConvertRunID(int runID);
+
 
     TNtuple *ntp_DMeson_UnlikeSign;
     TNtuple *ntp_DMeson_Rotated;
     TNtuple *ntp_DMeson_LikeSign;
 
-    TNtuple *ntp_DstarMeson_Signal;
-    TNtuple *ntp_DstarMeson_Background;
+    TNtuple *ntp_DstarMeson_RightSign;
+    TNtuple *ntp_DstarMeson_WrongSign;
+    TNtuple *ntp_DstarMeson_SideBand;
 
     int RunId;
     std::vector<int> RunNumberVector;

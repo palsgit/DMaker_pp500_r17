@@ -65,6 +65,8 @@ public:
     bool isTPCKaon(StPicoTrack const *trk) const;
     bool isTPCProton(StPicoTrack const *trk) const;
 
+    bool isTPCPionBetterCut(StPicoTrack const *trk) const;
+
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     // -- TOF PID
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -218,6 +220,7 @@ public:
     void setHybridTofBetterBetaCuts(bool t);
     void setHybridTofBetterBetaCutsKaon(bool t);
     void setHybridTofBetterBetaCutsPion(bool t);
+    void setTPCBetterCutsPion(bool t);
 
     void setHybridTofWithBEMC(bool t);
 
@@ -289,6 +292,7 @@ private:
     bool  mHybridTofBetterBetaCutsPion;
     bool  mHybridTofWithBEMC;
     bool  mOnlyHotSpot;
+    bool  mTPCBetterCutsPion;
 
 
     // -- acceptance - per particle type [ePicoPID]
@@ -410,12 +414,15 @@ inline void StPicoCutsBase::setHybridTofBetterBetaCutsPion(bool t) {mHybridTofBe
 
 inline void StPicoCutsBase::setHybridTofWithBEMC(bool t) {mHybridTofWithBEMC = t;}
 
-
+inline void StPicoCutsBase::setTPCBetterCutsPion(bool t) {mTPCBetterCutsPion = t;}
 
 inline const float&    StPicoCutsBase::getHypotheticalMass(int pidFlag)        const { return mHypotheticalMass[pidFlag]; }
 
 // -- check for good hadrons in TPC - in ptRange
-inline bool StPicoCutsBase::isTPCPion(StPicoTrack const * const trk)   const {return isTPCHadron(trk, StPicoCutsBase::kPion); }
+inline bool StPicoCutsBase::isTPCPion(StPicoTrack const * const trk)   const {
+    if (!mTPCBetterCutsPion) return isTPCHadron(trk, StPicoCutsBase::kPion); 
+    if (mTPCBetterCutsPion) return isTPCPionBetterCut(trk);
+    }
 inline bool StPicoCutsBase::isTPCKaon(StPicoTrack const * const trk)   const {return isTPCHadron(trk, StPicoCutsBase::kKaon); }
 inline bool StPicoCutsBase::isTPCProton(StPicoTrack const * const trk) const {return isTPCHadron(trk, StPicoCutsBase::kProton); }
 

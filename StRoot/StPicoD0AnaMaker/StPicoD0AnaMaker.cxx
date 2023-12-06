@@ -12,6 +12,9 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TNtuple.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 #include "Math/Vector4D.h"
 
@@ -94,117 +97,155 @@ int StPicoD0AnaMaker::InitHF() {
     mOutList->Add(new TH1F("hNTracksGoodToFit","hNTracksGoodToFit", 2000, -0.5, 1999.5));
     */
 
-    //mOutList->Add(new TH1F("hNTracksRemoved","hNTracksRemoved", 8001, -0.5, 8000.5));
-    //mOutList->Add(new TH1F("hNTracksPrimary","hNTracksPrimary", 8001, -0.5, 8000.5));
+    //mOutList->Add(new TH1F("hNTracksRemoved","hNTracksRemoved", 5000, 1000.5, 6000.5));
+    //mOutList->Add(new TH1F("hNTracksPrimary","hNTracksPrimary", 5000, 1000.5, 6000.5));
     //mOutList->Add(new TH1F("hNTracksDiffRemovedPrimary","hNTracksDiffRemovedPrimary", 2000, -0.5, 1999.5));
     //mOutList->Add(new TH1F("hNTracksDiffRemovedGlobal","hNTracksDiffRemovedGlobal", 5000, -0.5, 4999.5));
     //mOutList->Add(new TH1F("hHotSpotDiffRemovedPrimary","hHotSpotDiffRemovedPrimary", 2000, -0.5, 1999.5));
-    //mOutList->Add(new TH1F("hNTracksGoodToFit","hNTracksGoodToFit", 8001, -0.5, 8000.5));
+    //mOutList->Add(new TH1F("hNTracksGoodToFit","hNTracksGoodToFit", 5000, 1000.5, 6000.5));
     
-    mOutList->Add(new TH1F("hPrimVtZ", "hPrimVtZ before event selection", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY", "hPrimVtXY before event selection; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
-    mOutList->Add(new TH2F("hVzVpdVzMax", "Vz and VzVPD before event selection; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
-    mOutList->Add(new TH1F("hVzVpdVzMaxDiff", "Vz - VzVPD before event selection", 5000, -500, 500));
-    mOutList->Add(new TH1F("hPrimVtZ_beforematch", "hPrimVtZ before 2x matching in Fast", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_beforematch", "hPrimVtXY before 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
-    mOutList->Add(new TH2F("hVzVpdVzMax_beforematch", "Vz and VzVPD before 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
-    mOutList->Add(new TH1F("hVzVpdVzMaxDiff_beforematch", "Vz - VzVPD before 2x matching in Fast", 5000, -500, 500));
+    mOutList->Add(new TH1F("hPrimVtZ", "hPrimVtZ before event selection; #it{v}_{z} [cm]; Entries", 500, -250, 250));
+    mOutList->Add(new TH2F("hPrimVtXY", "hPrimVtXY before event selection; #it{v}_{x} [cm]; #it{v}_{y} [cm]", 250, -2.5, 2.5, 250, -2.5, 2.5));
+    mOutList->Add(new TH2F("hVzVPDvsVzTPC", "Vz and VzVPD before event selection; #it{v}^{TPC}_{z} [cm]; #it{v}^{VPD}_{z} [cm]; Entries", 1500, -750, 750, 1500, -750, 750));
+    mOutList->Add(new TH1F("hVzVPDvsVzTPCDiff", "Vz - VzVPD before event selection; #it{v}^{TPC}_{z} - #it{v}^{VPD}_{z} [cm]; Entries", 5000, -500, 500));
+    /*//////////mOutList->Add(new TH1F("hPrimVtZ_beforematch", "hPrimVtZ before 2x matching in Fast", 500, -250, 250));
+    mOutList->Add(new TH2F("hPrimVtXY_beforematch", "hPrimVtXY before 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 250, -2.5, 2.5, 250, -2.5, 2.5));
+    mOutList->Add(new TH2F("hVzVPDvsVzTPC_beforematch", "Vz and VzVPD before 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1500, -750, 750, 1500, -750, 750));
+    mOutList->Add(new TH1F("hVzVPDvsVzTPCDiff_beforematch", "Vz - VzVPD before 2x matching in Fast", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_checkvzvpdtpc", "hPrimVtZ to check vzVPD vzTPC correlation", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_checkvzvpdtpc", "hPrimVtXY to check vzVPD vzTPC correlation; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
-    mOutList->Add(new TH2F("hVzVpdVzMax_checkvzvpdtpc", "Vz and VzVPD to check vzVPD vzTPC correlation; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
-    mOutList->Add(new TH1F("hVzVpdVzMaxDiff_checkvzvpdtpc", "Vz - VzVPD to check vzVPD vzTPC correlation", 5000, -500, 500));
+    mOutList->Add(new TH2F("hPrimVtXY_checkvzvpdtpc", "hPrimVtXY to check vzVPD vzTPC correlation; #it{v}_{x}; #it{v}_{y}", 250, -2.5, 2.5, 250, -2.5, 2.5));
+    mOutList->Add(new TH2F("hVzVPDvsVzTPC_checkvzvpdtpc", "Vz and VzVPD to check vzVPD vzTPC correlation; #it{v}_{z}; #it{v}^{VPD}_{z}", 1500, -750, 750, 1500, -750, 750));
+    mOutList->Add(new TH1F("hVzVPDvsVzTPCDiff_checkvzvpdtpc", "Vz - VzVPD to check vzVPD vzTPC correlation", 5000, -500, 500));
     mOutList->Add(new TH1F("hPrimVtZ_wmatch", "hPrimVtZ after 2x matching in Fast", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_wmatch", "hPrimVtXY after 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
-    mOutList->Add(new TH2F("hVzVpdVzMax_wmatch", "Vz and VzVPD after 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
-    mOutList->Add(new TH1F("hVzVpdVzMaxDiff_wmatch", "Vz - VzVPD after 2x matching in Fast", 5000, -500, 500));
-    mOutList->Add(new TH1F("hPrimVtZ_evcut", "hPrimVtZ after event selection", 500, -250, 250));
-    mOutList->Add(new TH2F("hPrimVtXY_evcut", "hPrimVtXY after event selection; #it{v}_{x}; #it{v}_{y}", 500, -5.0, 5.0, 500, -5.0, 5.0));
-    mOutList->Add(new TH2F("hVzVpdVzMax_evcut", "Vz and VzVPD after event selection; #it{v}_{z}; #it{v}^{VPD}_{z}", 1000, -500, 500, 1000, -500, 500));
-    mOutList->Add(new TH1F("hVzVpdVzMaxDiff_evcut", "Vz - VzVPD before event selection", 5000, -500, 500));
+    mOutList->Add(new TH2F("hPrimVtXY_wmatch", "hPrimVtXY after 2x matching in Fast; #it{v}_{x}; #it{v}_{y}", 250, -2.5, 2.5, 250, -2.5, 2.5));
+    mOutList->Add(new TH2F("hVzVPDvsVzTPC_wmatch", "Vz and VzVPD after 2x matching in Fast; #it{v}_{z}; #it{v}^{VPD}_{z}", 1500, -750, 750, 1500, -750, 750));
+    mOutList->Add(new TH1F("hVzVPDvsVzTPCDiff_wmatch", "Vz - VzVPD after 2x matching in Fast", 5000, -500, 500));
+    *///////////
+    mOutList->Add(new TH1F("hPrimVtZ_evcut", "hPrimVtZ after event selection; #it{v}_{z} [cm]; Entries", 500, -250, 250));
+    mOutList->Add(new TH2F("hPrimVtXY_evcut", "hPrimVtXY after event selection; #it{v}_{x} [cm]; #it{v}_{y} [cm]", 250, -2.5, 2.5, 250, -2.5, 2.5));
+    mOutList->Add(new TH2F("hVzVPDvsVzTPC_evcut", "Vz and VzVPD after event selection; #it{v}^{TPC}_{z} [cm]; #it{v}^{VPD}_{z} [cm]", 1500, -750, 750, 1500, -750, 750));
+    mOutList->Add(new TH1F("hVzVPDvsVzTPCDiff_evcut", "Vz - VzVPD before event selection; #it{v}^{TPC}_{z} - #it{v}^{VPD}_{z} [cm]; Entries", 5000, -500, 500));
     
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% QA histograms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 
-    mOutList->Add(new TH1F("h_RefMult", "RefMult distribution after event cuts; RefMult; Events", 1000, 0, 1000));
-    mOutList->Add(new TH1F("h_gRefMult", "gRrefMult distribution after event cuts; gRefMult; Events", 1000, 0, 1000));
-    mOutList->Add(new TH2F("h_gRefMultVsRefMult","gRefMult vs. RefMult after event selection;RefMult;gRefMult",1000,0,1000,1000,0,1000));
-    mOutList->Add(new TH1F("h_TofMult_matched", "TofMult distribution after event cuts; RefMult; Events", 1000, 0, 1000));
-    /////mOutList->Add(new TH2F("hTofMultVsRefMult","TofMult vs. RefMult before event selection;RefMult;TofMult",1000,0,1000,1000,0,1000));
-    mOutList->Add(new TH2F("hTofMultVsRefMult_evcut","TofMult vs. RefMult after event selection;RefMult;TofMult",1000,0,1000,1000,0,1000));
+    //////////mOutList->Add(new TH1F("h_RefMult", "RefMult distribution after event cuts; RefMult; Events", 1000, 0, 1000));
+    //////////mOutList->Add(new TH1F("h_gRefMult", "gRrefMult distribution after event cuts; gRefMult; Events", 1000, 0, 1000));
+    mOutList->Add(new TH2F("h_gRefMultVsRefMult","gRefMult vs. RefMult before event selection;RefMult;gRefMult",100,0,100,100,0,100));
+    mOutList->Add(new TH2F("h_gRefMultVsRefMult_evcut","gRefMult vs. RefMult after event selection;RefMult;gRefMult",100,0,100,100,0,100));
+    mOutList->Add(new TH2F("hTofMultVsRefMult","TofMult vs. RefMult before event selection;RefMult;TofMult",100,0,100,100,0,100));
+    mOutList->Add(new TH2F("hTofMultVsRefMult_evcut","TofMult vs. RefMult after event selection;RefMult;TofMult",100,0,100,100,0,100));
 
-    mOutList->Add(new TProfile("prof_ntracksPionTPC_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 8001, -0.5, 8000.5));
-    mOutList->Add(new TProfile("prof_ntracksKaonTPC_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 8001, -0.5, 8000.5));
-    mOutList->Add(new TH2F("h_ntracksKaonTPC_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
-    mOutList->Add(new TH2F("h_ntracksPionTPC_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
+    //////////mOutList->Add(new TProfile("prof_ntracksPionTPC_vs_BBCx", "nTPCpionTracks vs BBCx;BBC Coincidence Rate / 1000; TPCpion track multiplicity", 5000, 1000.5, 6000.5));
+    //////////mOutList->Add(new TProfile("prof_ntracksKaonTPC_vs_BBCx", "nTPCkaonTracks vs BBCx;BBC Coincidence Rate / 1000; TPCkaon track multiplicity", 5000, 1000.5, 6000.5));
+    
+    mOutList->Add(new TH2F("h_nPrimaryTracks_vs_BBCx", "nPrimaryTracks vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_nGoodTracks_vs_BBCx", "nGoodTracks vs BBCx;BBC Coincidence Rate / 1000; good track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaonTPC_vs_BBCx", "nTPCkaonTracks vs BBCx;BBC Coincidence Rate / 1000; TPCkaon track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPionTPC_vs_BBCx", "nTPCpionTracks vs BBCx;BBC Coincidence Rate / 1000; TPCpion track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaon_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPion_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    
+    mOutList->Add(new TH2F("h_nPrimaryTracks_vs_runID", "nPrimaryTracks vs runID (converted);runID (converted); primary track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_nGoodTracks_vs_runID", "nGoodTracks vs runID (converted);runID (converted); good track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaonTPC_vs_runID", "nTPCkaonTracks vs runID (converted); runID (converted); TPCkaon track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPionTPC_vs_runID", "nTPCpionTracks vs runID (converted); runID (converted); TPCpion track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaon_vs_runID", "nkaonTracks vs runID (converted);runID (converted); kaon track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPion_vs_runID", "npionTracks vs runID (converted);runID (converted); pion track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+
+    mOutList->Add(new TH2F("h_nPrimaryTrackswMatching_vs_BBCx", "nPrimaryTracks with matching vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_nGoodTrackswMatching_vs_BBCx", "nGoodTracks with matching vs BBCx;BBC Coincidence Rate / 1000; good track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaonTPCwMatching_vs_BBCx", "nTPCkaonTracks with matching vs BBCx;BBC Coincidence Rate / 1000; TPCkaon track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPionTPCwMatching_vs_BBCx", "nTPCpionTracks with matching vs BBCx;BBC Coincidence Rate / 1000; TPCpion track multiplicity", 5000, 1000.5, 6000.5, 200, 0, 200));
+    
+    
+    mOutList->Add(new TH2F("h_nPrimaryTrackswMatching_vs_runID", "nPrimaryTracks with matching vs runID (converted);runID (converted); primary track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_nGoodTrackswMatching_vs_runID", "nGoodTracks with matching vs runID (converted);runID (converted); good track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksKaonTPCwMatching_vs_runID", "nTPCkaonTracks with matching vs runID (converted); runID (converted); TPCkaon track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    mOutList->Add(new TH2F("h_ntracksPionTPCwMatching_vs_runID", "nTPCpionTracks with matching vs runID (converted); runID (converted); TPCpion track multiplicity", 4000, -499.5, 3500.5, 200, 0, 200));
+    
+    
  
-    mOutList->Add(new TProfile("prof_ntracksPion_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 8001, -0.5, 8000.5));
-    mOutList->Add(new TProfile("prof_ntracksKaon_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 8001, -0.5, 8000.5));
-    mOutList->Add(new TProfile("prof_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000; gRefmult", 8001, -0.5, 8000.5));
-    mOutList->Add(new TProfile("prof_nPrimaryTracks_vs_BBCx", "nPrimaryTracks vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 8001, -0.5, 8000.5));
-    mOutList->Add(new TProfile("prof_nGoodTracks_vs_BBCx", "nGoodTracks vs BBCx;BBC Coincidence Rate / 1000; good track multiplicity", 8001, -0.5, 8000.5));
+    /*mOutList->Add(new TH2F("h_nPrimaryTracks_vs_runID", "nPrimaryTracks vs runID;runID; primary track multiplicity", 100001, 49999.5, 150000.5, 200, 0, 200));
+    mOutList->Add(new TProfile("prof_ntracksPion_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 5000, 1000.5, 6000.5));
+    mOutList->Add(new TProfile("prof_ntracksKaon_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 5000, 1000.5, 6000.5));
+    //////////mOutList->Add(new TProfile("prof_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000; gRefmult", 5000, 1000.5, 6000.5));
+    mOutList->Add(new TProfile("prof_nPrimaryTracks_vs_BBCx", "nPrimaryTracks vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 5000, 1000.5, 6000.5));
+    mOutList->Add(new TProfile("prof_nGoodTracks_vs_BBCx", "nGoodTracks vs BBCx;BBC Coincidence Rate / 1000; good track multiplicity", 5000, 1000.5, 6000.5));
+    */
+    
+    
    
-    mOutList->Add(new TH2F("h_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000; gRefmult", 8001, -0.5, 8000.5, 700, 0, 700));
-    mOutList->Add(new TH2F("h_nPrimaryTracks_vs_BBCx", "nPrimaryTracks vs BBCx;BBC Coincidence Rate / 1000; primary track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
-    mOutList->Add(new TH2F("h_nGoodTracks_vs_BBCx", "nGoodTracks vs BBCx;BBC Coincidence Rate / 1000; good track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
-    mOutList->Add(new TH2F("h_ntracksKaon_vs_BBCx", "nkaonTracks vs BBCx;BBC Coincidence Rate / 1000; kaon track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
-    mOutList->Add(new TH2F("h_ntracksPion_vs_BBCx", "npionTracks vs BBCx;BBC Coincidence Rate / 1000; pion track multiplicity", 8001, -0.5, 8000.5, 700, 0, 700));
-
+    //////////mOutList->Add(new TH2F("h_gRefmult_vs_BBCx", "gRefmult vs BBCx;BBC Coincidence Rate / 1000; gRefmult", 5000, 1000.5, 6000.5, 200, 0, 200));
+    
+    
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Track Quality Cuts %%%%%%%%%%%%%%%%%%%%%%%%%//
 
     // ---------------------------Track cuts check--------------------------------------------------------
-    mOutList->Add(new TH1F("hpT_tr", "track pT before cut; p_{T} [GeV/c]", 500, 0, 50));
-    mOutList->Add(new TH1F("hpT_tr_cut", "track pT after cut; p_{T} [GeV/c]", 500, 0, 50));
-    mOutList->Add(new TH1F("hEta_tr", "track #eta before cut;#eta", 100, -5, 5));
-    mOutList->Add(new TH1F("hEta_tr_cut", "track #eta after cut;#eta", 100, -5, 5));
-    mOutList->Add(new TH1F("hPhi_tr", "track #varphi before cut;#phi", 120, -TMath::TwoPi(), TMath::TwoPi()));
-    mOutList->Add(new TH1F("hPhi_tr_cut", "track #varphi after cut;#phi", 120, -TMath::TwoPi(), TMath::TwoPi()));
+    mOutList->Add(new TH1F("hpT_tr", "track pT before cut; p_{T} [GeV/c]; Entries", 500, 0, 50));
+    mOutList->Add(new TH1F("hpT_tr_cut", "track pT after cut; p_{T} [GeV/c]; Entries", 500, 0, 50));
+    mOutList->Add(new TH1F("hEta_tr", "track #eta before cut;#eta; Entries", 100, -5, 5));
+    mOutList->Add(new TH1F("hEta_tr_cut", "track #eta after cut;#eta; Entries", 100, -5, 5));
+    //////////mOutList->Add(new TH1F("hPhi_tr", "track #varphi before cut;#phi", 120, -TMath::TwoPi(), TMath::TwoPi()));
+    //////////mOutList->Add(new TH1F("hPhi_tr_cut", "track #varphi after cut;#phi", 120, -TMath::TwoPi(), TMath::TwoPi()));
     mOutList->Add(new TH2F("hEtaPhi_tr", "#varphi vs #eta distribution before cut; #varphi; #eta", 120, -TMath::TwoPi(), TMath::TwoPi(), 100, -5, 5));
     mOutList->Add(new TH2F("hEtaPhi_tr_cut", "#varphi vs #eta distribution after cut; #varphi; #eta", 120, -TMath::TwoPi(), TMath::TwoPi(), 100, -5, 5));
-    mOutList->Add(new TH1F("hNHitsFit", "nHitsFit before cut;nHitsFit", 60, 0, 60));
-    mOutList->Add(new TH1F("hNHitsFit_cut", "nHitsFit after cut;nHitsFit", 60, 0, 60));
-    mOutList->Add(new TH1F("hNHitsMax", "nHitsMax before cut;nHitsMax", 50, 0, 50));
-    mOutList->Add(new TH1F("hNHitsFitnHitsMax", "hNHitsFitnHitsMax before cut;NHitsFit2Poss", 50, 0, 2));
-    mOutList->Add(new TH1F("hNHitsFitnHitsMax_cut", "hNHitsFitnHitsMax after cut;NHitsFit2Poss", 50, 0, 2));
-    mOutList->Add(new TH1F("hDca", "Dca before cut", 100, -1, 50));
-    mOutList->Add(new TH1F("hDca_cut", "Dca after cut", 100, -1, 50));
+    mOutList->Add(new TH1F("hNHitsFit", "nHitsFit before cut;nHitsFit; Entries", 60, 0, 60));
+    mOutList->Add(new TH1F("hNHitsFit_cut", "nHitsFit after cut;nHitsFit; Entries", 60, 0, 60));
+    //////////mOutList->Add(new TH1F("hNHitsMax", "nHitsMax before cut;nHitsMax", 50, 0, 50));
+    mOutList->Add(new TH1F("hNHitsFitnHitsMax", "hNHitsFitnHitsMax before cut;NHitsFit/NHitsMax; Entries", 30, 0, 1.5));
+    mOutList->Add(new TH1F("hNHitsFitnHitsMax_cut", "hNHitsFitnHitsMax after cut;NHitsFit/NHitsMax; Entries", 30, 0, 1.5));
+    mOutList->Add(new TH1F("hDca", "Dca before cut;DCA [cm]; Entries", 1000, -1, 50));
+    mOutList->Add(new TH1F("hDca_cut", "Dca after cut;DCA [cm]; Entries", 1000, -1, 50));
+    mOutList->Add(new TH2F("hDcaXY", "DcaXY before cut;DCAx [cm]; DCAy [cm]", 150, -7.5, 7.5, 150, -7.5, 7.5));
+    mOutList->Add(new TH2F("hDcaXY_cut", "DcaXY after cut;DCAx [cm]; DCAy [cm]", 150, -7.5, 7.5, 150, -7.5, 7.5));
+    mOutList->Add(new TH1F("hDcaZ", "DcaZ before cut; DCAz [cm]; Entries", 1000, -50, 50));
+    mOutList->Add(new TH1F("hDcaZ_cut", "DcaZ after cut;DCAz [cm]; Entries", 1000, -50, 50));
     
     //------------------------ Energy Loss Check----------------------------------------//
 
-    mOutList->Add(new TH2F("hDedx_tr", "dE/dx after track cut;p*charge[GeV/c];dEdx", 1000, -10, 10, 5000, 0, 75));
+    mOutList->Add(new TH2F("hDedx_tr", "dE/dx after track cut;p*charge[GeV/c];dE/dx [keV/cm]", 1000, -10, 10, 5000, 0, 75));
     /////mOutList->Add(new TH2D("h_nSigmadEdXPion", "n#sigma_{#pi} vs. p;p;n#sigma_{#pi}", 1000, -10, 10, 5000, -50, 50));
 	/////mOutList->Add(new TH2D("h_nSigmadEdXKaon", "n#sigma_{K} vs. p;p;n#sigma_{K}", 1000, -10, 10, 5000, -50, 50));
-    mOutList->Add(new TH2F("hPiDedx_TOF", "Pion dE/dx after TOF cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
-    mOutList->Add(new TH2F("hPiDedx_TOF_TPC", "Pion dE/dx after TOF and TPC cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
-    mOutList->Add(new TH2F("hKDedx_TOF", "Kaon dE/dx after TOF cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
-    mOutList->Add(new TH2F("hKDedx_TOF_TPC", "Kaon dE/dx after TOF and TPC cut;p*charge[GeV/c];dEdx", 500, -5, 5, 3000, 0, 30));
+    mOutList->Add(new TH2F("hPiDedx_TOF", "Pion dE/dx after TOF cut;p*charge[GeV/c];dE/dx [keV/cm]", 500, -5, 5, 3000, 0, 30));
+    mOutList->Add(new TH2F("hPiDedx_TOF_TPC", "Pion dE/dx after TOF and TPC cut;p*charge[GeV/c];dE/dx [keV/cm]", 500, -5, 5, 3000, 0, 30));
+    mOutList->Add(new TH2F("hKDedx_TOF", "Kaon dE/dx after TOF cut;p*charge[GeV/c];dE/dx [keV/cm]", 500, -5, 5, 3000, 0, 30));
+    mOutList->Add(new TH2F("hKDedx_TOF_TPC", "Kaon dE/dx after TOF and TPC cut;p*charge[GeV/c];dE/dx [keV/cm]", 500, -5, 5, 3000, 0, 30));
     
     //----------------------- 1/Beta Check ------------------------------------------- //
 
-    mOutList->Add(new TH2F("hBetavsP_tr", "#frac{1}{#beta} vs p after track cuts;p[GeV/c];#frac{1}{#beta}", 250, 0, 10, 1000, 0.0, 10.0));
-    mOutList->Add(new TH2F("hPiBetavsP_TPC", "#frac{1}{#beta} vs p for pions after TPC cut;p[GeV/c];#frac{1}{#beta}",  250, 0, 10, 1000, 0.0, 10.0));
-    mOutList->Add(new TH2F("hPiBetavsP_TOF_TPC", "#frac{1}{#beta} vs p for pions after TOF&TPC cut;p[GeV/c];#frac{1}{#beta}", 250, 0, 10, 1000, 0.0, 10.0));
-    mOutList->Add(new TH2F("hKBetavsP_TPC", "#frac{1}{#beta} vs p for kaons after TPC cut;p[GeV/c];#frac{1}{#beta}",  250, 0, 10, 1000, 0.0, 10.0));
-    mOutList->Add(new TH2F("hKBetavsP_TOF_TPC", "#frac{1}{#beta} vs p for kions after TOF&TPC cut;p[GeV/c];#frac{1}{#beta}", 250, 0, 10, 1000, 0.0, 10.0));
+    mOutList->Add(new TH2F("hBetavsP_tr", "1/#beta vs p after track cuts;p[GeV/c];1/#beta", 250, 0, 10, 1000, 0.0, 10.0));
+    mOutList->Add(new TH2F("hPiBetavsP_TPC", "1/#beta vs p for pions after TPC cut;p[GeV/c];1/#beta",  250, 0, 10, 1000, 0.0, 10.0));
+    mOutList->Add(new TH2F("hPiBetavsP_TOF_TPC", "1/#beta vs p for pions after TOF&TPC cut;p[GeV/c];1/#beta", 250, 0, 10, 1000, 0.0, 10.0));
+    mOutList->Add(new TH2F("hKBetavsP_TPC", "1/#beta vs p for kaons after TPC cut;p[GeV/c];1/#beta",  250, 0, 10, 1000, 0.0, 10.0));
+    mOutList->Add(new TH2F("hKBetavsP_TOF_TPC", "1/#beta vs p for kions after TOF&TPC cut;p[GeV/c];1/#beta", 250, 0, 10, 1000, 0.0, 10.0));
     
 
    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PID cuts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_tr", "nnSigmaOneOverBetaPion after track cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TPC", "nnSigmaOneOverBetaPion after TPC cut; p[GeV/c]; nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TOF_TPC", "nnSigmaOneOverBetaPion after TOF and TPC cut;p[GeV/c] ;nSigmaPi_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_tr", "nnSigmaOneOverBetaKaon after track cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TPC", "nnSigmaOneOverBetaKaon after TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TOF_TPC", "nnSigmaOneOverBetaKaon after TOF and TPC cut; p[GeV/c]; nSigmaK_TOF", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_tr", "n#sigma^{#pi}_{1/#beta} after track cut; p[GeV/c]; n#sigma^{#pi}_{TOF}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TPC", "n#sigma^{#pi}_{1/#beta} after TPC cut; p[GeV/c]; n#sigma^{#pi}_{TOF}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaPi_TOF_TPC", "n#sigma^{#pi}_{1/#beta} after TOF and TPC cut;p[GeV/c] ;n#sigma^{#pi}_{TOF}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_tr", "n#sigma^{K}_{1/#beta} after track cut; p[GeV/c]; n#sigma^{K}_{TOF}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TPC", "n#sigma^{K}_{1/#beta} after TPC cut; p[GeV/c]; n#sigma^{K}_{TOF}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmaOneOverBetaK_TOF_TPC", "n#sigma^{K}_{1/#beta} after TOF and TPC cut; p[GeV/c]; n#sigma^{K}_{TOF}", 250, 0,10,400,-40,40));
+
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaPi_tr", "#Delta^{#pi}_{1/#beta} after track cut; p[GeV/c]; #Delta^{#pi}_{1/#beta}", 250, 0,10,6000,-5,55));
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaPi_TPC", "#Delta^{#pi}_{1/#beta} after TPC cut; p[GeV/c]; #Delta^{#pi}_{1/#beta}", 250, 0,10,6000,-5,55));
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaPi_TOF_TPC", "#Delta^{#pi}_{1/#beta} after TOF and TPC cut;p[GeV/c] ;#Delta^{#pi}_{1/#beta}", 250, 0,10,6000,-5,55));
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaK_tr", "#Delta^{K}_{1/#beta} after track cut; p[GeV/c]; #Delta^{K}_{1/#beta}", 250, 0,10,6000,-5,55));
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaK_TPC", "#Delta^{K}_{1/#beta} after TPC cut; p[GeV/c]; #Delta^{K}_{1/#beta}", 250, 0,10,6000,-5,55));
+    mOutList->Add(new TH2F("h_DeltaOneOverBetaK_TOF_TPC", "#Delta^{K}_{1/#beta} after TOF and TPC cut; p[GeV/c]; #Delta^{K}_{1/#beta}", 250, 0,10,6000,-5,55));
     
     
-    mOutList->Add(new TH2F("h_nSigmadEdxPi_tr", "h_nSigmadEdxPi after track cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF", "h_nSigmadEdxPi after TOF cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF_TPC", "h_nSigmadEdxPi after TOF and TPC cut; p [GeV/c]; nSigmaPi_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmadEdxK_tr", "h_nSigmadEdxK after track cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF", "h_nSigmadEdxK after TOF cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
-    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF_TPC", "h_nSigmadEdxK after TOF and TPC cut; p [GeV/c]; nSigmaK_TPC", 250, 0,10,1000,-100,100));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_tr", "n#sigma^{#pi}_{dE/dx} after track cut; p [GeV/c]; n#sigma^{#pi}_{TPC}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF", "n#sigma^{#pi}_{dE/dx} after TOF cut; p [GeV/c]; n#sigma^{#pi}_{TPC}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmadEdxPi_TOF_TPC", "n#sigma^{#pi}_{dE/dx} after TOF and TPC cut; p [GeV/c]; n#sigma^{#pi}_{TPC}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_tr", "n#sigma^{K}_{dE/dx} after track cut; p [GeV/c]; n#sigma^{K}_{TPC}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF", "n#sigma^{K}_{dE/dx} after TOF cut; p [GeV/c]; n#sigma^{K}_{TPC}", 250, 0,10,400,-40,40));
+    mOutList->Add(new TH2F("h_nSigmadEdxK_TOF_TPC", "n#sigma^{K}_{dE/dx} after TOF and TPC cut; p [GeV/c]; n#sigma^{K}_{TPC}", 250, 0,10,400,-40,40));
    
-    mOutList->Add(new TH1F("hPionPt","hPionPt after all cuts", 200, 0, 20));
-    mOutList->Add(new TH1F("hKaonPt","hKaonPt after all cuts", 200, 0, 20));
+    mOutList->Add(new TH1F("hPionPt","hPionPt after all cuts; p_{T} [GeV]; Entries", 200, 0, 20));
+    mOutList->Add(new TH1F("hKaonPt","hKaonPt after all cuts; p_{T} [GeV]; Entries", 200, 0, 20));
 
 //    mOutList->Add(new TH2F("h_pnsigma","h_pnsigma",1000,0,10, 99, -5, 5));
 
@@ -215,17 +256,20 @@ int StPicoD0AnaMaker::InitHF() {
 
 
     mOutFileBaseName = mOutFileBaseName.ReplaceAll(".root", "");
-    TString ntpVars = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigmaTPC:pi1_nHitsratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigmaTPC:k_nHitsratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
-    TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigmaTPC:pi1_nHitsratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigmaTPC:k_nHitsratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC:D_phi:D_eta";
-    ////TString ntpVars3 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_nSigma:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_nSigma:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:pi2_pt:pi2_p:pi2_nSigma:pi2_nHitFit:pi2_TOFinvbeta:pi2_betaBase:pi2_charge:primVz:primVzVpd:Dstar_pt:Dstar_mass:D_rapidity:triplet_pair";
+    TString ntpVars = /*"grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:*/"pi1_pt:pi1_p:pi1_nSigmaTPC:pi1_nSigmaTOF:pi1_TOFDeltainvbeta:pi1_charge:pi1_isTOFmatched:pi1_isBEMCmatched:k_pt:k_p:k_nSigmaTPC:k_nSigmaTOF:k_TOFDeltainvbeta:k_charge:k_isTOFmatched:k_isBEMCmatched:dcaDaughters:D_theta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
+    TString ntpVars2 = /*"grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:*/"pi1_pt:pi1_p:pi1_nSigmaTPC:pi1_nSigmaTOF:pi1_TOFDeltainvbeta:pi1_charge:pi1_isTOFmatched:pi1_isBEMCmatched:k_pt:k_p:k_nSigmaTPC:k_nSigmaTOF:k_TOFDeltainvbeta:k_charge:k_isTOFmatched:k_isBEMCmatched:dcaDaughters:D_theta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
+    ///////////TString ntpVars2 = "grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHits:pi1_nHitFit:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:k_pt:k_p:k_dca:k_nSigma:k_nHits:k_nHitFit:k_TOFinvbeta:k_betaBase:k_charge:dcaDaughters:primVz:primVzVpd:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:VzVPD_VzTPC";
+    TString ntpVars3 = /*"grefMult:refMult:runId:eventId:ZDC:BBC:hotSpot:primary:diffRemovedPrimary:*/"pi1_pt:pi1_p:pi1_nSigmaTPC:pi1_nSigmaTOF:pi1_TOFDeltainvbeta:pi1_charge:pi1_isTOFmatched:pi1_isBEMCmatched:k_pt:k_p:k_nSigmaTPC:k_nSigmaTOF:k_TOFDeltainvbeta:k_charge:k_isTOFmatched:k_isBEMCmatched:pi2_pt:pi2_p:pi2_nSigmaTPC:pi2_nSigmaTOF:pi2_TOFDeltainvbeta:pi2_charge:pi2_isTOFmatched:pi2_isBEMCmatched:D_mass:D_pt:D_rapidity:D_cosThetaStar:D_theta:Dstar_pt:Dstar_mass:Dstar_rapidity";
 
 //    ntp_kaon = new TNtuple("ntp_kaon", "kaon tree","k_pt:k_phi:k_eta:k_nSigma:k_nHitFit:k_TOFinvbeta:pi_eventId:pi_runId");
 //    ntp = new TNtuple("ntp", "pion tree","pi_pt:pi_phi:pi_eta:pi_nSigma:pi_nHitFit:pi_TOFinvbeta:k_eventId:k_runId");
     ntp_DMeson_UnlikeSign = new TNtuple("ntp_UnlikeSign","DMeson TreeUnlikeSign", ntpVars);
-    ntp_DMeson_Rotated = new TNtuple("ntp_Rotated","DMeson TreeRotated", ntpVars2);
     ntp_DMeson_LikeSign = new TNtuple("ntp_LikeSign","DMeson TreeLikeSign", ntpVars);
-    /////ntp_DstarMeson_Signal = new TNtuple("Dntp_signal","DstarMeson TreeSignal", ntpVars2);
-    /////ntp_DstarMeson_Background = new TNtuple("Dntp_background","DstarMeson TreeBackground", ntpVars2);
+    ntp_DMeson_Rotated = new TNtuple("ntp_Rotated","DMeson TreeRotated", ntpVars2);
+    
+    ntp_DstarMeson_RightSign = new TNtuple("Dntp_RightSign","DstarMeson TreeRightSign", ntpVars3);
+    ntp_DstarMeson_WrongSign = new TNtuple("Dntp_Wrongsign","DstarMeson TreeWrongsign", ntpVars3);
+    ntp_DstarMeson_SideBand = new TNtuple("Dntp_SideBand","DstarMeson TreeSideband", ntpVars3);
 
     if (mSwitchRefit) {
         TString dir = "./StRoot/weights/";
@@ -260,8 +304,9 @@ int StPicoD0AnaMaker::FinishHF() {
     ntp_DMeson_UnlikeSign -> Write(ntp_DMeson_UnlikeSign->GetName(), TObject::kOverwrite);
     ntp_DMeson_Rotated -> Write(ntp_DMeson_Rotated->GetName(), TObject::kOverwrite);
     ntp_DMeson_LikeSign -> Write(ntp_DMeson_LikeSign->GetName(), TObject::kOverwrite);
-    //////ntp_DstarMeson_Signal -> Write(ntp_DstarMeson_Signal->GetName(), TObject::kOverwrite);
-    //////ntp_DstarMeson_Background -> Write(ntp_DstarMeson_Background->GetName(), TObject::kOverwrite);
+    ntp_DstarMeson_RightSign -> Write(ntp_DstarMeson_RightSign->GetName(), TObject::kOverwrite);
+    ntp_DstarMeson_WrongSign -> Write(ntp_DstarMeson_WrongSign->GetName(), TObject::kOverwrite);
+    ntp_DstarMeson_SideBand -> Write(ntp_DstarMeson_SideBand->GetName(), TObject::kOverwrite);
 //    ntp -> Write(ntp->GetName(), TObject::kOverwrite);
 //    ntp_kaon -> Write(ntp_kaon->GetName(), TObject::kOverwrite);
     return kStOK;
@@ -372,70 +417,97 @@ int StPicoD0AnaMaker::createCandidates() {
     
     TH1F *hPrimVtZ = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ"));
     TH2F *hPrimVtXY = static_cast<TH2F*>(mOutList->FindObject("hPrimVtXY"));
-    TH2F *hVzVpdVzMax = static_cast<TH2F*>(mOutList->FindObject("hVzVpdVzMax"));
-    TH1F *hVzVpdVzMaxDiff = static_cast<TH1F*>(mOutList->FindObject("hVzVpdVzMaxDiff"));
-    TH1F *hPrimVtZ_beforematch = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ_beforematch"));
+    TH2F *hVzVPDvsVzTPC = static_cast<TH2F*>(mOutList->FindObject("hVzVPDvsVzTPC"));
+    TH1F *hVzVPDvsVzTPCDiff = static_cast<TH1F*>(mOutList->FindObject("hVzVPDvsVzTPCDiff"));
+    /*//////////TH1F *hPrimVtZ_beforematch = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ_beforematch"));
     TH2F *hPrimVtXY_beforematch = static_cast<TH2F*>(mOutList->FindObject("hPrimVtXY_beforematch"));
-    TH2F *hVzVpdVzMax_beforematch = static_cast<TH2F*>(mOutList->FindObject("hVzVpdVzMax_beforematch"));
-    TH1F *hVzVpdVzMaxDiff_beforematch = static_cast<TH1F*>(mOutList->FindObject("hVzVpdVzMaxDiff_beforematch"));
+    TH2F *hVzVPDvsVzTPC_beforematch = static_cast<TH2F*>(mOutList->FindObject("hVzVPDvsVzTPC_beforematch"));
+    TH1F *hVzVPDvsVzTPCDiff_beforematch = static_cast<TH1F*>(mOutList->FindObject("hVzVPDvsVzTPCDiff_beforematch"));
     TH1F *hPrimVtZ_checkvzvpdtpc = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ_checkvzvpdtpc"));
     TH2F *hPrimVtXY_checkvzvpdtpc = static_cast<TH2F*>(mOutList->FindObject("hPrimVtXY_checkvzvpdtpc"));
-    TH2F *hVzVpdVzMax_checkvzvpdtpc = static_cast<TH2F*>(mOutList->FindObject("hVzVpdVzMax_checkvzvpdtpc"));
-    TH1F *hVzVpdVzMaxDiff_checkvzvpdtpc = static_cast<TH1F*>(mOutList->FindObject("hVzVpdVzMaxDiff_checkvzvpdtpc"));
+    TH2F *hVzVPDvsVzTPC_checkvzvpdtpc = static_cast<TH2F*>(mOutList->FindObject("hVzVPDvsVzTPC_checkvzvpdtpc"));
+    TH1F *hVzVPDvsVzTPCDiff_checkvzvpdtpc = static_cast<TH1F*>(mOutList->FindObject("hVzVPDvsVzTPCDiff_checkvzvpdtpc"));
     TH1F *hPrimVtZ_wmatch = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ_wmatch"));
     TH2F *hPrimVtXY_wmatch = static_cast<TH2F*>(mOutList->FindObject("hPrimVtXY_wmatch"));
-    TH2F *hVzVpdVzMax_wmatch = static_cast<TH2F*>(mOutList->FindObject("hVzVpdVzMax_wmatch"));
-    TH1F *hVzVpdVzMaxDiff_wmatch = static_cast<TH1F*>(mOutList->FindObject("hVzVpdVzMaxDiff_wmatch"));
+    TH2F *hVzVPDvsVzTPC_wmatch = static_cast<TH2F*>(mOutList->FindObject("hVzVPDvsVzTPC_wmatch"));
+    TH1F *hVzVPDvsVzTPCDiff_wmatch = static_cast<TH1F*>(mOutList->FindObject("hVzVPDvsVzTPCDiff_wmatch"));
+    *///////////
     TH1F *hPrimVtZ_evcut = static_cast<TH1F*>(mOutList->FindObject("hPrimVtZ_evcut"));
     TH2F *hPrimVtXY_evcut = static_cast<TH2F*>(mOutList->FindObject("hPrimVtXY_evcut"));
-    TH2F *hVzVpdVzMax_evcut = static_cast<TH2F*>(mOutList->FindObject("hVzVpdVzMax_evcut"));
-    TH1F *hVzVpdVzMaxDiff_evcut = static_cast<TH1F*>(mOutList->FindObject("hVzVpdVzMaxDiff_evcut"));
+    TH2F *hVzVPDvsVzTPC_evcut = static_cast<TH2F*>(mOutList->FindObject("hVzVPDvsVzTPC_evcut"));
+    TH1F *hVzVPDvsVzTPCDiff_evcut = static_cast<TH1F*>(mOutList->FindObject("hVzVPDvsVzTPCDiff_evcut"));
 
     TH1F *hpT_tr = static_cast<TH1F*>(mOutList->FindObject("hpT_tr"));
     TH1F *hpT_tr_cut = static_cast<TH1F*>(mOutList->FindObject("hpT_tr_cut"));
     TH1F *hEta_tr = static_cast<TH1F*>(mOutList->FindObject("hEta_tr"));
     TH1F *hEta_tr_cut = static_cast<TH1F*>(mOutList->FindObject("hEta_tr_cut"));
-    TH1F *hPhi_tr = static_cast<TH1F*>(mOutList->FindObject("hPhi_tr"));
-    TH1F *hPhi_tr_cut = static_cast<TH1F*>(mOutList->FindObject("hPhi_tr_cut"));
+    //////////TH1F *hPhi_tr = static_cast<TH1F*>(mOutList->FindObject("hPhi_tr"));
+    //////////TH1F *hPhi_tr_cut = static_cast<TH1F*>(mOutList->FindObject("hPhi_tr_cut"));
     TH2F *hEtaPhi_tr = static_cast<TH2F*>(mOutList->FindObject("hEtaPhi_tr"));
     TH2F *hEtaPhi_tr_cut = static_cast<TH2F*>(mOutList->FindObject("hEtaPhi_tr_cut"));
     TH1F *hNHitsFit = static_cast<TH1F*>(mOutList->FindObject("hNHitsFit"));
     TH1F *hNHitsFit_cut = static_cast<TH1F*>(mOutList->FindObject("hNHitsFit_cut"));
-    TH1F *hNHitsMax = static_cast<TH1F*>(mOutList->FindObject("hNHitsMax"));
+    //////////TH1F *hNHitsMax = static_cast<TH1F*>(mOutList->FindObject("hNHitsMax"));
     TH1F *hNHitsFitnHitsMax = static_cast<TH1F*>(mOutList->FindObject("hNHitsFitnHitsMax"));
     TH1F *hNHitsFitnHitsMax_cut = static_cast<TH1F*>(mOutList->FindObject("hNHitsFitnHitsMax_cut"));
     TH1F *hDca = static_cast<TH1F*>(mOutList->FindObject("hDca"));
     TH1F *hDca_cut = static_cast<TH1F*>(mOutList->FindObject("hDca_cut"));
+    TH2F *hDcaXY = static_cast<TH2F*>(mOutList->FindObject("hDcaXY"));
+    TH2F *hDcaXY_cut = static_cast<TH2F*>(mOutList->FindObject("hDcaXY_cut"));
+    TH1F *hDcaZ = static_cast<TH1F*>(mOutList->FindObject("hDcaZ"));
+    TH1F *hDcaZ_cut = static_cast<TH1F*>(mOutList->FindObject("hDcaZ_cut"));
 
     TH1F *hKaonPt = static_cast<TH1F*>(mOutList->FindObject("hKaonPt"));
     TH1F *hPionPt = static_cast<TH1F*>(mOutList->FindObject("hPionPt"));
 
-    TH1F *h_RefMult = static_cast<TH1F*>(mOutList->FindObject("h_RefMult"));
-    TH1F *h_gRefMult = static_cast<TH1F*>(mOutList->FindObject("h_gRefMult"));
+    //////////TH1F *h_RefMult = static_cast<TH1F*>(mOutList->FindObject("h_RefMult"));
+    //////////TH1F *h_gRefMult = static_cast<TH1F*>(mOutList->FindObject("h_gRefMult"));
     TH2F *h_gRefMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("h_gRefMultVsRefMult"));
-    TH1F *h_TofMult_matched = static_cast<TH1F*>(mOutList->FindObject("h_TofMult_matched"));
-    ////TH2F *hTofMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult"));
+    TH2F *h_gRefMultVsRefMult_evcut = static_cast<TH2F*>(mOutList->FindObject("h_gRefMultVsRefMult_evcut"));
+    //////////TH1F *h_TofMult_matched = static_cast<TH1F*>(mOutList->FindObject("h_TofMult_matched"));
+    TH2F *hTofMultVsRefMult = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult"));
     TH2F *hTofMultVsRefMult_evcut = static_cast<TH2F*>(mOutList->FindObject("hTofMultVsRefMult_evcut"));
 
-    TProfile *prof_nPrimaryTracks_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_nPrimaryTracks_vs_BBCx"));
-    TProfile *prof_nGoodTracks_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_nGoodTracks_vs_BBCx"));
-    TProfile *prof_ntracksKaon_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksKaon_vs_BBCx"));
-    TProfile *prof_ntracksPion_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksPion_vs_BBCx"));
-    TProfile *prof_gRefmult_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_BBCx"));
-    TProfile *prof_gRefmult_vs_RunID = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_RunID"));
-
-    TProfile *prof_ntracksKaonTPC_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksKaonTPC_vs_BBCx"));
-    TProfile *prof_ntracksPionTPC_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_ntracksPionTPC_vs_BBCx"));
+    TH2F *h_nPrimaryTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTracks_vs_BBCx"));
+    TH2F *h_nGoodTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTracks_vs_BBCx"));
     TH2F *h_ntracksKaonTPC_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaonTPC_vs_BBCx"));
     TH2F *h_ntracksPionTPC_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPionTPC_vs_BBCx"));
+    TH2F *h_ntracksKaon_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaon_vs_BBCx"));
+    TH2F *h_ntracksPion_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPion_vs_BBCx"));
+
+    TH2F *h_nPrimaryTrackswMatching_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTrackswMatching_vs_BBCx"));
+    TH2F *h_nGoodTrackswMatching_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTrackswMatching_vs_BBCx"));
+    TH2F *h_ntracksKaonTPCwMatching_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaonTPCwMatching_vs_BBCx"));
+    TH2F *h_ntracksPionTPCwMatching_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPionTPCwMatching_vs_BBCx"));
+    
+    //////////TProfile *prof_gRefmult_vs_BBCx = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_BBCx"));
+    //////////TProfile *prof_gRefmult_vs_RunID = static_cast<TProfile*>(mOutList->FindObject("prof_gRefmult_vs_RunID"));
+
+    TH2F *h_nPrimaryTracks_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTracks_vs_runID"));
+    TH2F *h_nGoodTracks_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTracks_vs_runID"));
+    TH2F *h_ntracksKaonTPC_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaonTPC_vs_runID"));
+    TH2F *h_ntracksPionTPC_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPionTPC_vs_runID"));
+    TH2F *h_ntracksKaon_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaon_vs_runID"));
+    TH2F *h_ntracksPion_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPion_vs_runID"));
+
+    TH2F *h_nPrimaryTrackswMatching_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTrackswMatching_vs_runID"));
+    TH2F *h_nGoodTrackswMatching_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTrackswMatching_vs_runID"));
+    TH2F *h_ntracksKaonTPCwMatching_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaonTPCwMatching_vs_runID"));
+    TH2F *h_ntracksPionTPCwMatching_vs_runID = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPionTPCwMatching_vs_runID"));
+
+    
+    //////////TH2F *h_ntracksKaonTPC_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaonTPC_vs_BBCx"));
+    //////////TH2F *h_ntracksPionTPC_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPionTPC_vs_BBCx"));
+
+    
 
           
-    TH2F *h_nGoodTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTracks_vs_BBCx"));    
+    /*//////////TH2F *h_nGoodTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nGoodTracks_vs_BBCx"));    
     TH2F *h_nPrimaryTracks_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_nPrimaryTracks_vs_BBCx"));
     TH2F *h_ntracksKaon_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksKaon_vs_BBCx"));
     TH2F *h_ntracksPion_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_ntracksPion_vs_BBCx"));
     TH2F *h_gRefmult_vs_BBCx = static_cast<TH2F*>(mOutList->FindObject("h_gRefmult_vs_BBCx"));
-    
+    //////////*/
     TH2F *hDedx_tr = static_cast<TH2F*>(mOutList->FindObject("hDedx_tr"));
     /////TH2D *h_nSigmadEdXPion = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXPion"));
     /////TH2D *h_nSigmadEdXKaon = static_cast<TH2D*>(mOutList->FindObject("h_nSigmadEdXKaon"));
@@ -456,6 +528,13 @@ int StPicoD0AnaMaker::createCandidates() {
     TH2F *h_nSigmaOneOverBetaK_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaK_TPC"));
     TH2F *h_nSigmaOneOverBetaPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaPi_TOF_TPC"));
     TH2F *h_nSigmaOneOverBetaK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_nSigmaOneOverBetaK_TOF_TPC"));
+
+    TH2F *h_DeltaOneOverBetaPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaPi_tr"));
+    TH2F *h_DeltaOneOverBetaK_tr = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaK_tr"));
+    TH2F *h_DeltaOneOverBetaPi_TPC = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaPi_TPC"));
+    TH2F *h_DeltaOneOverBetaK_TPC = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaK_TPC"));
+    TH2F *h_DeltaOneOverBetaPi_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaPi_TOF_TPC"));
+    TH2F *h_DeltaOneOverBetaK_TOF_TPC = static_cast<TH2F*>(mOutList->FindObject("h_DeltaOneOverBetaK_TOF_TPC"));
     
     TH2F *h_nSigmadEdxPi_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxPi_tr"));
     TH2F *h_nSigmadEdxK_tr = static_cast<TH2F*>(mOutList->FindObject("h_nSigmadEdxK_tr"));
@@ -471,6 +550,7 @@ int StPicoD0AnaMaker::createCandidates() {
 
     ////cout << "nTracks" << "   " << nTracks << "   " << "nTracks" << "  " << nTracks_Event  << endl;
     nGoodTracks=0;
+    
     Int_t nD0 = 0;
     Int_t nDstar = 0;
     Int_t nPrimary = 0;
@@ -480,47 +560,55 @@ int StPicoD0AnaMaker::createCandidates() {
     Int_t ntrackKaonTOF = 0;
     Int_t ntrackPionTOF_TPC = 0;
     Int_t ntrackKaonTOF_TPC = 0;
-    TVector3 pMom;
+    
+    Int_t nGoodTrackswMatching = 0;
+    Int_t nPrimarywMatching = 0;
+    Int_t ntrackPionTPCwMatching = 0;
+    Int_t ntrackKaonTPCwMatching = 0;
 
-    float tofMult = 0;
     
  
-    RunId = mPicoEvent->runId();
+    RunId = ConvertRunID(mPicoEvent->runId());
     float BBCx = mPicoEvent->BBCx() / 1000.;
     float refMult = mPicoEvent->refMult();
     float gRefMult = mPicoEvent->grefMult();
-    float tofMult_matched = mPicoEvent->nBTOFMatch();
-    /////float tofMult = mPicoDst->numberOfBTofHits();
+    float tofMult = mPicoEvent->nBTOFMatch();
 
    hPrimVtZ->Fill(mPrimVtx.z());
    hPrimVtXY->Fill(mPrimVtx.x(), mPrimVtx.y());
-   hVzVpdVzMax->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
-   hVzVpdVzMaxDiff->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+   hVzVPDvsVzTPC->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
+   hVzVPDvsVzTPCDiff->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+   hTofMultVsRefMult->Fill(tofMult, refMult);
+   h_gRefMultVsRefMult->Fill(gRefMult, refMult);
 
     if (fabs(mPrimVtx.z()) < mHFCuts->getCutVzMax()) {
     
-    hPrimVtZ_beforematch->Fill(mPrimVtx.z());
+    /*//////////hPrimVtZ_beforematch->Fill(mPrimVtx.z());
     hPrimVtXY_beforematch->Fill(mPrimVtx.x(), mPrimVtx.y());
-    hVzVpdVzMax_beforematch->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
-    hVzVpdVzMaxDiff_beforematch->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+    hVzVPDvsVzTPC_beforematch->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
+    hVzVPDvsVzTPCDiff_beforematch->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+    
 
     if (fabs(mPrimVtx.z() - mPicoEvent->vzVpd()) < mHFCuts->getCutVzVpdVzMax()) {
          hPrimVtZ_checkvzvpdtpc->Fill(mPrimVtx.z());
          hPrimVtXY_checkvzvpdtpc->Fill(mPrimVtx.x(), mPrimVtx.y());
-         hVzVpdVzMax_checkvzvpdtpc->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
-         hVzVpdVzMaxDiff_checkvzvpdtpc->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+         hVzVPDvsVzTPC_checkvzvpdtpc->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
+         hVzVPDvsVzTPCDiff_checkvzvpdtpc->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
     }
+    *//////////
 
     if (mHFCuts->isMatchedFast(mPicoDst)) {
 
         //-------------- Filling Histogram before event cuts --------------------//
-
+        
+        /*//////////
         hPrimVtZ_wmatch->Fill(mPrimVtx.z());
         hPrimVtXY_wmatch->Fill(mPrimVtx.x(), mPrimVtx.y());
-        hVzVpdVzMax_wmatch->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
-        hVzVpdVzMaxDiff_wmatch->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+        hVzVPDvsVzTPC_wmatch->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
+        hVzVPDvsVzTPCDiff_wmatch->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+        *//////////
 
-        //////hTofMultVsRefMult->Fill(tofMult, refMult);
+        //////
         
         if (mHFCuts->isBetterEvent(mPicoDst)){
 
@@ -529,17 +617,17 @@ int StPicoD0AnaMaker::createCandidates() {
 
             hPrimVtZ_evcut->Fill(mPrimVtx.z());
             hPrimVtXY_evcut->Fill(mPrimVtx.x(), mPrimVtx.y());
-            hVzVpdVzMax_evcut->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
-            hVzVpdVzMaxDiff_evcut->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
+            hVzVPDvsVzTPC_evcut->Fill(mPrimVtx.z(), mPicoEvent->vzVpd());
+            hVzVPDvsVzTPCDiff_evcut->Fill(mPrimVtx.z() - mPicoEvent->vzVpd());
 
-            h_RefMult->Fill(refMult);
-            h_gRefMult->Fill(gRefMult);
-            h_TofMult_matched->Fill(tofMult_matched);
-            h_gRefMultVsRefMult->Fill(gRefMult, refMult);
-            /////
+            //////////h_RefMult->Fill(refMult);
+            //////////h_gRefMult->Fill(gRefMult);
+            
+            h_gRefMultVsRefMult_evcut->Fill(gRefMult, refMult);
+            hTofMultVsRefMult_evcut->Fill(tofMult, refMult);
 
-            h_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
-            prof_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
+            //////////h_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
+            //////////prof_gRefmult_vs_BBCx->Fill(BBCx, gRefMult);
 
 
             for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
@@ -550,14 +638,12 @@ int StPicoD0AnaMaker::createCandidates() {
             float nsigmaTOFpion = mHFCuts->getnSigmaTOF(trk, StPicoCutsBase::kPion);
             float nsigmaTOFkaon = mHFCuts->getnSigmaTOF(trk, StPicoCutsBase::kKaon);
 
-
-
-                
+                TVector3 pMom = trk->pMom(); //primary momentum
                 float invBeta = mHFCuts->getTofBetaBase(trk);
                 float BetaPion = mHFCuts->getTofBetaBase(trk);
-                float npi1_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) ; // /0.011;
+                float DeltaOneoverBeta_pi = mHFCuts->getOneOverBeta(trk,BetaPion,StPicoCutsBase::kPion) ; // /0.011;
                 float BetaKaon = mHFCuts->getTofBetaBase(trk);
-                float nk_TOFinvbeta = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon); // /0.012;
+                float DeltaOneoverBeta_K = mHFCuts->getOneOverBeta(trk,BetaKaon,StPicoCutsBase::kKaon); // /0.012;
                 
 
        
@@ -567,35 +653,38 @@ int StPicoD0AnaMaker::createCandidates() {
               //{
               nPrimary++;
               primaryTracks.push_back(iTrack);
-              pMom = trk->pMom(); //Primary momentum
-
+           
                     //----------------- Filling histogram before track cut --------------------//
 
                     hpT_tr->Fill(trk->pPt());
                     hEta_tr->Fill(pMom.PseudoRapidity());
-                    hPhi_tr->Fill(pMom.Phi());
+                    //////////hPhi_tr->Fill(pMom.Phi());
                     hEtaPhi_tr->Fill(pMom.Phi(), pMom.PseudoRapidity());
                     hNHitsFit->Fill(trk->nHitsFit());
-                    hNHitsMax->Fill(trk->nHitsMax());
+                    //////////hNHitsMax->Fill(trk->nHitsMax());
                     hNHitsFitnHitsMax->Fill((double) trk->nHitsFit() / (double) trk->nHitsMax());
                     hDca->Fill((mPrimVtx - trk->origin()).Mag());
+                    hDcaXY->Fill((mPrimVtx - trk->origin()).x(), (mPrimVtx - trk->origin()).y());
+                    hDcaZ->Fill((mPrimVtx - trk->origin()).z());
+
+                    if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk)) nPrimarywMatching++;
 
             if (mHFCuts->isGoodTrack(trk)){
               
                         nGoodTracks++;
-
-                        if (mHFCuts->isTOFmatched(trk)) tofMult += 1;
             
                
                         //----------------------- Filling Histogram after track cut --------------//
               
                         hpT_tr_cut->Fill(trk->pPt());
                         hEta_tr_cut->Fill(pMom.PseudoRapidity());
-                        hPhi_tr_cut->Fill(pMom.Phi());
+                        //////////hPhi_tr_cut->Fill(pMom.Phi());
                         hEtaPhi_tr_cut->Fill(pMom.Phi(), pMom.PseudoRapidity());
                         hNHitsFit_cut->Fill(trk->nHitsFit());
                         hNHitsFitnHitsMax_cut->Fill((double) trk->nHitsFit() / (double) trk->nHitsMax());
                         hDca_cut->Fill((mPrimVtx - trk->origin()).Mag());
+                        hDcaXY_cut->Fill((mPrimVtx - trk->origin()).x(), (mPrimVtx - trk->origin()).y());
+                        hDcaZ_cut->Fill((mPrimVtx - trk->origin()).z());
               
                         hDedx_tr->Fill(pMom.Mag() * trk->charge(), trk->dEdx());
                         hBetavsP_tr->Fill(pMom.Mag(), 1.0 / invBeta);
@@ -605,6 +694,11 @@ int StPicoD0AnaMaker::createCandidates() {
 
                         h_nSigmaOneOverBetaPi_tr->Fill(pMom.Mag(), nsigmaTOFpion);
                         h_nSigmaOneOverBetaK_tr->Fill(pMom.Mag(), nsigmaTOFkaon);
+
+                        h_DeltaOneOverBetaPi_tr->Fill(pMom.Mag(), DeltaOneoverBeta_pi);
+                        h_DeltaOneOverBetaK_tr->Fill(pMom.Mag(), DeltaOneoverBeta_K);
+                        
+                        if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk)) nGoodTrackswMatching++;
                         
 
                         //-------------------- Filling TOF histogram after TPC cuts---------------//
@@ -618,9 +712,13 @@ int StPicoD0AnaMaker::createCandidates() {
                 
                 ///float BBCPion = mPicoEvent->BBCx() / 1000.;
                 ///float grefMultPion = mPicoEvent->grefMult();
-                ////h_QA_nSigmaOneOverBetaPion->Fill(trk->pPt(), npi1_TOFinvbeta);
+                ////h_QA_OneOverBetaDiffPion->Fill(trk->pPt(), npi1_TOFinvbeta);
                             hPiBetavsP_TPC->Fill(pMom.Mag(), 1.0 / BetaPion);
                             h_nSigmaOneOverBetaPi_TPC->Fill(pMom.Mag(), nsigmaTOFpion);
+                            h_DeltaOneOverBetaPi_TPC->Fill(pMom.Mag(), DeltaOneoverBeta_pi);
+
+                            if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk)) ntrackPionTPCwMatching++;
+                        
                 ////}
               }
             
@@ -636,9 +734,12 @@ int StPicoD0AnaMaker::createCandidates() {
                 ////float grefMultKaon = mPicoEvent->grefMult();
                 /////h_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
                 /////prof_ntracks_vs_BBCx_Kaon->Fill(BBCKaon, grefMultKaon);
-                ////h_QA_nSigmaOneOverBetaKaon->Fill(trk->pPt(), nk_TOFinvbeta);
+                ////h_QA_OneOverBetaDiffKaon->Fill(trk->pPt(), nk_TOFinvbeta);
                             hKBetavsP_TPC->Fill(pMom.Mag(), 1.0 / BetaKaon);
                             h_nSigmaOneOverBetaK_TPC->Fill(pMom.Mag(), nsigmaTOFkaon);
+                            h_DeltaOneOverBetaK_TPC->Fill(pMom.Mag(), DeltaOneoverBeta_K);
+
+                            if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk)) ntrackKaonTPCwMatching++;
                 /////}
              }
 
@@ -667,7 +768,7 @@ int StPicoD0AnaMaker::createCandidates() {
                 /////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
                 /////if (mHFCuts->isTOFmatched(trk)) 
                 ///{
-                    if (trk->dEdx() != 0) {
+                    if (trk->charge() != 0) {
                     ntrackPionTOF_TPC++;
                 mIdxPicoPions.push_back(iTrack);
                 
@@ -676,6 +777,8 @@ int StPicoD0AnaMaker::createCandidates() {
                             hPionPt->Fill(trk->pPt());
                             h_nSigmaOneOverBetaPi_TOF_TPC->Fill(pMom.Mag(), nsigmaTOFpion);
                             h_nSigmadEdxPi_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaPion());
+                            h_DeltaOneOverBetaPi_TOF_TPC->Fill(pMom.Mag(), DeltaOneoverBeta_pi);
+                        
                 }
              }
 
@@ -683,7 +786,7 @@ int StPicoD0AnaMaker::createCandidates() {
                 /////if (mHFCuts->isTOFmatched(trk) || mHFCuts->isBEMCmatched(trk))
                 /////if (mHFCuts->isTOFmatched(trk)) 
                 ///{
-                    if (trk->dEdx() != 0) {
+                    if (trk->charge() != 0) {
                     ntrackKaonTOF_TPC++;
                 mIdxPicoKaons.push_back(iTrack);
 
@@ -692,6 +795,7 @@ int StPicoD0AnaMaker::createCandidates() {
                             hKaonPt->Fill(trk->pPt());
                             h_nSigmaOneOverBetaK_TOF_TPC->Fill(pMom.Mag(), nsigmaTOFkaon);
                             h_nSigmadEdxK_TOF_TPC->Fill(pMom.Mag(),trk->nSigmaKaon());
+                            h_DeltaOneOverBetaK_TOF_TPC->Fill(pMom.Mag(), DeltaOneoverBeta_K);
                 }
               }
             }
@@ -700,35 +804,55 @@ int StPicoD0AnaMaker::createCandidates() {
 
         
     }
-
-    hTofMultVsRefMult_evcut->Fill(refMult, tofMult);
             
 
             //------------------------- Histograms for Pile-up check -------------------// 
             
-            h_ntracksPionTPC_vs_BBCx->Fill(BBCx, ntrackPionTPC);
-            prof_ntracksPionTPC_vs_BBCx->Fill(BBCx, ntrackPionTPC);
-
-            h_ntracksKaonTPC_vs_BBCx->Fill(BBCx, ntrackKaonTPC);
-            prof_ntracksKaonTPC_vs_BBCx->Fill(BBCx, ntrackKaonTPC);
-
-            h_ntracksPion_vs_BBCx->Fill(BBCx, ntrackPionTOF_TPC);
-            prof_ntracksPion_vs_BBCx->Fill(BBCx, ntrackPionTOF_TPC);
-
-            h_ntracksKaon_vs_BBCx->Fill(BBCx, ntrackKaonTOF_TPC);
-            prof_ntracksKaon_vs_BBCx->Fill(BBCx, ntrackKaonTOF_TPC);
-
-          h_nPrimaryTracks_vs_BBCx->Fill(BBCx, nPrimary);
-          prof_nPrimaryTracks_vs_BBCx->Fill(BBCx, nPrimary);
+            h_nPrimaryTracks_vs_BBCx->Fill(BBCx, nPrimary);
+            //////////prof_nPrimaryTracks_vs_BBCx->Fill(BBCx, nPrimary);
+            h_nPrimaryTracks_vs_runID->Fill(RunId, nPrimary);
     
             h_nGoodTracks_vs_BBCx->Fill(BBCx, nGoodTracks);
-            prof_nGoodTracks_vs_BBCx->Fill(BBCx, nGoodTracks);
+            //////////prof_nGoodTracks_vs_BBCx->Fill(BBCx, nGoodTracks);
+            h_nGoodTracks_vs_runID->Fill(RunId, nGoodTracks);
 
+            h_ntracksKaonTPC_vs_BBCx->Fill(BBCx, ntrackKaonTPC);
+            //////////prof_ntracksKaonTPC_vs_BBCx->Fill(BBCx, ntrackKaonTPC);
+            h_ntracksKaonTPC_vs_runID->Fill(RunId, ntrackKaonTPC);
 
+            h_ntracksPionTPC_vs_BBCx->Fill(BBCx, ntrackPionTPC);
+            //////////prof_ntracksPionTPC_vs_BBCx->Fill(BBCx, ntrackPionTPC);
+            h_ntracksPionTPC_vs_runID->Fill(RunId, ntrackPionTPC);
 
+            h_ntracksKaon_vs_BBCx->Fill(BBCx, ntrackKaonTOF_TPC);
+            //////////prof_ntracksKaon_vs_BBCx->Fill(BBCx, ntrackKaonTOF_TPC);
+            h_ntracksKaon_vs_runID->Fill(RunId, ntrackKaonTOF_TPC);
+
+            
+
+            h_ntracksPion_vs_BBCx->Fill(BBCx, ntrackPionTOF_TPC);
+            //////////prof_ntracksPion_vs_BBCx->Fill(BBCx, ntrackPionTOF_TPC);
+            h_ntracksPion_vs_runID->Fill(RunId, ntrackPionTOF_TPC);
+
+            h_nPrimaryTrackswMatching_vs_BBCx->Fill(BBCx, nPrimarywMatching);
+            //////////prof_nPrimaryTracks_vs_BBCx->Fill(BBCx, nPrimary);
+            h_nPrimaryTrackswMatching_vs_runID->Fill(RunId, nPrimarywMatching);
     
+            h_nGoodTrackswMatching_vs_BBCx->Fill(BBCx, nGoodTrackswMatching);
+            //////////prof_nGoodTracks_vs_BBCx->Fill(BBCx, nGoodTracks);
+            h_nGoodTrackswMatching_vs_runID->Fill(RunId, nGoodTrackswMatching);
 
-    
+            h_ntracksKaonTPCwMatching_vs_BBCx->Fill(BBCx, ntrackKaonTPCwMatching);
+            //////////prof_ntracksKaonTPC_vs_BBCx->Fill(BBCx, ntrackKaonTPC);
+            h_ntracksKaonTPCwMatching_vs_runID->Fill(RunId, ntrackKaonTPCwMatching);
+
+            h_ntracksPionTPCwMatching_vs_BBCx->Fill(BBCx, ntrackPionTPCwMatching);
+            //////////prof_ntracksPionTPC_vs_BBCx->Fill(BBCx, ntrackPionTPC);
+            h_ntracksPionTPCwMatching_vs_runID->Fill(RunId, ntrackPionTPCwMatching);
+
+            
+
+            
 
 
     TVector3 useVertex(mPrimVtx.x(), mPrimVtx.y(), mPrimVtx.z());
@@ -739,8 +863,8 @@ int StPicoD0AnaMaker::createCandidates() {
 //            cout<<mPrimVtx.x()<<" "<<mPrimVtx.y()<<" "<<mPrimVtx.z()<<endl;
 //        }
 
-    vect_daughter_id = {{0.5, 0.5}};
-    daughter_id;
+    //////////vect_daughter_id = {{0.5, 0.5}};
+    //////////daughter_id;
 
     
 
@@ -748,8 +872,8 @@ int StPicoD0AnaMaker::createCandidates() {
         StPicoTrack *pion1 = mPicoDst->track(mIdxPicoPions[idxPion1]);
         for (unsigned short idxKaon = 0; idxKaon < mIdxPicoKaons.size(); ++idxKaon) {
             if ( mIdxPicoKaons[idxKaon] == mIdxPicoPions[idxPion1] ) continue;
-            daughter_id = {mIdxPicoPions[idxPion1], mIdxPicoKaons[idxKaon]};
-            if (isVectorInVectorOfVectors(vect_daughter_id, daughter_id)) continue;
+            //////////daughter_id = {mIdxPicoPions[idxPion1], mIdxPicoKaons[idxKaon]};
+            //////////if (isVectorInVectorOfVectors(vect_daughter_id, daughter_id)) continue;
             StPicoTrack *kaon = mPicoDst->track(mIdxPicoKaons[idxKaon]);
             StHFPair *pair = new StHFPair(pion1, kaon, mHFCuts->getHypotheticalMass(StPicoCutsBase::kPion),mHFCuts->getHypotheticalMass(StPicoCutsBase::kKaon), mIdxPicoPions[idxPion1],mIdxPicoKaons[idxKaon], useVertex, mBField, kTRUE);
             StHFRotPair *rotpair = new StHFRotPair(pion1, kaon, mHFCuts->getHypotheticalMass(StPicoCutsBase::kPion),mHFCuts->getHypotheticalMass(StPicoCutsBase::kKaon), mIdxPicoPions[idxPion1],mIdxPicoKaons[idxKaon], useVertex, mBField, kTRUE);
@@ -759,23 +883,31 @@ int StPicoD0AnaMaker::createCandidates() {
 			/////if((TMath::Abs(pair->rapidity()))>1) continue;
             ////if(pair->cosThetaStar() == 1) continue;
 
-            bool isD0 = false;
-            bool isBgD0 = false;
-            ////if((kaon->charge() + pion1->charge()) == 0 ) isD0=true;
+            /////bool isD0 = false;
+            ////bool isBgD0 = false;
+            
+            int charge = kaon->charge() + pion1->charge();
+            /////if(charge == 0) isD0=true;
 
-            if(kaon->charge() == 1 && pion1->charge() == -1 ) isD0=true;
+            /*if(kaon->charge() == 1 && pion1->charge() == -1 ) isD0=true;
             if(kaon->charge() == -1 && pion1->charge() == 1 ) isD0=true;
 
             if(kaon->charge() == 1 && pion1->charge() == 1 ) isBgD0=true;
             if(kaon->charge() == -1 && pion1->charge() == -1 ) isBgD0=true;
+            */
 
-            Float_t primary = 0;
-            if (pion1->isPrimary()) primary = 3;
-            if (kaon->isPrimary()) primary = 4;
-            if (pion1->isPrimary() && kaon->isPrimary()) primary = 2;
+            Float_t ispion1TOFmatched = 0;
+            Float_t ispion1BEMCmatched = 0;
+            Float_t iskaonTOFmatched = 0;
+            Float_t iskaonBEMCmatched = 0;
 
-            Float_t hotSpot=0;
-            if (mHFCuts->checkHotSpot(&mPrimVtx)) hotSpot=1;
+            if (mHFCuts->isTOFmatched(pion1)) ispion1TOFmatched = 1;
+            if (mHFCuts->isBEMCmatched(pion1)) ispion1BEMCmatched = 1;
+            if (mHFCuts->isTOFmatched(kaon)) iskaonTOFmatched = 1;
+            if (mHFCuts->isBEMCmatched(kaon)) iskaonBEMCmatched = 1;
+
+            //////////Float_t hotSpot=0;
+            //////////if (mHFCuts->checkHotSpot(&mPrimVtx)) hotSpot=1;
 
             float pairM = pair->m();
 
@@ -783,11 +915,11 @@ int StPicoD0AnaMaker::createCandidates() {
             float ntVar[nNtVars];
             int ii=0;
 
-            float VzTPC = mPrimVtx.z();
-            float VzVPD = mPicoEvent->vzVpd();
-            float VzVPD_VzTPC = VzVPD - VzTPC;
+            //////////float VzTPC = mPrimVtx.z();
+            //////////float VzVPD = mPicoEvent->vzVpd();
+            //////////float VzVPD_VzTPC = VzVPD - VzTPC;
 
-            ntVar[ii++] = mPicoEvent->grefMult();
+            /*//////////ntVar[ii++] = mPicoEvent->grefMult();
             ntVar[ii++] = mPicoEvent->refMult();
             ntVar[ii++] = mPicoEvent->runId();
             ntVar[ii++] = mPicoEvent->eventId();
@@ -797,37 +929,40 @@ int StPicoD0AnaMaker::createCandidates() {
 
             ntVar[ii++] = primary;
             ntVar[ii++] = nGoodTracks;
+            *///////////
 
             ntVar[ii++] = pion1->pPt();
             ntVar[ii++] = pion1->pPtot();
-            ntVar[ii++] = pair->particle1Dca();
+            //////////ntVar[ii++] = pair->particle1Dca();
             ntVar[ii++] = pion1->nSigmaPion();
-            ntVar[ii++] = (float)((float) pion1->nHitsFit()/(float) pion1->nHitsMax());
-            ntVar[ii++] = pion1->nHitsFit();
-            ntVar[ii++] = mPicoDst->btofPidTraits(pion1->bTofPidTraitsIndex())->nSigmaPion();
-            ntVar[ii++] = mHFCuts->getOneOverBeta(pion1, mHFCuts->getTofBetaBase(pion1), StPicoCutsBase::kPion);
-            ntVar[ii++] = mHFCuts->getTofBetaBase(pion1);
+            ntVar[ii++] = mHFCuts->getnSigmaTOF(pion1, StPicoCutsBase::kPion);
+            //////////ntVar[ii++] = pion1->nHits();
+            //////////ntVar[ii++] = pion1->nHitsFit();
+            ntVar[ii++] = mHFCuts->getOneOverBeta(pion1,mHFCuts->getTofBetaBase(pion1),StPicoCutsBase::kPion);
+            //////////ntVar[ii++] = mHFCuts->getTofBetaBase(pion1);
             ntVar[ii++] = pion1->charge();
-            ntVar[ii++] = pion1->pMom().PseudoRapidity(); 
+            ntVar[ii++] = ispion1TOFmatched;
+            ntVar[ii++] = ispion1BEMCmatched;
 
             ntVar[ii++] = kaon->pPt();
             ntVar[ii++] = kaon->pPtot();
-            ntVar[ii++] = pair->particle2Dca();
+            //////////ntVar[ii++] = pair->particle2Dca();
             ntVar[ii++] = kaon->nSigmaKaon();
-            ntVar[ii++] = (float)((float)kaon->nHitsFit()/(float)kaon->nHitsMax());
-            ntVar[ii++] = kaon->nHitsFit();
-            ntVar[ii++] = mPicoDst->btofPidTraits(kaon->bTofPidTraitsIndex())->nSigmaKaon();
-            ntVar[ii++] = mHFCuts->getOneOverBeta(kaon, mHFCuts->getTofBetaBase(kaon), StPicoCutsBase::kKaon);
-            ntVar[ii++] = mHFCuts->getTofBetaBase(kaon);
+            ntVar[ii++] = mHFCuts->getnSigmaTOF(kaon, StPicoCutsBase::kKaon);
+            //////////ntVar[ii++] = kaon->nHits();
+            //////////ntVar[ii++] = kaon->nHitsFit();
+            ntVar[ii++] = mHFCuts->getOneOverBeta(kaon,mHFCuts->getTofBetaBase(kaon),StPicoCutsBase::kKaon);
+            //////////ntVar[ii++] = mHFCuts->getTofBetaBase(kaon);
             ntVar[ii++] = kaon->charge();
-            ntVar[ii++] = kaon->pMom().PseudoRapidity();
+            ntVar[ii++] = iskaonTOFmatched;
+            ntVar[ii++] = iskaonBEMCmatched;
 
             ntVar[ii++] = pair->dcaDaughters();
-            ntVar[ii++] = mPrimVtx.z();
-            ntVar[ii++] = mPicoEvent->vzVpd();
+            //////////ntVar[ii++] = mPrimVtx.z();
+            //////////ntVar[ii++] = mPicoEvent->vzVpd();
 
             ntVar[ii++] = pair->pointingAngle();
-            ntVar[ii++] = cos(pair->pointingAngle());
+            //////////ntVar[ii++] = cos(pair->pointingAngle());
             ntVar[ii++] = pair->decayLength();
             ntVar[ii++] = pair->DcaToPrimaryVertex(); //(pair->decayLength())*sin(pair->pointingAngle());
             ntVar[ii++] = pair->cosThetaStar();
@@ -835,17 +970,18 @@ int StPicoD0AnaMaker::createCandidates() {
             ntVar[ii++] = pair->pt();
             ntVar[ii++] = pair->m();
             ntVar[ii++] = pair->rapidity();
-
-            ntVar[ii++] = VzVPD_VzTPC;
-
             ntVar[ii++] = pair->phi();
             ntVar[ii++] = pair->eta();
+
+
+
+            //////////ntVar[ii++] = VzVPD_VzTPC;
 
             const int nNtVars2 = ntp_DMeson_Rotated->GetNvar();
             float ntVar2[nNtVars2];
             int iiii=0;
 
-            ntVar2[iiii++] = mPicoEvent->grefMult();
+            /*//////////ntVar2[iiii++] = mPicoEvent->grefMult();
             ntVar2[iiii++] = mPicoEvent->refMult();
             ntVar2[iiii++] = mPicoEvent->runId();
             ntVar2[iiii++] = mPicoEvent->eventId();
@@ -855,38 +991,40 @@ int StPicoD0AnaMaker::createCandidates() {
 
             ntVar2[iiii++] = primary;
             ntVar2[iiii++] = nGoodTracks;
+            *///////////
 
             ntVar2[iiii++] = pion1->pPt();
             ntVar2[iiii++] = pion1->pPtot();
-            ntVar2[iiii++] = rotpair->particle1Dca();
+            //////////ntVar2[iiii++] = rotpair->particle1Dca();
             ntVar2[iiii++] = pion1->nSigmaPion();
-            ntVar2[iiii++] = (float)((float) pion1->nHitsFit()/(float) pion1->nHitsMax());
-            ntVar2[iiii++] = pion1->nHitsFit();
-            ntVar2[iiii++] = mPicoDst->btofPidTraits(pion1->bTofPidTraitsIndex())->nSigmaPion();
-            ntVar2[iiii++] = mHFCuts->getOneOverBeta(pion1, mHFCuts->getTofBetaBase(pion1), StPicoCutsBase::kPion);
-            ntVar2[iiii++] = mHFCuts->getTofBetaBase(pion1);
+            ntVar2[iiii++] = mHFCuts->getnSigmaTOF(pion1, StPicoCutsBase::kPion);
+            //////////ntVar2[iiii++] = pion1->nHitsFit();
+            ntVar2[iiii++] = mHFCuts->getOneOverBeta(pion1,mHFCuts->getTofBetaBase(pion1),StPicoCutsBase::kPion);
+            //////////ntVar2[iiii++] = mHFCuts->getTofBetaBase(pion1);
             ntVar2[iiii++] = pion1->charge();
-            ntVar2[iiii++] = pion1->pMom().PseudoRapidity();
-            
+            ntVar2[iiii++] = ispion1TOFmatched;
+            ntVar2[iiii++] = ispion1BEMCmatched;
 
             ntVar2[iiii++] = kaon->pPt();
             ntVar2[iiii++] = kaon->pPtot();
-            ntVar2[iiii++] = rotpair->particle2Dca();
+            //////////ntVar2[iiii++] = rotpair->particle2Dca();
             ntVar2[iiii++] = kaon->nSigmaKaon();
-            ntVar2[iiii++] = (float)((float)kaon->nHitsFit()/(float) kaon->nHitsMax());
-            ntVar2[iiii++] = kaon->nHitsFit();
-            ntVar2[iiii++] = mPicoDst->btofPidTraits(kaon->bTofPidTraitsIndex())->nSigmaKaon();
-            ntVar2[iiii++] = mHFCuts->getOneOverBeta(kaon, mHFCuts->getTofBetaBase(kaon), StPicoCutsBase::kKaon);
-            ntVar2[iiii++] = mHFCuts->getTofBetaBase(kaon);
+            ntVar2[iiii++] = mHFCuts->getnSigmaTOF(kaon, StPicoCutsBase::kKaon);
+            //////////ntVar2[iiii++] = kaon->nHits();
+            //////////ntVar2[iiii++] = kaon->nHitsFit();
+
+            ntVar2[iiii++] = mHFCuts->getOneOverBeta(kaon,mHFCuts->getTofBetaBase(kaon),StPicoCutsBase::kKaon);
+            //////////ntVar2[iiii++] = mHFCuts->getTofBetaBase(kaon);
             ntVar2[iiii++] = kaon->charge();
-            ntVar2[iiii++] = kaon->pMom().PseudoRapidity();
+            ntVar2[iiii++] = iskaonTOFmatched;
+            ntVar2[iiii++] = iskaonBEMCmatched;
 
             ntVar2[iiii++] = rotpair->dcaDaughters();
-            ntVar2[iiii++] = mPrimVtx.z();
-            ntVar2[iiii++] = mPicoEvent->vzVpd();
+            //////////ntVar2[iiii++] = mPrimVtx.z();
+            //////////ntVar2[iiii++] = mPicoEvent->vzVpd();
 
             ntVar2[iiii++] = rotpair->pointingAngle();
-            ntVar2[iiii++] = cos(rotpair->pointingAngle());
+            //////////ntVar2[iiii++] = cos(rotpair->pointingAngle());
             ntVar2[iiii++] = rotpair->decayLength();
             ntVar2[iiii++] = rotpair->DcaToPrimaryVertex(); //(rotpair->decayLength())*sin(rotpair->pointingAngle());
             ntVar2[iiii++] = rotpair->cosThetaStar();
@@ -894,33 +1032,24 @@ int StPicoD0AnaMaker::createCandidates() {
             ntVar2[iiii++] = rotpair->pt();
             ntVar2[iiii++] = rotpair->m();
             ntVar2[iiii++] = rotpair->rapidity();
-
-            ntVar2[iiii++] = VzVPD_VzTPC;
-
             ntVar2[iiii++] = rotpair->phi();
             ntVar2[iiii++] = rotpair->eta();
 
+            //////////ntVar2[iiii++] = VzVPD_VzTPC;
 
 
 
-            if ((isD0)) {
+
+            
+            if (charge == 0) {
                 ntp_DMeson_UnlikeSign->Fill(ntVar);
                 ntp_DMeson_Rotated->Fill(ntVar2);
-                vect_daughter_id.push_back(daughter_id);
+                //////////vect_daughter_id.push_back(daughter_id);
                 nD0++;
-            } 
             
-            if ((isBgD0)) {
-                ntp_DMeson_LikeSign->Fill(ntVar);
-                vect_daughter_id.push_back(daughter_id);
-            }
+            if((pairM>1.84) && (pairM < 1.89)) {
 
-
-            /*
-            if((pairM>1.82) && (pairM < 1.89))
-            {
-
-                for (unsigned short idxPion2 = idxPion1+1; idxPion2 < mIdxPicoPions.size(); ++idxPion2)
+                for (unsigned short idxPion2 = 0; idxPion2 < mIdxPicoPions.size(); ++idxPion2)
                 {
 
                     StPicoTrack *pion2 = mPicoDst->track(mIdxPicoPions[idxPion2]);
@@ -929,86 +1058,218 @@ int StPicoD0AnaMaker::createCandidates() {
                     StHFTriplet *triplet = new StHFTriplet(pion1, kaon, pion2, mHFCuts->getHypotheticalMass(StHFCuts::kPion), mHFCuts->getHypotheticalMass(StHFCuts::kKaon), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoPions[idxPion1], mIdxPicoKaons[idxKaon], mIdxPicoPions[idxPion2], mPrimVtx, mBField);
 
 
-                    bool isDstar = false;
-                    if ((kaon->charge() + pion1->charge() == 0) && (pion1->charge() == pion2->charge())) isDstar = true;
+                    ///bool isDstar = false;
+                    // isDstar = true;
 
-                    Float_t primary2 = 0;
-                    if (pion1->isPrimary()) primary2 = 3;
-                    if (kaon->isPrimary()) primary2 = 4;
-                    if (pion2->isPrimary()) primary2 = 5;
-                    if (pion1->isPrimary() && kaon->isPrimary() && pion2->isPrimary()) primary2 = 2;
+                    Float_t ispion2TOFmatched = 0;
+                    Float_t ispion2BEMCmatched = 0;
 
-                    Float_t hotSpot2 = 0;
+                    if (mHFCuts->isTOFmatched(pion2)) ispion2TOFmatched = 1;
+                    if (mHFCuts->isBEMCmatched(pion2)) ispion2BEMCmatched = 1;
+
+                    /*Float_t hotSpot2 = 0;
                     if (mHFCuts->checkHotSpot(&mPrimVtx)) hotSpot2 = 1;
-
+                    
                     float tripletM = triplet->m();
                     float triplet_pair = tripletM - pairM;
+                    */
 
-                    const int nNtVars2 = ntp_DstarMeson_Signal->GetNvar();
-                    float ntVar2[nNtVars2];
+                    const int nNtVars3 = ntp_DstarMeson_RightSign->GetNvar();
+                    float ntVar3[nNtVars3];
                     int iii = 0;
 
-                    ntVar2[iii++] = mPicoEvent->grefMult();
-                    ntVar2[iii++] = mPicoEvent->refMult();
-                    ntVar2[iii++] = mPicoEvent->runId();
-                    ntVar2[iii++] = mPicoEvent->eventId();
-                    ntVar2[iii++] = mPicoEvent->ZDCx();
-                    ntVar2[iii++] = mPicoEvent->BBCx();
-                    ntVar2[iii++] = hotSpot2;
+                    /*ntVar3[iii++] = mPicoEvent->grefMult();
+                    ntVar3[iii++] = mPicoEvent->refMult();
+                    ntVar3[iii++] = mPicoEvent->runId();
+                    ntVar3[iii++] = mPicoEvent->eventId();
+                    ntVar3[iii++] = mPicoEvent->ZDCx();
+                    ntVar3[iii++] = mPicoEvent->BBCx();
+                    ntVar3[iii++] = hotSpot2;
 
-                    ntVar2[iii++] = primary2;
-                    ntVar2[iii++] = nGoodTracks;
+                    ntVar3[iii++] = primary2;
+                    ntVar3[iii++] = nGoodTracks;
+                    */
+                    ntVar3[iii++] = pion1->pPt();
+                    ntVar3[iii++] = pion1->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle1Dca();
+                    ntVar3[iii++] = pion1->nSigmaPion();
+                    //////////ntVar3[iii++] = (float)((float)pion1->nHitsFit()/(float)pion1->nHitsMax());
+                    //////////ntVar3[iii++] = pion1->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(pion1, StPicoCutsBase::kPion);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(pion1,mHFCuts->getTofBetaBase(pion1),StPicoCutsBase::kPion);
+                    ntVar3[iii++] = pion1->charge();
+                    ntVar3[iii++] = ispion1TOFmatched;
+                    ntVar3[iii++] = ispion1BEMCmatched;
+                    //////////ntVar3[iii++] = pion1->pMom().PseudoRapidity();
 
-                    ntVar2[iii++] = pion1->pPt();
-                    ntVar2[iii++] = pion1->pPtot();
-                    ntVar2[iii++] = pion1->nSigmaPion();
-                    ntVar2[iii++] = pion1->nHitsFit();
-                    ntVar2[iii++] = mHFCuts->getOneOverBeta(pion1, mHFCuts->getTofBetaBase(pion1), StPicoCutsBase::kPion);
-                    ntVar2[iii++] = mHFCuts->getTofBetaBase(pion1);
-                    ntVar2[iii++] = pion1->charge();
-
-                    ntVar2[iii++] = kaon->pPt();
-                    ntVar2[iii++] = kaon->pPtot();
-                    ntVar2[iii++] = kaon->nSigmaKaon();
-                    ntVar2[iii++] = kaon->nHitsFit();
-                    ntVar2[iii++] = mHFCuts->getOneOverBeta(kaon, mHFCuts->getTofBetaBase(kaon), StPicoCutsBase::kKaon);
-                    ntVar2[iii++] = mHFCuts->getTofBetaBase(kaon);
-                    ntVar2[iii++] = kaon->charge();
-
-                    ntVar2[iii++] = pion2->pPt();
-                    ntVar2[iii++] = pion2->pPtot();
-                    ntVar2[iii++] = pion2->nSigmaPion();
-                    ntVar2[iii++] = pion2->nHitsFit();
-                    ntVar2[iii++] = mHFCuts->getOneOverBeta(pion2, mHFCuts->getTofBetaBase(pion2), StPicoCutsBase::kPion);
-                    ntVar2[iii++] = mHFCuts->getTofBetaBase(pion2);
-                    ntVar2[iii++] = pion2->charge();
-
-
-                    ntVar2[iii++] = mPrimVtx.z();
-                    ntVar2[iii++] = mPicoEvent->vzVpd();
+                    ntVar3[iii++] = kaon->pPt();
+                    ntVar3[iii++] = kaon->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle2Dca();
+                    ntVar3[iii++] = kaon->nSigmaKaon();
+                    //////////ntVar3[iii++] = (float)((float)kaon->nHitsFit()/(float)kaon->nHitsMax());
+                    //////////ntVar3[iii++] = kaon->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(kaon, StPicoCutsBase::kKaon);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(kaon,mHFCuts->getTofBetaBase(kaon),StPicoCutsBase::kKaon);
+                    ntVar3[iii++] = kaon->charge();
+                    ntVar3[iii++] = iskaonTOFmatched;
+                    ntVar3[iii++] = iskaonBEMCmatched;
+                    //////////ntVar3[iii++] = kaon->pMom().PseudoRapidity();
 
 
-                    ntVar2[iii++] = triplet->pt();
-                    ntVar2[iii++] = triplet->m();
-                    ntVar2[iii++] = triplet->rapidity();
-                    ntVar2[iii++] = triplet_pair;
+                    ntVar3[iii++] = pion2->pPt();
+                    ntVar3[iii++] = pion2->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle3Dca();
+                    ntVar3[iii++] = pion2->nSigmaPion();
+                    //////////ntVar3[iii++] = (float)((float)pion2->nHitsFit()/(float)pion2->nHitsMax());
+                    //////////ntVar3[iii++] = pion2->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(pion2, StPicoCutsBase::kPion);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(pion2,mHFCuts->getTofBetaBase(pion2),StPicoCutsBase::kPion);
+                    ntVar3[iii++] = pion2->charge();
+                    ntVar3[iii++] = ispion2TOFmatched;
+                    ntVar3[iii++] = ispion2BEMCmatched;
+                    //////////ntVar3[iii++] = pion2->pMom().PseudoRapidity();
+
+
+                    //////////ntVar3[iii++] = mPrimVtx.z();
+                    //////////ntVar3[iii++] = mPicoEvent->vzVpd();
+                    //////////ntVar3[iii++] = sqrt(pow(mPrimVtx.x(),2) + pow(mPrimVtx.y(),2));
+
+                    ntVar3[iii++] = pair->m();
+                    ntVar3[iii++] = pair->pt();
+                    ntVar3[iii++] = pair->rapidity();
+                    ntVar3[iii++] = pair->cosThetaStar();
+                    ntVar3[iii++] = pair->pointingAngle();
 
                     
-                    if (isDstar) {
-                        ntp_DstarMeson_Signal->Fill(ntVar2);
+                    ntVar3[iii++] = triplet->pt();
+                    ntVar3[iii++] = triplet->m();
+                    ntVar3[iii++] = triplet->rapidity();
+                    //////////ntVar3[iii++] = triplet_pair;
+                    
+                    
+                    if ((pion1->charge() == pion2->charge())){
+                        ntp_DstarMeson_RightSign->Fill(ntVar3);
                         nDstar++;
-                    } else {
-                       ntp_DstarMeson_Background->Fill(ntVar2);
+                    } 
+                    
+                    if ((pion1->charge() == -1*(pion2->charge()))) {
+                       ntp_DstarMeson_WrongSign->Fill(ntVar3);
                     }
                     
 
 
                 }  //  for (unsigned short idxPion2 = idxPion1+1; idxPion2 < mIdxPicoPions.size(); ++idxPion2)
 
-            }  // if((pairM>1.84) && (pairM < 1.89))
-            else{continue;}
-            */
-        }  // for (unsigned short idxKaon = 0; idxKaon < mIdxPicoKaons.size(); ++idxKaon)
+            }
+
+             if((pairM>1.7 && pairM<1.8)||(pairM>1.92 && pairM<2.02)) {
+
+                for (unsigned short idxPion2 = 0; idxPion2 < mIdxPicoPions.size(); ++idxPion2)
+                {
+
+                    StPicoTrack *pion2 = mPicoDst->track(mIdxPicoPions[idxPion2]);
+                    if (mIdxPicoKaons[idxKaon] == mIdxPicoPions[idxPion1] || mIdxPicoKaons[idxKaon] == mIdxPicoPions[idxPion2] || mIdxPicoPions[idxPion1] == mIdxPicoPions[idxPion2]) continue;
+
+                    StHFTriplet *triplet = new StHFTriplet(pion1, kaon, pion2, mHFCuts->getHypotheticalMass(StHFCuts::kPion), mHFCuts->getHypotheticalMass(StHFCuts::kKaon), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoPions[idxPion1], mIdxPicoKaons[idxKaon], mIdxPicoPions[idxPion2], mPrimVtx, mBField);
+
+                    Float_t ispion2TOFmatched = 0;
+                    Float_t ispion2BEMCmatched = 0;
+
+                    if (mHFCuts->isTOFmatched(pion2)) ispion2TOFmatched = 1;
+                    if (mHFCuts->isBEMCmatched(pion2)) ispion2BEMCmatched = 1;
+
+                    /*Float_t hotSpot2 = 0;
+                    if (mHFCuts->checkHotSpot(&mPrimVtx)) hotSpot2 = 1;
+                    float tripletM = triplet->m();
+                    float triplet_pair = tripletM - pairM;
+                    */
+
+                    const int nNtVars3 = ntp_DstarMeson_RightSign->GetNvar();
+                    float ntVar3[nNtVars3];
+                    int iii = 0;
+
+                    /*ntVar3[iii++] = mPicoEvent->grefMult();
+                    ntVar3[iii++] = mPicoEvent->refMult();
+                    ntVar3[iii++] = mPicoEvent->runId();
+                    ntVar3[iii++] = mPicoEvent->eventId();
+                    ntVar3[iii++] = mPicoEvent->ZDCx();
+                    ntVar3[iii++] = mPicoEvent->BBCx();
+                    ntVar3[iii++] = hotSpot2;
+
+                    ntVar3[iii++] = primary2;
+                    ntVar3[iii++] = nGoodTracks;
+                    */
+                    ntVar3[iii++] = pion1->pPt();
+                    ntVar3[iii++] = pion1->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle1Dca();
+                    ntVar3[iii++] = pion1->nSigmaPion();
+                    //////////ntVar3[iii++] = (float)((float)pion1->nHitsFit()/(float)pion1->nHitsMax());
+                    //////////ntVar3[iii++] = pion1->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(pion1, StPicoCutsBase::kPion);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(pion1,mHFCuts->getTofBetaBase(pion1),StPicoCutsBase::kPion);
+                    ntVar3[iii++] = pion1->charge();
+                    ntVar3[iii++] = ispion1TOFmatched;
+                    ntVar3[iii++] = ispion1BEMCmatched;
+                    //////////ntVar3[iii++] = pion1->pMom().PseudoRapidity();
+
+                    ntVar3[iii++] = kaon->pPt();
+                    ntVar3[iii++] = kaon->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle2Dca();
+                    ntVar3[iii++] = kaon->nSigmaKaon();
+                    //////////ntVar3[iii++] = (float)((float)kaon->nHitsFit()/(float)kaon->nHitsMax());
+                    //////////ntVar3[iii++] = kaon->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(kaon, StPicoCutsBase::kKaon);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(kaon,mHFCuts->getTofBetaBase(kaon),StPicoCutsBase::kKaon);
+                    ntVar3[iii++] = kaon->charge();
+                    ntVar3[iii++] = iskaonTOFmatched;
+                    ntVar3[iii++] = iskaonBEMCmatched;
+                    //////////ntVar3[iii++] = kaon->pMom().PseudoRapidity();
+
+
+                    ntVar3[iii++] = pion2->pPt();
+                    ntVar3[iii++] = pion2->pPtot();
+                    //////////ntVar3[iii++] = triplet->particle3Dca();
+                    ntVar3[iii++] = pion2->nSigmaPion();
+                    //////////ntVar3[iii++] = (float)((float)pion2->nHitsFit()/(float)pion2->nHitsMax());
+                    //////////ntVar3[iii++] = pion2->nHitsFit();
+                    ntVar3[iii++] = mHFCuts->getnSigmaTOF(pion2, StPicoCutsBase::kPion);
+                    ntVar3[iii++] = mHFCuts->getOneOverBeta(pion2,mHFCuts->getTofBetaBase(pion2),StPicoCutsBase::kPion);
+                    ntVar3[iii++] = pion2->charge();
+                    ntVar3[iii++] = ispion2TOFmatched;
+                    ntVar3[iii++] = ispion2BEMCmatched;
+                    //////////ntVar3[iii++] = pion2->pMom().PseudoRapidity();
+
+                    //////////ntVar3[iii++] = mPrimVtx.z();
+                    //////////ntVar3[iii++] = mPicoEvent->vzVpd();
+                    //////////ntVar3[iii++] = sqrt(pow(mPrimVtx.x(),2) + pow(mPrimVtx.y(),2));
+
+                    ntVar3[iii++] = pair->m();
+                    ntVar3[iii++] = pair->pt();
+                    ntVar3[iii++] = pair->rapidity();
+                    ntVar3[iii++] = pair->cosThetaStar();
+                    ntVar3[iii++] = pair->pointingAngle();
+
+                    ntVar3[iii++] = triplet->pt();
+                    ntVar3[iii++] = triplet->m();
+                    ntVar3[iii++] = triplet->rapidity();
+                    //////////ntVar3[iii++] = triplet_pair;
+
+                    
+                    if ((pion1->charge() == pion2->charge())){
+                        ntp_DstarMeson_SideBand->Fill(ntVar3);
+                    } 
+
+                }
+                   ////else{continue;}
+            }
+            } 
+              
+        if (charge == -2 || charge == 2) {
+                ntp_DMeson_LikeSign->Fill(ntVar);
+                //////////vect_daughter_id.push_back(daughter_id);
+            }
+        
+             } // for (unsigned short idxKaon = 0; idxKaon < mIdxPicoKaons.size(); ++idxKaon)
     } // for (unsigned short idxPion1 = 0; idxPion1 < mIdxPicoPions.size(); ++idxPion1)
 
     /*/////
@@ -1235,4 +1496,26 @@ bool StPicoD0AnaMaker::isVectorInVectorOfVectors(const std::vector<std::vector<f
             return true;
     }
     }
+}
+
+int StPicoD0AnaMaker::ConvertRunID(int number) {
+    std::ifstream file("/gpfs/mnt/gpfs01/star/pwg/palsp/DMaker_pp500_r17/picoLists/runs_numbers.list");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file:    " << "runs_numbers.list" << std::endl;
+        return -1;
+    }
+
+    std::string line;
+    int lineNumber = 1;
+    while (std::getline(file, line)) {
+        int value = std::stoi(line);
+        if (value == number) {
+            file.close();
+            return lineNumber;
+        }
+        lineNumber++;
+    }
+
+    file.close();
+    return -1; // Number not found
 }

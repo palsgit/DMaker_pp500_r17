@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<job fileListSyntax="paths" minFilesPerProcess="30" maxFilesPerProcess="40" simulateSubmission="false">
+<job fileListSyntax="xrootd" minFilesPerProcess="10" maxFilesPerProcess="40" simulateSubmission="false">
   <stdout URL="file:&basePath;/jobs/log/$JOBID.out"/>
   <stderr URL="file:&basePath;/jobs/err/$JOBID.err"/>
 
+<input URL="catalog:star.bnl.gov?production=P20ic,library=SL22b,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=local,runnumber[]18108039-18131018" nFiles="all" />
+  <!--
   <input URL="filelist:&basePath;/&listOfFiles;" />
+-->
 
   <Generator>
     <Location>./report/</Location>
@@ -13,7 +16,7 @@
 
   <command>
     starver SL22b
-    root -q -b -l StRoot/macros/loadSharedHFLibraries.C StRoot/macros/&rootMacro;\(\"$FILELIST\",\"&prodId;_$JOBINDEX\",\"picoList_bad.list\"\) &gt;&amp; ${JOBID}.log
+    root4star -q -b -l StRoot/macros/loadSharedHFLibraries.C StRoot/macros/&rootMacro;\(\"$FILELIST\",\"&prodId;_$JOBINDEX\",\"picoList_bad.list\"\) &gt;&amp; ${JOBID}.log
   </command>
 
   <output fromScratch="*.root"    toURL="&basePath;/production/" />

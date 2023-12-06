@@ -22,7 +22,7 @@ ClassImp(StPicoCutsBase)
 StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
                                    mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(7), mTOFResolution(0.013),
                                    mBadRunListFileName("picoList_bad.list"), mnMatchedFast(2),mVzMax(50.), mVzVpdVzMax(6.),
-                                   mNHitsFitMin(20), mRequireHFT(false), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false), mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
+                                   mNHitsFitMin(20), mRequireHFT(false), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false), mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mTPCBetterCutsPion(false), mOnlyHotSpot(false) {
 
     for (Int_t idx = 0; idx < kPicoPIDMax; ++idx) {
         mPtRange[idx][0] = std::numeric_limits<float>::lowest();
@@ -61,7 +61,7 @@ StPicoCutsBase::StPicoCutsBase() : TNamed("PicoCutsBase", "PicoCutsBase"),
 StPicoCutsBase::StPicoCutsBase(const Char_t *name) : TNamed(name, name),
                                                      mTOFCorr(new StV0TofCorrection), mPicoDst(NULL), mEventStatMax(7), mTOFResolution(0.013),
                                                      mBadRunListFileName("picoList_bad_MB.list"), mVzMax(50.), mVzVpdVzMax(6.),
-                                                     mNHitsFitMin(20), mRequireHFT(true), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false),mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mOnlyHotSpot(false) {
+                                                     mNHitsFitMin(20), mRequireHFT(true), mNHitsFitnHitsMax(0.52), mPrimaryDCAtoVtxMax(6.0), mPtMin(0.2), mEtaMax(1.0), mHybridTof(false),mHybridTofKaon(false), mHybridTofPion(false), mHybridTofBetterBetaCuts(false), mHybridTofBetterBetaCutsKaon(false), mHybridTofBetterBetaCutsPion(false), mTPCBetterCutsPion(false), mOnlyHotSpot(false) {
     // -- constructor
 
     for (Int_t idx = 0; idx < kPicoPIDMax; ++idx) {
@@ -336,10 +336,11 @@ bool StPicoCutsBase::isPionTOF(StPicoTrack const *trk) const {
     double pt = trk->pPt();
     if (mHybridTofWithBEMC) {
 
-         if(isTOFmatched(trk)) tofWtpc = isTOFPion(trk);
-         else if((pt > 1.6) && isBEMCmatched(trk)) {
+         if(isTOFmatched(trk)) tofWtpc = isTOFPionBetterCuts(trk);
+         else if (TMath::Abs(trk->nSigmaPion())<4) tofWtpc = true;
+         /*else if((pt > 1.6) && isBEMCmatched(trk)) {
             if (TMath::Abs(trk->nSigmaPion())<2) tofWtpc = true;
-         }
+         }*/
         /*if (ptot < 1.3) {
             if(isTOFmatched(trk)) tofWtpc = isTOFPionBetterCuts(trk);
             if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tofWtpc = true;
@@ -381,9 +382,10 @@ bool StPicoCutsBase::isKaonTOF(StPicoTrack const *const trk) const {
     double pt = trk->pPt();
     if (mHybridTofWithBEMC) {
         if(isTOFmatched(trk)) tofWtpc = isTOFKaonBetterCuts(trk);
-         else if((pt > 1.6) && isBEMCmatched(trk)) {
+        else if (TMath::Abs(trk->nSigmaKaon())<4) tofWtpc = true;
+         /*else if((pt > 1.6) && isBEMCmatched(trk)) {
             if (TMath::Abs(trk->nSigmaKaon())<2) tofWtpc = true;
-         }
+         }*/
         
         /*
         if (ptot < 1.3) {
@@ -422,10 +424,13 @@ bool StPicoCutsBase::isKaonTOF(StPicoTrack const *const trk) const {
 
 // _________________________________________________________
 bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
-    if (!isGoodTrack(trk)) return false;
+    ///return true;
+    if (isGoodTrack(trk) && isPionTOF(trk) && isPionTPC(trk)) return true;
+    else return false;
     ///////if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kPion)) return false;
-    if (!isTPCPion(trk)) return false;
-    bool tofWtpc = false;
+    ///if (!isPionTOF(trk)) return false;
+    ////if (!isPionTPC(trk)) return false;
+    /*bool tofWtpc = false;
     double pt = trk->pPt();
     if (mHybridTofWithBEMC) {
 
@@ -433,36 +438,36 @@ bool StPicoCutsBase::isGoodPion(StPicoTrack const *const trk) const {
          else if((pt > 1.6) && isBEMCmatched(trk)) {
             if (TMath::Abs(trk->nSigmaPion())<2) tofWtpc = true;
          }
-        /*if (ptot < 1.3) {
-            if(isTOFmatched(trk)) tofWtpc = isTOFPionBetterCuts(trk);
-            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tofWtpc = true;
-        }
+        ////if (ptot < 1.3) {
+        ////    if(isTOFmatched(trk)) tofWtpc = isTOFPionBetterCuts(trk);
+         ////   if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tofWtpc = true;
+        ////}
 
-        if (ptot > 1.3 && ptot < 2.07) {
-            if(isTOFmatched(trk)) tofWtpc = isTOFPion(trk);
-            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tofWtpc = true;
-        }
+        ////if (ptot > 1.3 && ptot < 2.07) {
+        ////    if(isTOFmatched(trk)) tofWtpc = isTOFPion(trk);
+        ////    if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tofWtpc = true;
+        ////}
 
-        if (ptot > 2.07) {
+        ////if (ptot > 2.07) {
             if(isTOFmatched(trk)||(isBEMCmatched(trk))) tofWtpc = isTOFPion(trk);
 
-        }*/
+        ///}
     }
     if (!mHybridTofWithBEMC) {
         if (mHybridTofBetterBetaCutsPion) {
-            /*if (mHybridTofPion) tofWtpc = isHybridTOFPionBetterCuts(trk);
-            if (!mHybridTofPion)*/
+            /////if (mHybridTofPion) tofWtpc = isHybridTOFPionBetterCuts(trk);
+            ////if (!mHybridTofPion)
             tofWtpc = isTOFPionBetterCuts(trk);
         }
 
 
         if (!mHybridTofBetterBetaCutsPion) { // Original constant cut
-            /*if (mHybridTofPion) tofWtpc = isHybridTOFPion(trk);
-            if (!mHybridTofPion)*/
+            ///if (mHybridTofPion) tofWtpc = isHybridTOFPion(trk);
+            ////if (!mHybridTofPion)
             tofWtpc = isTOFPion(trk); //actual entrypoint
         }
     }
-    return tofWtpc;
+    return tofWtpc;*/
 }
 
 // _________________________________________________________
@@ -508,20 +513,54 @@ bool StPicoCutsBase::isTOFPionCutOK(StPicoTrack const *trk) const {
     
     bool tofpion = false;
     double ptot    = trk->pPtot();
-    float pion_higher = 6-2*ptot;
-    float pion_lower = -6+2*ptot;
+    float pion_higher = 12-(5*ptot);
+    float pion_lower = -12+(5*ptot);
 
     nSigma = tofPidTraits->nSigmaPion();
 
 
-    if(ptot<1.5) {
+    if(ptot<1.2) {
+        tofpion =  (nSigma < pion_higher && nSigma > pion_lower);
+    }
+    if(ptot>1.2) {
+        tofpion =  (nSigma < 6 && nSigma > -6);
+    }
+
+    return tofpion; 
+
+}
+
+bool StPicoCutsBase::isTPCPionBetterCut(StPicoTrack const *trk) const {
+    
+    /////if (!(trk->isTofTrack())) return false;
+    float nSigma = std::numeric_limits<float>::quiet_NaN();
+    /////int bTOFPidTraitsIndex = trk->bTofPidTraitsIndex();
+    /////StPicoBTofPidTraits* tofPidTraits = mPicoDst->btofPidTraits(bTOFPidTraitsIndex);  
+    
+    bool tpcpion = false;
+    double ptot    = trk->pPtot();
+
+    /////double ptot    = trk->pPtot();
+    float f_res =  0.9548 + (0.0002/(pow((ptot + 0.1046), 3.9041))); //sigma
+    float f_pos =  0.0988 + (-0.0012/(pow((ptot - 0.0706), 3.1974)));  //mean 
+
+    /////float pion_higher = 2.92*f_res + f_pos;///done
+    /////float pion_lower = -2.70*f_res + f_pos;///done
+
+    float pion_higher = 6.0*f_res + f_pos; ///loose
+    float pion_lower = -6.0*f_res + f_pos;///loose
+
+    nSigma = trk->nSigmaPion();
+
+    tpcpion = (nSigma < pion_higher && nSigma > pion_lower);
+    /*if(ptot<1.5) {
         tofpion =  (nSigma < pion_higher && nSigma > pion_lower);
     }
     if(ptot>1.5) {
         tofpion =  (nSigma < 3 && nSigma > -3);
-    }
+    }*/
 
-    return tofpion; 
+    return tpcpion; 
 
 }
 // _________________________________________________________
@@ -550,10 +589,12 @@ bool StPicoCutsBase::isHybridTOFBetterPion(StPicoTrack const *trk, float const &
 
 // _________________________________________________________
 bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
-    if (!isGoodTrack(trk)) return false;
+    if (isGoodTrack(trk) && isKaonTOF(trk) && isKaonTPC(trk)) return true;
+    else return false;
     //////if (!cutMinDcaToPrimVertex(trk, StPicoCutsBase::kKaon)) return false;
-    if (!isTPCKaon(trk)) return false;
-    bool tofWtpc = false;
+    ////if (!isKaonTOF(trk)) return false;
+    ////if (!isKaonTPC(trk)) return false;
+    /*bool tofWtpc = false;
     ///////double ptot = trk->gPtot();
     double pt = trk->pPt();
     if (mHybridTofWithBEMC) {
@@ -562,19 +603,19 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
             if (TMath::Abs(trk->nSigmaKaon())<2) tofWtpc = true;
          }
         
-        /*
-        if (ptot < 1.3) {
-            tof = isTOFKaonBetterCuts(trk);
-        }
+        
+        ////if (ptot < 1.3) {
+        ////    tof = isTOFKaonBetterCuts(trk);
+        ////}
 
-        if (ptot > 1.3 && ptot < 2.07) {
-            if(isTOFmatched(trk)) tof = isTOFKaonBetterCuts(trk);
-            if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
-        }
+        ////if (ptot > 1.3 && ptot < 2.07) {
+        ////   if(isTOFmatched(trk)) tof = isTOFKaonBetterCuts(trk);
+         /////   if(!isTOFmatched(trk)&&(isBEMCmatched(trk))) tof = true;
+        ////}
 
-        if (ptot > 2.07) {
-            if(isTOFmatched(trk)||(isBEMCmatched(trk))) tof = isTOFKaon(trk);
-        }*/
+        /////if (ptot > 2.07) {
+        /////   if(isTOFmatched(trk)||(isBEMCmatched(trk))) tof = isTOFKaon(trk);
+        ////}
 
 
 
@@ -582,19 +623,19 @@ bool StPicoCutsBase::isGoodKaon(StPicoTrack const *const trk) const {
     if (!mHybridTofWithBEMC) {
 
         if (mHybridTofBetterBetaCutsKaon) {
-            /* if (mHybridTofKaon) tofWtpc = isHybridTOFKaonBetterCuts(trk);
-            if (!mHybridTofKaon) */
+            //// if (mHybridTofKaon) tofWtpc = isHybridTOFKaonBetterCuts(trk);
+            ////if (!mHybridTofKaon) 
             tofWtpc = isTOFKaonBetterCuts(trk); //actual entrypoint
         }
 
 
         if (!mHybridTofBetterBetaCutsKaon) { // Original constant cut
-            /*if (mHybridTofKaon) tofWtpc = isHybridTOFKaon(trk);
-            if (!mHybridTofKaon)*/
+            ////if (mHybridTofKaon) tofWtpc = isHybridTOFKaon(trk);
+            ////if (!mHybridTofKaon)
             tofWtpc = isTOFKaon(trk);
         }
     }
-    return tofWtpc;
+    return tofWtpc;*/
 }
 
 // _________________________________________________________
@@ -626,12 +667,25 @@ bool StPicoCutsBase::isTOFKaonCutOK(StPicoTrack const *trk) const {
     StPicoBTofPidTraits* tofPidTraits = mPicoDst->btofPidTraits(bTOFPidTraitsIndex);   
     
     double ptot    = trk->pPtot();
-    float f_res =  1.33921 + 0.0256067/pow((ptot + 0.0388802), 3.559);  //sigma
-    float f_pos = 0.0064501 + 75.5051/pow((ptot + 1.35803), 10.1091);  //mean
+    float f_res =  1.21 + (0.10/(pow((ptot - 0.17), 1.21))); //sigma
+    float f_pos =  -0.01 + (0.02/(pow((ptot - 0.17), 1.73)));  //mean
 
+   /* float mSigmalower = -2.31;
+    if (ptot > 1.25 && ptot < 1.50) mSigmalower = -1.56;
+    if (ptot > 1.50 && ptot < 1.65) mSigmalower = -1.18;
+    if (ptot > 1.65) mSigmalower = -0.8;
 
-    float kaon_higher = 1.8*f_res + f_pos;
-    float kaon_lower = -1.2*f_res + f_pos;
+    float mSigmahigher = 3.18;
+    if (ptot > 2.0) mSigmahigher = 2.41;
+
+    float kaon_higher = mSigmahigher*f_res + f_pos;
+    float kaon_lower = mSigmalower*f_res + f_pos; *//////done
+
+    float kaon_higher = 6.0*f_res + f_pos;
+    float kaon_lower = -6.0*f_res + f_pos;
+    /*float kaon_higher = 2.41*f_res + f_pos;
+    float kaon_lower = -1.18*f_res + f_pos;*/
+
 
     nSigma = tofPidTraits->nSigmaKaon();
     
@@ -843,12 +897,14 @@ float StPicoCutsBase::getTofBetaBase(StPicoTrack const * const trk) const {
 // _________________________________________________________
 float StPicoCutsBase::getOneOverBeta(StPicoTrack const * const trk,  float const & tofBeta, int pidFlag) const {
     if ((tofBeta <= 0) || (tofBeta!=tofBeta))
-        return std::numeric_limits<float>::max();
-    float m2 = mHypotheticalMass[pidFlag]*mHypotheticalMass[pidFlag];
+        return std::numeric_limits<float>::quiet_NaN();
+    else {
+        float m2 = mHypotheticalMass[pidFlag]*mHypotheticalMass[pidFlag];
     /////float ptot = trk->gPtot();
     float ptot = trk->pPtot();
     float betaInv = ptot / sqrt(ptot*ptot + m2);
     return (1/tofBeta - 1/betaInv);
+    }
 }
 
 // _________________________________________________________

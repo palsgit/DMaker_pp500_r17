@@ -25,7 +25,7 @@ static const int m_nmultEdge = 5;
 static float constexpr m_multEdge[m_nmultEdge+1] = {0, 1.5, 3.5, 5.5, 7.5, 200};
 
 static const int m_nVzEdge = 10;
-static float constexpr m_VzEdge[m_nVzEdge+1] = {-50.5, -23.5, -17.5, -12.5, -6.5, -1.5, 2.5, 7.5, 13.5, 19.5, 50.5};
+static float constexpr m_VzEdge[m_nVzEdge+1] = {-30.5, -23.5, -17.5, -12.5, -6.5, -1.5, 2.5, 7.5, 13.5, 19.5, 30.5};
 
 ///static const int m_nmultEdge = 1;
 ///static float constexpr m_multEdge[m_nmultEdge+1] = {0, 2000};
@@ -53,21 +53,21 @@ StPicoMixedEventMaker::StPicoMixedEventMaker(char const* name, StPicoDstMaker* p
 
     TH1::AddDirectory(false);
     // -- create OutputTree
-    mOutputFileTreeSigSE = new TFile(Form("%s.picoMEtree.sigSE.root", mOuputFileBaseName.Data()), "RECREATE");
+   /* mOutputFileTreeSigSE = new TFile(Form("%s.picoMEtree.sigSE.root", mOuputFileBaseName.Data()), "RECREATE");
     mOutputFileTreeSigSE->SetCompressionLevel(1);
-    mSETupleSig = new TNtuple("ntp_signal_SE","ntp_signal_SE", varList.data());
+    mSETupleSig = new TNtuple("ntp_signal_SE","ntp_signal_SE", varList.data());*/
 
     mOutputFileTreeSigME = new TFile(Form("%s.picoMEtree.sigME.root", mOuputFileBaseName.Data()), "RECREATE");
     mOutputFileTreeSigME->SetCompressionLevel(1);
     mMETupleSig = new TNtuple("ntp_signal_ME","ntp_signal_ME", varList.data());
 
-    mOutputFileTreeBackME = new TFile(Form("%s.picoMEtree.backME.root", mOuputFileBaseName.Data()), "RECREATE");
+    /*mOutputFileTreeBackME = new TFile(Form("%s.picoMEtree.backME.root", mOuputFileBaseName.Data()), "RECREATE");
     mOutputFileTreeBackME->SetCompressionLevel(1);
     mMETupleBack = new TNtuple("ntp_background_ME","ntp_background_ME", varList.data());
 
     mOutputFileTreeBackSE = new TFile(Form("%s.picoMEtree.backSE.root", mOuputFileBaseName.Data()), "RECREATE");
     mOutputFileTreeBackSE->SetCompressionLevel(1);
-    mSETupleBack = new TNtuple("ntp_background_SE","ntp_background_SE", varList.data());
+    mSETupleBack = new TNtuple("ntp_background_SE","ntp_background_SE", varList.data());*/
 //    mOutputFileTree->cd();
 
 }
@@ -80,10 +80,10 @@ StPicoMixedEventMaker::~StPicoMixedEventMaker() {
             delete mPicoEventMixer[iVz][iCentrality];
         }
     }
-    mOutputFileTreeSigSE->Close();
+    //////mOutputFileTreeSigSE->Close();
     mOutputFileTreeSigME->Close();
-    mOutputFileTreeBackSE->Close();
-    mOutputFileTreeBackME->Close();
+    /*mOutputFileTreeBackSE->Close();
+    mOutputFileTreeBackME->Close();*/
 }
 // _________________________________________________________
 bool StPicoMixedEventMaker::loadEventPlaneCorr(Int_t const run) {
@@ -107,10 +107,10 @@ Int_t StPicoMixedEventMaker::Init() {
             mPicoEventMixer[iVz][iCentrality] = new StPicoEventMixer(Form("Cent_%i_Vz_%i",iCentrality,iVz));
             mPicoEventMixer[iVz][iCentrality]->setEventBuffer(mBufferSize);
             mPicoEventMixer[iVz][iCentrality]->setHFCuts(mHFCuts);
-            mPicoEventMixer[iVz][iCentrality]->setSameEvtNtupleSig(mSETupleSig);
-            mPicoEventMixer[iVz][iCentrality]->setSameEvtNtupleBack(mSETupleBack);
+            /*mPicoEventMixer[iVz][iCentrality]->setSameEvtNtupleSig(mSETupleSig);
+            mPicoEventMixer[iVz][iCentrality]->setSameEvtNtupleBack(mSETupleBack);*/
             mPicoEventMixer[iVz][iCentrality]->setMixedEvtNtupleSig(mMETupleSig);
-            mPicoEventMixer[iVz][iCentrality]->setMixedEvtNtupleBack(mMETupleBack);
+            /////mPicoEventMixer[iVz][iCentrality]->setMixedEvtNtupleBack(mMETupleBack);
         }
     }
 
@@ -133,26 +133,26 @@ Int_t StPicoMixedEventMaker::Finish() {
         }
     }
 
-    mOutputFileTreeSigSE->cd();
+    /*mOutputFileTreeSigSE->cd();
     mSETupleSig -> Write(mSETupleSig->GetName(), TObject::kOverwrite);
-    mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey
+    mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey*/
 
     mOutputFileTreeSigME->cd();
     mMETupleSig -> Write(mMETupleSig->GetName(), TObject::kOverwrite);
     mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey
 
-    mOutputFileTreeBackSE->cd();
+    /*mOutputFileTreeBackSE->cd();
     mSETupleBack -> Write(mSETupleBack->GetName(), TObject::kOverwrite);
     mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey
 
     mOutputFileTreeBackME->cd();
     mMETupleBack -> Write(mMETupleBack->GetName(), TObject::kOverwrite);
-    mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey
+    mOutList->Write(mOutList->GetName(),  TObject::kSingleKey); //predtym TObject::kSingleKey*/
 
-    mOutputFileTreeSigSE->Close();
+    /////mOutputFileTreeSigSE->Close();
     mOutputFileTreeSigME->Close();
-    mOutputFileTreeBackSE->Close();
-    mOutputFileTreeBackME->Close();
+    /*mOutputFileTreeBackSE->Close();
+    mOutputFileTreeBackME->Close();*/
 
     return kStOK;
 }
@@ -186,14 +186,14 @@ Int_t StPicoMixedEventMaker::Make() {
     int centrality = getMultIndex(multiplicity);
 
     if(centrality < 0 || centrality > m_nmultEdge+1 ) return kStOk;
-    ////int const vz_bin = (int)((50 +pVtx.z())/10) ;
+    ////int const vz_bin = (int)((30 +pVtx.z())/10) ;
     int vz_bin;
     for (int i = 0; i < m_nVzEdge; i++){
         if ((pVtx.z() >= m_VzEdge[i]) && (pVtx.z() < m_VzEdge[i + 1])) vz_bin = i;
     }
 
     if(vz_bin < 0 || vz_bin > 9 ) return kStOk;
-    if(pVtx.z() < -50 || pVtx.z() > 50 ) return kStOk;
+    if(pVtx.z() < -30 || pVtx.z() > 30 ) return kStOk;
 
 
     if( mPicoEventMixer[vz_bin][centrality] -> addPicoEvent(picoDst, 1)) {
@@ -209,8 +209,9 @@ Int_t StPicoMixedEventMaker::SetCategories() {
 // _________________________________________________________
 int StPicoMixedEventMaker::categorize(StPicoDst const * picoDst ) {
     TVector3 pVertex = (picoDst->event())->primaryVertex();
-    if( fabs(pVertex.z())>50.0 ) return -99;
-    int bin = -50.0 + (pVertex.z()+50.0)/10;
+    if( fabs(pVertex.z())>30.0 ) return -99;
+    /////int bin = -30.0 + (pVertex.z()+30.0)/10;
+    int bin = (int)(pVertex.z()+30.0)/6;
     return bin;
 }
 // _________________________________________________________

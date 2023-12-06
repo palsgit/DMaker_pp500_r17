@@ -1,5 +1,5 @@
-#ifndef __CINT__
 
+#ifndef __CINT__
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TChain.h"
@@ -11,11 +11,12 @@
 #include "StPicoEvent/StPicoEvent.h"
 #include "StPicoMixedEventMaker/StPicoMixedEventMaker.h"
 #include "macros/loadSharedHFLibraries.C"
+//#include "StPicoMixedEventMaker/StPicoMixedEventMaker.h"
 #include <iostream>
 #include <ctime>
 #include <cstdio>
 #include "StPicoD0AnaMaker/StPicoD0AnaMaker.h"
-#include "StPicoCutsBase/StPicoCutsBase.h"
+//#include "StPicoQAMaker/StPicoQAMaker.h"
 
 using namespace std;
 
@@ -31,20 +32,19 @@ void runPicoMixedEventLocal(
   string SL_version = "SL22b";
   string env_SL = getenv ("STAR");
   if (env_SL.find(SL_version)==string::npos) {
-      cout<<"Environment Star Library does not match the requested library in runPicoHFMyAnaMaker.C. Exiting..."<<endl;
+      cout<<"Environment Star Library does not match the requested library in run**.C. Exiting..."<<endl;
       exit(1);
   }
+
+
 
 #ifdef __CINT__
     gROOT->LoadMacro("loadSharedHFLibraries.C");
   loadSharedHFLibraries();
 #endif
 
-  gROOT->LoadMacro("loadSharedHFLibraries.C");
-  loadSharedHFLibraries();
-  StChain *chain = new StChain();
-
-  TString sInputFile(inputFile);
+    StChain *chain = new StChain();
+    TString sInputFile(inputFile);
 
   if (!sInputFile.Contains(".list") && !sInputFile.Contains("picoDst.root")) {
     cout << "No input list or picoDst root file provided! Exiting..." << endl;
@@ -60,11 +60,11 @@ void runPicoMixedEventLocal(
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
     hfCuts->setCutVzVpdVzMax(10.);
-    hfCuts->setCutVzMax(50.);
-    hfCuts->setCutVrMax(0.25);
+    hfCuts->setCutVzMax(55.);
+    hfCuts->setCutVrMax(0.7);
 
     //track cuts
-    hfCuts->setCutNHitsFitMin(17);
+    hfCuts->setCutNHitsFitMin(18);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
     hfCuts->setCutPtMin(0.20);
@@ -84,17 +84,17 @@ void runPicoMixedEventLocal(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPionMax(2.4);
-    hfCuts->setCutTPCNSigmaPionMin(-2.4);
-    hfCuts->setCutTPCNSigmaKaonMax(2.4);
-    hfCuts->setCutTPCNSigmaKaonMin(-2.4);
+    hfCuts->setCutTPCNSigmaPionMax(3.0);//done
+    hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
+    hfCuts->setCutTPCNSigmaKaonMax(3.0); //
+    hfCuts->setCutTPCNSigmaKaonMin(-3.0);//
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPionMax(2.4);
-    hfCuts->setCutTOFNSigmaPionMin(-1.6);
+    hfCuts->setCutTOFNSigmaPionMax(4.0);//done
+    hfCuts->setCutTOFNSigmaPionMin(-4.0);//done
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -109,24 +109,29 @@ void runPicoMixedEventLocal(
     
     hfCuts->setHybridTofWithBEMC(false);
 
+
+//
    /* float dcaDaughtersMax = 10.;  // maximum toto ide
-    float decayLengthMin  = 0.000000000; // minimum
-    float decayLengthMax  = 99999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
+    float decayLengthMin  = 0.00000000; // minimum
+    float decayLengthMax  = 9999999.;  //std::numeric_limits<float>::max(); toto ide (cutuje)
     float cosThetaMin     = -20.;   // minimum
     float minMass         = 0.1;
     float maxMass         = 3.5;
     float pairDcaMax      = 99.9;
 
-
   hfCuts->setCutSecondaryPair(dcaDaughtersMax, decayLengthMin, decayLengthMax, cosThetaMin, minMass, maxMass, pairDcaMax);
   */
+
+/*    hfCuts->setCutSecondaryPairPtBin(1,      2,              0.007,          0.012,         0.5,      0.005,    0.009, 0.007);
+    hfCuts->setCutSecondaryPairPtBin(2,      3,              0.016,          0.003,         0.5,      0.0065,   0.009, 0.01);
+    hfCuts->setCutSecondaryPairPtBin(3,      5,              0.015,          0.009,         0.6,      0.0064,   0.0064, 0.0076);*/
 
   StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only (akorát že vůbec)
 //  StPicoDstMaker* picoDstMaker = new StPicoDstMaker(static_cast<StPicoDstMaker::PicoIoMode>(StPicoDstMaker::IoRead), inputFile, "picoDstMaker");
   StPicoMixedEventMaker* picoMixedEventMaker = new StPicoMixedEventMaker("picoMixedEventMaker", picoDstMaker, hfCuts, outputFile);
   picoMixedEventMaker->setBufferSize(10);
 
-//  clock_t start = clock(); // getting starting time
+//    clock_t start = clock(); // getting starting time
   chain->Init();
   Int_t nEvents = picoDstMaker->chain()->GetEntries();
   cout << "Total entries = " << nEvents << endl;
@@ -140,10 +145,9 @@ void runPicoMixedEventLocal(
   }
 
   chain->Finish();
-//  double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
+//    double duration = (double) (clock() - start) / (double) CLOCKS_PER_SEC;
   cout << "****************************************** " << endl;
   cout << "Work done, total number of events  " << nEvents << endl;
-//  cout << "Time needed " << duration << " s" << endl;
+//    cout << "Time needed " << duration << " s" << endl;
   delete chain;
 }
-

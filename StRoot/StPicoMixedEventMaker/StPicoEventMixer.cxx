@@ -197,7 +197,8 @@ void StPicoEventMixer::mixEvents() {
                 int charge = mEvents.at(0)->pionAt(iTrk1).charge() +  mEvents.at(iEvt2)->kaonAt(iTrk2).charge(); // 0 = signal
 
                 if(iEvt2 == 0)
-                    fillNtpSameEvtPair(ntVar, charge );
+                    ////fillNtpSameEvtPair(ntVar, charge );
+                    continue;
                 else
                     fillNtpMixedEvtPair(ntVar, charge);
             }
@@ -209,20 +210,20 @@ delete mEvents.at(0);
 mEvents.erase(mEvents.begin());
 }
 
-void StPicoEventMixer::fillNtpSameEvtPair(float ntVar[], int charge) {
+/*void StPicoEventMixer::fillNtpSameEvtPair(float ntVar[], int charge) {
     if(charge == 0 )
         mSETupleSig -> Fill(ntVar);
     else
         mSETupleBack-> Fill(ntVar);
     return;
-}
+}*/
 
 
 void StPicoEventMixer::fillNtpMixedEvtPair(float ntVar[], int charge) {
     if(charge == 0 )
         mMETupleSig -> Fill(ntVar);
-    else
-        mMETupleBack-> Fill(ntVar);
+    /*else
+        mMETupleBack-> Fill(ntVar);*/
     return;
 }
 

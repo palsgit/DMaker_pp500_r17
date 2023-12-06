@@ -58,11 +58,11 @@ void runPicoD0AnaMakerLocal(
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
     hfCuts->setCutVzVpdVzMax(10.);
-    hfCuts->setCutVzMax(50.);
-    hfCuts->setCutVrMax(0.25);
+    hfCuts->setCutVzMax(55.);
+    hfCuts->setCutVrMax(0.3);
 
     //track cuts
-    hfCuts->setCutNHitsFitMin(17);
+    hfCuts->setCutNHitsFitMin(18);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
     hfCuts->setCutPtMin(0.20);
@@ -81,18 +81,24 @@ void runPicoD0AnaMakerLocal(
     hfCuts->setHybridTofPion(false); ////
     ///hfCuts->setCheckHotSpot(false);
     
-
-    hfCuts->setCutTPCNSigmaPionMax(2.4);
-    hfCuts->setCutTPCNSigmaPionMin(-2.4);
-    hfCuts->setCutTPCNSigmaKaonMax(2.4);
-    hfCuts->setCutTPCNSigmaKaonMin(-2.4);
+    
+    hfCuts->setCutTPCNSigmaPionMax(6.0);
+    hfCuts->setCutTPCNSigmaPionMin(-6.0);
+    //////////hfCuts->setCutTPCNSigmaPionMax(3.0);//done
+    //////////hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
+    //////////hfCuts->setCutTPCNSigmaKaonMax(3.0); //done
+    //////////hfCuts->setCutTPCNSigmaKaonMin(-2.5);//done
+    hfCuts->setCutTPCNSigmaKaonMax(6.0);//loose
+    hfCuts->setCutTPCNSigmaKaonMin(-6.0);//loose
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPionMax(2.4);
-    hfCuts->setCutTOFNSigmaPionMin(-1.6);
+    //////////hfCuts->setCutTOFNSigmaPionMax(2.5);//done
+    //////////hfCuts->setCutTOFNSigmaPionMin(-2.5);//done
+    //////////hfCuts->setCutTOFNSigmaPionMax(6.0);//loose
+    //////////hfCuts->setCutTOFNSigmaPionMin(-6.0);//loose
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -102,10 +108,12 @@ void runPicoD0AnaMakerLocal(
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
     */
+    hfCuts->setTPCBetterCutsPion(false);
     hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
-    hfCuts->setHybridTofBetterBetaCutsPion(false); ////
+    hfCuts->setHybridTofBetterBetaCutsPion(true); ////
     
-    hfCuts->setHybridTofWithBEMC(false);
+    hfCuts->setHybridTofWithBEMC(true);
+
     
 
 //
