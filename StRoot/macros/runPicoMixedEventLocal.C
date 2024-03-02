@@ -61,7 +61,11 @@ void runPicoMixedEventLocal(
     hfCuts->setnMatchedFast(0);
     hfCuts->setCutVzVpdVzMax(10.);
     hfCuts->setCutVzMax(55.);
-    hfCuts->setCutVrMax(0.7);
+    ////hfCuts->setCutVrMax(0.7);
+    hfCuts->setCutVxMax(1.0);
+    hfCuts->setCutVyMax(1.0);
+    hfCuts->setCutVxMin(1.0);
+    hfCuts->setCutVyMin(1.0);
 
     //track cuts
     hfCuts->setCutNHitsFitMin(18);

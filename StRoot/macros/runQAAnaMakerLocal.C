@@ -64,7 +64,11 @@ void runQAAnaMakerLocal(
     hfCuts->setnMatchedFast(0);
     hfCuts->setCutVzVpdVzMax(10.);
     hfCuts->setCutVzMax(50.);
-    hfCuts->setCutVrMax(0.25);
+    ////hfCuts->setCutVrMax(0.25);
+    hfCuts->setCutVxMax(1.);
+    hfCuts->setCutVyMax(1.);
+    hfCuts->setCutVxMin(-1.);
+    hfCuts->setCutVyMin(-1.);
 
     //track cuts
     hfCuts->setCutNHitsFitMin(17);

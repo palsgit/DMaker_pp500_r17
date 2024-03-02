@@ -1,13 +1,13 @@
 #!/bin/bash
 cd workDir
-productionId=`date +%F_%H-%M`_D0
-analyzer="svomich"
+productionId=`date +%F_%H-%M`_D0toFinalcut_gDCA1p5
+analyzer="palsp"
 
 mkdir $productionId
 cd $productionId
 #copylist
-cp ../../picoLists/part1.list  ./
-list="part1.list"
+##cp ../../picoLists/test.list  ./
+##list="test.list"
 
 #copy needed folders
 cp -r ../../.sl73_gcc485 ./
@@ -29,6 +29,7 @@ path=$( echo $path | sed 's|//|/|g' )
 
 baseFolder=${path}
 rootMacro=runPicoD0AnaMaker.C
-inputList=part1.list
+##inputList=test.list
 
-star-submit-template -template ./starSubmit/submitPicoHFMaker.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
+##star-submit-template -template ./starSubmit/submitPicoHFMaker_part1.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
+star-submit-template -template ./starSubmit/submitPicoHFMaker.xml -entities basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}

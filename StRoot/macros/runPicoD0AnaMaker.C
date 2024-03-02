@@ -57,15 +57,29 @@ void runPicoD0AnaMaker(
     hfCuts->addTriggerId(570001); //VPDMB-30
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
-    hfCuts->setCutVzVpdVzMax(10.);
-    hfCuts->setCutVzMax(55.);
-    hfCuts->setCutVrMax(0.3);
+    hfCuts->setCutVzVpdVzMax(6.);
+    hfCuts->setCutVzMax(60.);
+    /////hfCuts->setCutVrMax(0.3);
+    hfCuts->setCutVxMin(-0.3);
+    hfCuts->setCutVxMax(0.14);
+    
+    hfCuts->setCutVyMin(-0.26);
+    hfCuts->setCutVyMax(0.02);
+    
+
+    /*hfCuts->setCutVxMin(-9999999);
+    hfCuts->setCutVxMax(9999999);
+    
+    hfCuts->setCutVyMin(-9999999);
+    hfCuts->setCutVyMax(9999999);
+    */
+
 
     //track cuts
-    hfCuts->setCutNHitsFitMin(18);
+    hfCuts->setCutNHitsFitMin(15);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
-    hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
-    hfCuts->setCutPtMin(0.20);
+    hfCuts->setCutPrimaryDCAtoVtxMax(3.0); //was 2.0 in DTlusty thesis
+    hfCuts->setCutPtMin(0.10);
     hfCuts->setCutEtaMax(1.0);
     hfCuts->setCutEtaMin(-1.0);
     
@@ -82,14 +96,14 @@ void runPicoD0AnaMaker(
     ///hfCuts->setCheckHotSpot(false);
     
 
-    hfCuts->setCutTPCNSigmaPionMax(6.0);
-    hfCuts->setCutTPCNSigmaPionMin(-6.0);
-    //////////hfCuts->setCutTPCNSigmaPionMax(3.0);//done
-    //////////hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
-    //////////hfCuts->setCutTPCNSigmaKaonMax(3.0); //done
-    //////////hfCuts->setCutTPCNSigmaKaonMin(-2.5);//done
-hfCuts->setCutTPCNSigmaKaonMax(6.0);//loose
-    hfCuts->setCutTPCNSigmaKaonMin(-6.0);//loose
+    //////////hfCuts->setCutTPCNSigmaPionMax(4.0);
+    //////////hfCuts->setCutTPCNSigmaPionMin(-4.0);
+    hfCuts->setCutTPCNSigmaPionMax(3.0);//done
+    hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
+    hfCuts->setCutTPCNSigmaKaonMax(3.0); //done
+    hfCuts->setCutTPCNSigmaKaonMin(-2.5);//done
+    //////////hfCuts->setCutTPCNSigmaKaonMax(5.0);//loose
+    //////////hfCuts->setCutTPCNSigmaKaonMin(-5.0);//loose
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis

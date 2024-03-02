@@ -157,7 +157,12 @@ public:
     
     void setnMatchedFast(int i);
     void setCutVzMax(float f);
-    void setCutVrMax(float f);
+    ////void setCutVrMax(float f);
+    void setCutVxMax(float f);
+    void setCutVyMax(float f);
+    void setCutVxMin(float f);
+    void setCutVyMin(float f);
+
     void setCutVzVpdVzMax(float f);
     void setCheckHotSpot(bool b);
 
@@ -248,6 +253,7 @@ public:
     const float& getHypotheticalMass(int pidFlag)           const;
     // -- calculate nSigmaTOF of track -- basic calculation
     float getnSigmaTOF(StPicoTrack const * const trk, int pidFlag) const;
+    float getbtofYLocal(StPicoTrack const * const trk) const;
 
 private:
 
@@ -273,8 +279,12 @@ private:
     // -- event cuts
     int   mnMatchedFast;
     float mVzMax;
+    float mVxMax;
+    float mVyMax;
+    float mVxMin;
+    float mVyMin;
     float mVzVpdVzMax;
-    float mVrMax;
+    /////float mVrMax;
 
     // -- tracking
     int   mNHitsFitMin;
@@ -326,8 +336,12 @@ inline void StPicoCutsBase::addTriggerId(unsigned int triggerId) {mVecTriggerIdL
 
 inline void StPicoCutsBase::setnMatchedFast(int i)              { mnMatchedFast    = i; }
 inline void StPicoCutsBase::setCutVzMax(float f)              { mVzMax            = f; }
-inline void StPicoCutsBase::setCutVrMax(float f)              { mVrMax            = f; }
+/////inline void StPicoCutsBase::setCutVrMax(float f)              { mVrMax            = f; }
 inline void StPicoCutsBase::setCutVzVpdVzMax(float f)         { mVzVpdVzMax       = f; }
+inline void StPicoCutsBase::setCutVxMax(float f)              { mVxMax            = f; }
+inline void StPicoCutsBase::setCutVyMax(float f)              { mVyMax            = f; }
+inline void StPicoCutsBase::setCutVxMin(float f)              { mVxMin            = f; }
+inline void StPicoCutsBase::setCutVyMin(float f)              { mVyMin            = f; }
 
 inline float StPicoCutsBase::getCutVzMax()              { return mVzMax; }
 inline float StPicoCutsBase::getCutVzVpdVzMax()         { return mVzVpdVzMax; }

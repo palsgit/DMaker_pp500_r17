@@ -1,6 +1,6 @@
 #!/bin/bash
 cd workDir
-productionId=`date +%F_%H-%M`_following_lastD0woHFTwVr_loose_part3
+productionId=`date +%F_%H-%M`_D0_wDstar_gDCA1p5_part8
 analyzer="palsp"
 
 mkdir $productionId
@@ -14,7 +14,7 @@ cp -r ../../.sl73_gcc485 ./
 cp -Lr ../../StRoot ./
 cp ../../picoLists/picoList_bad.list ./
 mkdir starSubmit
-cp ../../starSubmit/submitPicoHFMaker_part3.xml ./starSubmit
+cp ../../starSubmit/submitPicoHFMaker_part8.xml ./starSubmit
 
 mkdir -p production
 mkdir -p report
@@ -31,5 +31,5 @@ baseFolder=${path}
 rootMacro=runPicoD0AnaMaker.C
 ##inputList=test.list
 
-##star-submit-template -template ./starSubmit/submitPicoHFMaker_part3.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
-star-submit-template -template ./starSubmit/submitPicoHFMaker_part3.xml -entities basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
+##star-submit-template -template ./starSubmit/submitPicoHFMaker_part8.xml -entities listOfFiles=${inputList},basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}
+star-submit-template -template ./starSubmit/submitPicoHFMaker_part8.xml -entities basePath=${baseFolder},prodId=${productionId},rootMacro=${rootMacro}

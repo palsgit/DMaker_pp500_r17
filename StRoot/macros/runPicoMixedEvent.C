@@ -58,9 +58,13 @@ void runPicoMixedEvent(
     hfCuts->addTriggerId(570001); //VPDMB-30
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
-    hfCuts->setCutVzVpdVzMax(10.);
-    hfCuts->setCutVzMax(55.);
-    hfCuts->setCutVrMax(0.7);
+    hfCuts->setCutVzVpdVzMax(3.);
+    hfCuts->setCutVzMax(30.);
+    /////hfCuts->setCutVrMax(0.7);
+    hfCuts->setCutVxMax(0.14);
+    hfCuts->setCutVyMax(0.02);
+    hfCuts->setCutVxMin(-0.3);
+    hfCuts->setCutVyMin(-0.26);
 
     //track cuts
     hfCuts->setCutNHitsFitMin(18);
@@ -86,14 +90,14 @@ void runPicoMixedEvent(
     hfCuts->setCutTPCNSigmaPionMax(3.0);//done
     hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
     hfCuts->setCutTPCNSigmaKaonMax(3.0); //
-    hfCuts->setCutTPCNSigmaKaonMin(-3.0);//
+    hfCuts->setCutTPCNSigmaKaonMin(-2.5);//
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPionMax(4.0);//done
-    hfCuts->setCutTOFNSigmaPionMin(-4.0);//done
+    hfCuts->setCutTOFNSigmaPionMax(2.5);//done
+    hfCuts->setCutTOFNSigmaPionMin(-2.5);//done
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
