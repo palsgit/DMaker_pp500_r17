@@ -22,10 +22,10 @@ using namespace std;
 ClassImp(StPicoMixedEventMaker)
 
 static const int m_nmultEdge = 5;
-static float constexpr m_multEdge[m_nmultEdge+1] = {0, 1.5, 3.5, 5.5, 7.5, 200};
+static float constexpr m_multEdge[m_nmultEdge+1] = {0, 3, 5, 7, 9, 200};
 
 static const int m_nVzEdge = 10;
-static float constexpr m_VzEdge[m_nVzEdge+1] = {-30.5, -23.5, -17.5, -12.5, -6.5, -1.5, 2.5, 7.5, 13.5, 19.5, 30.5};
+static float constexpr m_VzEdge[m_nVzEdge+1] = {-60, -31, -21, -14, -7, -1, 6, 12, 20, 32, 60};
 
 ///static const int m_nmultEdge = 1;
 ///static float constexpr m_multEdge[m_nmultEdge+1] = {0, 2000};
@@ -49,7 +49,8 @@ StPicoMixedEventMaker::StPicoMixedEventMaker(char const* name, StPicoDstMaker* p
         mOutputFileTreeBackSE(NULL),
         mOutputFileTreeBackME(NULL)
 {
-    const string varList ="pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigma:k_nHitratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
+    //////const string varList ="pi1_pt:pi1_p:pi1_dca:pi1_nSigma:pi1_nHitratio:pi1_nHitFit:pi1_nSigmaTOF:pi1_TOFinvbeta:pi1_betaBase:pi1_charge:pi1_eta:k_pt:k_p:k_dca:k_nSigma:k_nHitratio:k_nHitFit:k_nSigmaTOF:k_TOFinvbeta:k_betaBase:k_charge:k_eta:dcaDaughters:D_theta:cosTheta:D_decayL:dcaD0ToPv:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
+    const string varList="pi1_pt:pi1_p:pi1_nSigma:pi1_nSigmaTOF:pi1_charge:pi1_isTOFmatched:pi1_isBEMCmatched:k_pt:k_p:k_nSigma:k_nSigmaTOF:k_charge:k_isTOFmatched:k_isBEMCmatched:D_cosThetaStar:D_pt:D_mass:D_rapidity:D_phi:D_eta";
 
     TH1::AddDirectory(false);
     // -- create OutputTree
@@ -186,14 +187,14 @@ Int_t StPicoMixedEventMaker::Make() {
     int centrality = getMultIndex(multiplicity);
 
     if(centrality < 0 || centrality > m_nmultEdge+1 ) return kStOk;
-    ////int const vz_bin = (int)((30 +pVtx.z())/10) ;
+    ////int const vz_bin = (int)((60 +pVtx.z())/10) ;
     int vz_bin;
     for (int i = 0; i < m_nVzEdge; i++){
         if ((pVtx.z() >= m_VzEdge[i]) && (pVtx.z() < m_VzEdge[i + 1])) vz_bin = i;
     }
 
     if(vz_bin < 0 || vz_bin > 9 ) return kStOk;
-    if(pVtx.z() < -30 || pVtx.z() > 30 ) return kStOk;
+    if(pVtx.z() < -60 || pVtx.z() > 60 ) return kStOk;
 
 
     if( mPicoEventMixer[vz_bin][centrality] -> addPicoEvent(picoDst, 1)) {
@@ -209,9 +210,9 @@ Int_t StPicoMixedEventMaker::SetCategories() {
 // _________________________________________________________
 int StPicoMixedEventMaker::categorize(StPicoDst const * picoDst ) {
     TVector3 pVertex = (picoDst->event())->primaryVertex();
-    if( fabs(pVertex.z())>30.0 ) return -99;
-    /////int bin = -30.0 + (pVertex.z()+30.0)/10;
-    int bin = (int)(pVertex.z()+30.0)/6;
+    if( fabs(pVertex.z())>60.0 ) return -99;
+    /////int bin = -60.0 + (pVertex.z()+60.0)/10;
+    int bin = (int)(pVertex.z()+60.0)/12;
     return bin;
 }
 // _________________________________________________________

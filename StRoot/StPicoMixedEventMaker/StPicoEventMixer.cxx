@@ -150,40 +150,55 @@ void StPicoEventMixer::mixEvents() {
 
                 ////if (!isCloseMixerPair(pair)) continue;
 
+                Float_t ispion1TOFmatched = 0;
+                Float_t ispion1BEMCmatched = 0;
+                Float_t iskaonTOFmatched = 0;
+                Float_t iskaonBEMCmatched = 0;
+
+                if (mHFCuts->isTOFmatched(&pion)) ispion1TOFmatched = 1;
+                if (mHFCuts->isBEMCmatched(&pion)) ispion1BEMCmatched = 1;
+                if (mHFCuts->isTOFmatched(&kaon)) iskaonTOFmatched = 1;
+                if (mHFCuts->isBEMCmatched(&kaon)) iskaonBEMCmatched = 1;
+
                 int ii=0;
                 const int nNtVars = mMETupleSig->GetNvar();
                 float ntVar[nNtVars];
 
                 ntVar[ii++] = pion.pPt();
                 ntVar[ii++] = pion.pPtot();
-                ntVar[ii++] = pair->particle1Dca();
+                //////ntVar[ii++] = pair->particle1Dca();
                 ntVar[ii++] = pion.nSigmaPion();
-                ntVar[ii++] = (float)((float) pion.nHitsFit()/(float) pion.nHitsMax());;
-                ntVar[ii++] = pion.nHitsFit();
+                //////ntVar[ii++] = (float)((float) pion.nHitsFit()/(float) pion.nHitsMax());;
+                //////ntVar[ii++] = pion.nHitsFit();
                 ntVar[ii++] = mHFCuts->getnSigmaTOF(&pion, StPicoCutsBase::kPion);
-                ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion);//probably not working now, you are in weong event, so calc. for TOF traits is not right
-                ntVar[ii++] = mHFCuts->getTofBetaBase(&pion);
+                //////ntVar[ii++] = mHFCuts->getOneOverBeta(&pion, mHFCuts->getTofBetaBase(&pion), StPicoCutsBase::kPion);//probably not working now, you are in weong event, so calc. for TOF traits is not right
+                //////ntVar[ii++] = mHFCuts->getTofBetaBase(&pion);
                 ntVar[ii++] = pion.charge();
-                ntVar[ii++] = pion.pMom().PseudoRapidity();
+                //////ntVar[ii++] = pion.pMom().PseudoRapidity();
+                ntVar[ii++] = ispion1TOFmatched;
+                ntVar[ii++] = ispion1BEMCmatched;
+
 
                 ntVar[ii++] = kaon.pPt();
                 ntVar[ii++] = kaon.pPtot();
-                ntVar[ii++] = pair->particle2Dca();
+                //////ntVar[ii++] = pair->particle2Dca();
                 ntVar[ii++] = kaon.nSigmaKaon();
-                ntVar[ii++] = (float)((float)kaon.nHitsFit()/(float)kaon.nHitsMax());
-                ntVar[ii++] = kaon.nHitsFit();
+                //////ntVar[ii++] = (float)((float)kaon.nHitsFit()/(float)kaon.nHitsMax());
+                //////ntVar[ii++] = kaon.nHitsFit();
                 ntVar[ii++] = mHFCuts->getnSigmaTOF(&kaon, StPicoCutsBase::kKaon);
-                ntVar[ii++] = mHFCuts->getOneOverBeta(&kaon, mHFCuts->getTofBetaBase(&kaon), StPicoCutsBase::kKaon);
-                ntVar[ii++] = mHFCuts->getTofBetaBase(&kaon);
+                //////ntVar[ii++] = mHFCuts->getOneOverBeta(&kaon, mHFCuts->getTofBetaBase(&kaon), StPicoCutsBase::kKaon);
+                //////ntVar[ii++] = mHFCuts->getTofBetaBase(&kaon);
                 ntVar[ii++] = kaon.charge();
-                ntVar[ii++] = kaon.pMom().PseudoRapidity();
+                //////ntVar[ii++] = kaon.pMom().PseudoRapidity();
+                ntVar[ii++] = iskaonTOFmatched;
+                ntVar[ii++] = iskaonBEMCmatched;
 
-                ntVar[ii++] = pair->dcaDaughters();
+                //////ntVar[ii++] = pair->dcaDaughters();
                 
-                ntVar[ii++] = pair->pointingAngle();
-                ntVar[ii++] = cos(pair->pointingAngle());
-                ntVar[ii++] = pair->decayLength();
-                ntVar[ii++] = pair->DcaToPrimaryVertex(); //(pair->decayLength())*sin(pair->pointingAngle());
+                //////ntVar[ii++] = pair->pointingAngle();
+                //////ntVar[ii++] = cos(pair->pointingAngle());
+                //////ntVar[ii++] = pair->decayLength();
+                //////ntVar[ii++] = pair->DcaToPrimaryVertex(); //(pair->decayLength())*sin(pair->pointingAngle());
                 ntVar[ii++] = pair->cosThetaStar();
                 ntVar[ii++] = pair->pt();
                 ntVar[ii++] = pair->m();

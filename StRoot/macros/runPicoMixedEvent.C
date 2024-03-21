@@ -58,19 +58,29 @@ void runPicoMixedEvent(
     hfCuts->addTriggerId(570001); //VPDMB-30
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
-    hfCuts->setCutVzVpdVzMax(3.);
-    hfCuts->setCutVzMax(30.);
-    /////hfCuts->setCutVrMax(0.7);
-    hfCuts->setCutVxMax(0.14);
-    hfCuts->setCutVyMax(0.02);
+    hfCuts->setCutVzVpdVzMax(4.);
+    hfCuts->setCutVzMax(60.);
+    /////hfCuts->setCutVrMax(0.3);
     hfCuts->setCutVxMin(-0.3);
+hfCuts->setCutVxMax(0.14);
+    
     hfCuts->setCutVyMin(-0.26);
+hfCuts->setCutVyMax(0.02);
+    
+
+    /*hfCuts->setCutVxMin(-9999999);
+    hfCuts->setCutVxMax(9999999);
+    
+    hfCuts->setCutVyMin(-9999999);
+    hfCuts->setCutVyMax(9999999);
+*/
+    
 
     //track cuts
     hfCuts->setCutNHitsFitMin(18);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(1.5); //was 2.0 in DTlusty thesis
-    hfCuts->setCutPtMin(0.20);
+    hfCuts->setCutPtMin(0.2);
     hfCuts->setCutEtaMax(1.0);
     hfCuts->setCutEtaMin(-1.0);
     
@@ -87,17 +97,23 @@ void runPicoMixedEvent(
     ///hfCuts->setCheckHotSpot(false);
     
 
+//////////hfCuts->setCutTPCNSigmaPionMax(4.0);
+    //////////hfCuts->setCutTPCNSigmaPionMin(-4.0);
     hfCuts->setCutTPCNSigmaPionMax(3.0);//done
     hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
-    hfCuts->setCutTPCNSigmaKaonMax(3.0); //
-    hfCuts->setCutTPCNSigmaKaonMin(-2.5);//
+    hfCuts->setCutTPCNSigmaKaonMax(3.0); //done
+    hfCuts->setCutTPCNSigmaKaonMin(-2.5);//done
+    //////////hfCuts->setCutTPCNSigmaKaonMax(5.0);//loose
+    //////////hfCuts->setCutTPCNSigmaKaonMin(-5.0);//loose
 
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);//was not mentioned in DTlusty thesis
     //hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);//was not mentioned in DTlusty thesis
     
     
-    hfCuts->setCutTOFNSigmaPionMax(2.5);//done
-    hfCuts->setCutTOFNSigmaPionMin(-2.5);//done
+    //////////hfCuts->setCutTOFNSigmaPionMax(2.5);//done
+    //////////hfCuts->setCutTOFNSigmaPionMin(-2.5);//done
+//////////hfCuts->setCutTOFNSigmaPionMax(6.0);//loose
+    //////////hfCuts->setCutTOFNSigmaPionMin(-6.0);//loose
     /*hfCuts->setCutTOFNSigmaKaon(3.0);
     hfCuts->setCutTOFDeltaOneOverBetaKaon(0.03);
     hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
@@ -107,10 +123,11 @@ void runPicoMixedEvent(
 
     hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
     */
+hfCuts->setTPCBetterCutsPion(false);
     hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
-    hfCuts->setHybridTofBetterBetaCutsPion(false); ////
+    hfCuts->setHybridTofBetterBetaCutsPion(true); ////
     
-    hfCuts->setHybridTofWithBEMC(false);
+    hfCuts->setHybridTofWithBEMC(true);
 
     
 //
