@@ -127,8 +127,7 @@ Int_t StPicoHFMaker::Make() {
   }
 
   Int_t iReturn = kStOK;
-
-
+  
   if (startEvent()) {
 //    UInt_t nTracks = mPicoDst->numberOfTracks();
 //    for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
@@ -142,7 +141,15 @@ Int_t StPicoHFMaker::Make() {
 
     // -- call method of daughter class
     iReturn = MakeHF();
+  ////////cout << "nD0events = " << nD0events << endl;
+  TH1I *hnoofD0Dstarevents = static_cast<TH1I*>(mOutList->FindObject("hnoofD0Dstarevents"));
+  hnoofD0Dstarevents->SetBinContent(1,nD0events);
+  hnoofD0Dstarevents->GetXaxis()->SetBinLabel(1,"D0 Events");
+  hnoofD0Dstarevents->SetBinContent(5,nDstarevents);
+  hnoofD0Dstarevents->GetXaxis()->SetBinLabel(5,"Dstar Events");
   }
+
+  
 
   // -- setup event to be in a defined state
   setupEvent();

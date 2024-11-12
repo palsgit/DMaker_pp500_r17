@@ -4,6 +4,8 @@
         "runPicoD0AnaMaker.C": "cpp",
         "runPicoD0AnaMakerLocal.C": "cpp",
         "runQAAnaMakerLocal.C": "cpp",
-        "runPicoMixedEvent.C": "cpp"
+        "runPicoMixedEvent.C": "cpp",
+        "runQAAnaMaker.C": "cpp",
+        "addVectors.C": "cpp"
     }
 }

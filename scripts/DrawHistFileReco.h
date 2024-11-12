@@ -34,22 +34,73 @@ int drawProfile(TString dir, TString fname, TString *list, int max = 0);
 Int_t padw = 1100, padh = 600;
 
 
-Double_t nSigmaTOFPionTPC_upper(double x) { return 2.2; }
-Double_t nSigmaTOFPionTPC_lower(double x) { return -2.0; }
+/*Double_t nSigmaTOFPionTrack_upper(Double_t x) { return 2.5; }
+Double_t nSigmaTOFPionTrack_lower(Double_t x) { return -2.5; }*/
 
-Double_t nSigmaTOFKaonTPC_upper(double x) { 
-	double f_nsigmaTOFKaonTPC_res =  1.07078 + 0.0194723/pow((x + 0.0183138), 3.41348);
-    double f_nsigmaTOFKaonTPC_pos = 0.0283416 + 0.00230815/pow((x + 0.0270787), 4.96298); 
-	double kaon_higher = 1.8*f_nsigmaTOFKaonTPC_res + f_nsigmaTOFKaonTPC_pos;
-    return kaon_higher; 
+Double_t nSigmaTPCPion_upper(Double_t x) { return 3.0; }
+Double_t nSigmaTPCPion_lower(Double_t x) { return -3.0; }
+
+Double_t nSigmaTPCPion_upper_strict(Double_t x) { return 2.5; }
+Double_t nSigmaTPCPion_lower_strict(Double_t x) { return -2.5; }
+
+Double_t nSigmaTPCKaon_upper(Double_t x) { return 3.0; }
+Double_t nSigmaTPCKaon_lower(Double_t x) { return -2.5; }
+
+Double_t nSigmaTOFKaonTrack_upper(Double_t x) { 
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
+    double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81))); 
+
+    /*float mSigmahigher = 3.2;
+    ///if (x > 2.0) mSigmahigher = 2.4;*/
+    float mSigma = 2.24;
+	double kaon_higher = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
+    return kaon_higher;  
 	}
-Double_t nSigmaTOFKaonTPC_lower(double x) {
-	double f_nsigmaTOFKaonTPC_res =  1.07078 + 0.0194723/pow((x + 0.0183138), 3.41348);
-    double f_nsigmaTOFKaonTPC_pos = 0.0283416 + 0.00230815/pow((x + 0.0270787), 4.96298); 
-	 double kaon_lower = -1.2*f_nsigmaTOFKaonTPC_res + f_nsigmaTOFKaonTPC_pos;
-	 return kaon_lower; 
+Double_t nSigmaTOFKaonTrack_lower(Double_t x) {
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
+    double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81))); 
+    /*float mSigma = -2.30;
+    /*if (x > 1.25 && x < 1.50) mSigmalower = -1.56;
+    if (x > 1.5 && x < 1.65) mSigmalower = -1.18;
+    if (x > 1.65) mSigmalower = -0.79;*/
+    float mSigma = -1.12;
+	 double kaon_lower = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
+	 return kaon_lower;  
 	 }
 
+	 Double_t nSigmaTOFKaonTrack_lower_more(Double_t x) {
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
+    double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81)));
+    /*float mSigma = -2.30;
+    /*if (x > 1.25 && x < 1.50) mSigmalower = -1.56;
+    if (x > 1.5 && x < 1.65) mSigmalower = -1.18;
+    if (x > 1.65) mSigmalower = -0.79;*/
+    float mSigma = -1.12;
+    //////if (x < 1.0) mSigma = -2.94;
+	double kaon_lower = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
+	 //////double kaon_lower = -1.5;
+    if (x < 1.5) kaon_lower = 2.05*x - 4.575;
+	return kaon_lower; 
+	 }
+
+
+Double_t nSigmaTOFPionTrack_upper(Double_t x) { 
+	double f_nSigmaTOFPionTrack_res =  0.9015 + (0.0001/(pow((x + 0.2003), 9.0378)));
+    double f_nSigmaTOFPionTrack_pos = 0.0119 + (0.0139/(pow((x + 0.3327), 6.3391))); 
+
+    float mSigma = 2.76;
+    double Pion_higher = mSigma*f_nSigmaTOFPionTrack_res + f_nSigmaTOFPionTrack_pos;
+    if (x < 1.6) Pion_higher = 12.4048 - 6.19048*x;
+    return Pion_higher;  
+	}
+Double_t nSigmaTOFPionTrack_lower(Double_t x) {
+	double f_nSigmaTOFPionTrack_res =  0.9015 + (0.0001/(pow((x + 0.2003), 9.0378)));
+    double f_nSigmaTOFPionTrack_pos = 0.0119 + (0.0139/(pow((x + 0.3327), 6.3391)));  
+    float mSigma = -4.42;
+    double Pion_lower = mSigma*f_nSigmaTOFPionTrack_res + f_nSigmaTOFPionTrack_pos;
+    if (x < 1.6) Pion_lower = 4.7619*x - 11.619;
+	return Pion_lower;  
+	 }
 /////////////////////////////////////////////////////////////
 bool drawFromList(TString name, TString *list, int max)
 {
@@ -175,28 +226,52 @@ int drawAny(TString dir, TString fname, vector<TString> *list)
 
 			cnv->cd();
 			obj->Draw(drawOpt);
-			TF1 *fitsigmakaonupper = new TF1("fitsigmakaonupper","nSigmaTOFKaonTPC_upper(x)",0.16,3.5);
-            TF1 *fitsigmakaonlower = new TF1("fitsigmakaonlower","nSigmaTOFKaonTPC_lower(x)",0.16,3.5);
+			TF1 *fitsigmakaonupper = new TF1("fitsigmakaonupper","nSigmaTOFKaonTrack_upper(x)",0.20,3.5);
+            TF1 *fitsigmakaonlower = new TF1("fitsigmakaonlower","nSigmaTOFKaonTrack_lower(x)",0.20,3.5);
 
-			TF1 *fitsigmapionupper = new TF1("fitsigmapionupper","nSigmaTOFPionTPC_upper(x)",0.16,3.5);
-            TF1 *fitsigmapionlower = new TF1("fitsigmapionlower","nSigmaTOFPionTPC_lower(x)",0.16,3.5);
+			TF1 *fitsigmapionupper = new TF1("fitsigmapionupper","nSigmaTOFPionTrack_upper(x)",0.20,3.5);
+            TF1 *fitsigmapionlower = new TF1("fitsigmapionlower","nSigmaTOFPionTrack_lower(x)",0.20,3.5);
+
+			TF1 *fitsigmaPionTrackupper = new TF1("fitsigmaPionTrackupper","nSigmaTPCPion_upper(x)",0.20,3.5);
+            TF1 *fitsigmaPionTracklower = new TF1("fitsigmaPionTracklower","nSigmaTPCPion_lower(x)",0.20,3.5);
+
+			TF1 *fitsigmaKaonTrackupper = new TF1("fitsigmaKaonTrackupper","nSigmaTPCKaon_upper(x)",0.20,3.5);
+            TF1 *fitsigmaKaonTracklower = new TF1("fitsigmaKaonTracklower","nSigmaTPCKaon_lower(x)",0.20,3.5);
+
 
 			TF1 *fitsigmaupper = new TF1();
 			TF1 *fitsigmalower = new TF1();
 
-			if (name == "h_OneOverBetaDiffPi_TPC") {
+			if (name == "h_nSigmaOneOverBetaPi_tr" || name == "h_nSigmaOneOverBetaPi_TPC") {
                     fitsigmaupper = fitsigmapionupper;
 					fitsigmalower = fitsigmapionlower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
 				}
 
-			if (name == "h_OneOverBetaDiffK_TPC") {
+			if (name == "h_nSigmaOneOverBetaK_tr" || name == "h_nSigmaOneOverBetaK_TPC") {
                     fitsigmaupper = fitsigmakaonupper;
 					fitsigmalower = fitsigmakaonlower;
+					/////fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
+				}
+
+				if (name == "h_nSigmadEdxK_tr") {
+                    fitsigmaupper = fitsigmaPionTrackupper;
+					fitsigmalower = fitsigmaPionTracklower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
+				}
+
+			if (name == "h_nSigmadEdxPi_tr") {
+                    fitsigmaupper = fitsigmaKaonTrackupper;
+					fitsigmalower = fitsigmaKaonTracklower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
 				}
 				
     /////h_QA_OneOverBetaDiffKaon->Draw("colz");
-    fitsigmaupper->Draw("same");
-    fitsigmalower->Draw("same");
+    
 			//save(cnv, names, 0, "png");
 			cnv->cd()->SaveAs(Form("%s.png", name.Data()));
 
@@ -207,29 +282,72 @@ int drawAny(TString dir, TString fname, vector<TString> *list)
 				if(!class_name.CompareTo("TH2D")||!class_name.CompareTo("TH2F"))	cnv_log->cd()->SetLogz();
 				//if(!class_name.CompareTo("TH2D")||!class_name.CompareTo("TH2F"))	cnv_log->cd()->SetLogy();
 				obj->Draw(drawOpt);
-				TF1 *fitsigmakaonupper = new TF1("fitsigmakaonupper","nSigmaTOFKaonTPC_upper(x)",0.16,3.5);
-                TF1 *fitsigmakaonlower = new TF1("fitsigmakaonlower","nSigmaTOFKaonTPC_lower(x)",0.16,3.5);
+				TF1 *fitsigmakaonupper = new TF1("fitsigmakaonupper","nSigmaTOFKaonTrack_upper(x)",0.20,3.5);
+                TF1 *fitsigmakaonlower = new TF1("fitsigmakaonlower","nSigmaTOFKaonTrack_lower(x)",0.20,3.5);
+				TF1 *fitsigmakaonlower_more = new TF1("fitsigmakaonlower_more","nSigmaTOFKaonTrack_lower_more(x)",0.20,3.5);
+
       
-	            TF1 *fitsigmapionupper = new TF1("fitsigmapionupper","nSigmaTOFPionTPC_upper(x)",0.16,3.5);
-                TF1 *fitsigmapionlower = new TF1("fitsigmapionlower","nSigmaTOFPionTPC_lower(x)",0.16,3.5);
+	            TF1 *fitsigmapionupper = new TF1("fitsigmapionupper","nSigmaTOFPionTrack_upper(x)",0.20,3.5);
+                TF1 *fitsigmapionlower = new TF1("fitsigmapionlower","nSigmaTOFPionTrack_lower(x)",0.20,3.5);
+
+			    TF1 *fitsigmaPionTrackupper = new TF1("fitsigmaPionTrackupper","nSigmaTPCPion_upper(x)",0.20,3.5);
+                TF1 *fitsigmaPionTracklower = new TF1("fitsigmaPionTracklower","nSigmaTPCPion_lower(x)",0.20,3.5);
+
+				TF1 *fitsigmaPionTrackupper_strict = new TF1("fitsigmaPionTrackupper_strict","nSigmaTPCPion_upper_strict(x)",1.6,3.5);
+                TF1 *fitsigmaPionTracklower_strict = new TF1("fitsigmaPionTracklower_strict","nSigmaTPCPion_lower_strict(x)",1.6,3.5);
+
+			    TF1 *fitsigmaKaonTrackupper = new TF1("fitsigmaKaonTrackupper","nSigmaTPCKaon_upper(x)",0.20,3.5);
+                TF1 *fitsigmaKaonTracklower = new TF1("fitsigmaKaonTracklower","nSigmaTPCKaon_lower(x)",0.20,3.5);
 
 
-				TF1 *fitsigmaupper = new TF1();
+			    TF1 *fitsigmaupper = new TF1();
 			    TF1 *fitsigmalower = new TF1();
 
-				if (name == "h_OneOverBetaDiffPi_TPC") {
+				if (name == "h_nSigmaOneOverBetaPi_tr" || name == "h_nSigmaOneOverBetaPi_TPC") {
                     fitsigmaupper = fitsigmapionupper;
 					fitsigmalower = fitsigmapionlower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
 				}
 
-				if (name == "h_OneOverBetaDiffK_TPC") {
+			   if (name == "h_nSigmaOneOverBetaK_tr" || name == "h_nSigmaOneOverBetaK_TPC") {
                     fitsigmaupper = fitsigmakaonupper;
 					fitsigmalower = fitsigmakaonlower;
+					fitsigmaupper->Draw("same");
+					fitsigmalower->SetLineStyle(10);
+                    fitsigmalower->Draw("same");
+					fitsigmalower = fitsigmakaonlower_more;
+					fitsigmalower->SetLineStyle(1);
+					fitsigmalower->Draw("same");
 				}
 
+				if (name == "h_nSigmadEdxK_tr") {
+                    fitsigmaupper = fitsigmaKaonTrackupper;
+					fitsigmalower = fitsigmaKaonTracklower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
+					
+				}
+
+			   if (name == "h_nSigmadEdxPi_tr") {
+                    fitsigmaupper = fitsigmaPionTrackupper;
+					fitsigmalower = fitsigmaPionTracklower;
+					fitsigmaupper->Draw("same");
+                    fitsigmalower->Draw("same");
+					fitsigmaupper = fitsigmaPionTrackupper_strict;
+					fitsigmalower = fitsigmaPionTracklower_strict;
+
+					fitsigmaupper->SetLineStyle(10);
+					fitsigmalower->SetLineStyle(10);
+					fitsigmaupper->Draw("same");
+					fitsigmalower->Draw("same");
+
+				}
+
+				
+
     /////h_QA_OneOverBetaDiffKaon->Draw("colz");
-    fitsigmaupper->Draw("same");
-    fitsigmalower->Draw("same");
+    
 				//save(cnv_log, names_log, 0, "png");
 				cnv_log->cd()->SaveAs(Form("%s_log.png", name.Data()));
 			}

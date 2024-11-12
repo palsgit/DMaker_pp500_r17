@@ -56,6 +56,11 @@ void style()
   //myStyle->SetFrameFillColor(10);
   myStyle->SetFrameLineWidth(1.2);
   myStyle->SetPaperSize(20,24); // US letter size
+
+  myStyle->SetLegendBorderSize(0);
+  myStyle->SetLegendFillColor(0);
+  myStyle->SetLegendFont(42);
+  myStyle->SetLegendTextSize(0.05);
   gROOT->SetStyle("myStyle");
   cout << "Styles are Set!" << endl;
   return; 

@@ -38,6 +38,7 @@ public:
     bool isMatchedFast(StPicoDst const * const picoDst);
     bool isGoodTrack(StPicoTrack const * const trk) const;
     bool isGoodPion(StPicoTrack const * const trk) const;
+    bool isGoodSoftPion(StPicoTrack const * const trk) const;
     bool isGoodKaon(StPicoTrack const * const trk) const;
     bool isGoodProton(StPicoTrack const * const trk) const;
     bool checkHotSpot(TVector3*) const;
@@ -132,6 +133,7 @@ public:
 
     ///old bool isTOFPionCutOK(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
     bool isTOFPionCutOK(StPicoTrack const *trk) const;
+     bool isTOFSoftPionCutOK(StPicoTrack const *trk) const;
     ///old bool isTOFBetterPion(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
     bool isTOFBetterPion(StPicoTrack const *trk) const;
     bool isHybridTOFBetterPion(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const;
@@ -173,6 +175,7 @@ public:
     void setCutPrimaryDCAtoVtxMax(float f);
     void setCutPtRange(float min, float max, int pidFlag);
     void setCutPtMin(float min);
+    void setCutSoftPtMin(float min);
     void setCutEtaMax(float max);
     void setCutEtaMin(float min);
     void setCutDcaMin(float min, int pidFlag);
@@ -222,9 +225,9 @@ public:
     void setHybridTofKaon(bool t);
     void setHybridTofPion(bool t);
 
-    void setHybridTofBetterBetaCuts(bool t);
-    void setHybridTofBetterBetaCutsKaon(bool t);
-    void setHybridTofBetterBetaCutsPion(bool t);
+    void setTofBetterBetaCuts(bool t);
+    void setTofBetterBetaCutsKaon(bool t);
+    void setTofBetterBetaCutsPion(bool t);
     void setTPCBetterCutsPion(bool t);
 
     void setHybridTofWithBEMC(bool t);
@@ -292,14 +295,15 @@ private:
     float mNHitsFitnHitsMax;
     float mPrimaryDCAtoVtxMax;         // used for primary selection for TOF Beta recalculation
     float mPtMin;
+    float mSoftPtMin;
     float mEtaMax;
     float mEtaMin;
     bool  mHybridTof;
     bool  mHybridTofKaon;
     bool  mHybridTofPion;
-    bool  mHybridTofBetterBetaCuts;
-    bool  mHybridTofBetterBetaCutsKaon;
-    bool  mHybridTofBetterBetaCutsPion;
+    bool  mTofBetterBetaCuts;
+    bool  mTofBetterBetaCutsKaon;
+    bool  mTofBetterBetaCutsPion;
     bool  mHybridTofWithBEMC;
     bool  mOnlyHotSpot;
     bool  mTPCBetterCutsPion;
@@ -358,6 +362,7 @@ inline void StPicoCutsBase::setCutPtRange(float min, float max, int pidFlag)    
     mPtRange[pidFlag][1] = max; }
 
 inline void StPicoCutsBase::setCutPtMin(float min)            { mPtMin = min;}
+inline void StPicoCutsBase::setCutSoftPtMin(float min)            { mSoftPtMin = min;}
 inline void StPicoCutsBase::setCutEtaMax(float max)            { mEtaMax = max;}
 inline void StPicoCutsBase::setCutEtaMin(float min)            { mEtaMin = min;}
 
@@ -422,9 +427,9 @@ inline void StPicoCutsBase::setCutProtonPtotRangeHybridTOF(float min, float max)
 inline void StPicoCutsBase::setHybridTof(bool t) {mHybridTof = t;}
 inline void StPicoCutsBase::setHybridTofKaon(bool t) {mHybridTofKaon = t;}
 inline void StPicoCutsBase::setHybridTofPion(bool t) {mHybridTofPion = t;}
-inline void StPicoCutsBase::setHybridTofBetterBetaCuts(bool t) {mHybridTofBetterBetaCuts = t;}
-inline void StPicoCutsBase::setHybridTofBetterBetaCutsKaon(bool t) {mHybridTofBetterBetaCutsKaon = t;}
-inline void StPicoCutsBase::setHybridTofBetterBetaCutsPion(bool t) {mHybridTofBetterBetaCutsPion = t;}
+inline void StPicoCutsBase::setTofBetterBetaCuts(bool t) {mTofBetterBetaCuts = t;}
+inline void StPicoCutsBase::setTofBetterBetaCutsKaon(bool t) {mTofBetterBetaCutsKaon = t;}
+inline void StPicoCutsBase::setTofBetterBetaCutsPion(bool t) {mTofBetterBetaCutsPion = t;}
 
 inline void StPicoCutsBase::setHybridTofWithBEMC(bool t) {mHybridTofWithBEMC = t;}
 

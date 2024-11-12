@@ -57,8 +57,8 @@ void runPicoD0AnaMaker(
     hfCuts->addTriggerId(570001); //VPDMB-30
     hfCuts->showTriggers();
     hfCuts->setnMatchedFast(0);
-    hfCuts->setCutVzVpdVzMax(6.);
-    hfCuts->setCutVzMax(60.);
+    hfCuts->setCutVzVpdVzMax(9999999.0);
+    hfCuts->setCutVzMax(100.0);
     /////hfCuts->setCutVrMax(0.3);
     hfCuts->setCutVxMin(-0.3);
     hfCuts->setCutVxMax(0.14);
@@ -79,11 +79,14 @@ void runPicoD0AnaMaker(
     hfCuts->setCutNHitsFitMin(15);
     hfCuts->setCutNHitsFitnHitsMax(0.52);
     hfCuts->setCutPrimaryDCAtoVtxMax(3.0); //was 2.0 in DTlusty thesis
-    hfCuts->setCutPtMin(0.10);
+    hfCuts->setCutPtMin(0.2);
     hfCuts->setCutEtaMax(1.0);
     hfCuts->setCutEtaMin(-1.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
+
+    hfCuts->setCutSoftPtMin(0.1);
+    
     
     
     
@@ -91,17 +94,18 @@ void runPicoD0AnaMaker(
     hfCuts->setCutRequireHFT(false); //// Usable only for d+Au analysis
     hfCuts->setHybridTof(false); //// Does nothing (Proton PID)
     */
-    hfCuts->setHybridTofKaon(false); //// This cut and the one below work for the analysis without BEMC
-    hfCuts->setHybridTofPion(false); ////
+     ////
     ///hfCuts->setCheckHotSpot(false);
     
 
     //////////hfCuts->setCutTPCNSigmaPionMax(4.0);
     //////////hfCuts->setCutTPCNSigmaPionMin(-4.0);
-    hfCuts->setCutTPCNSigmaPionMax(3.0);//done
-    hfCuts->setCutTPCNSigmaPionMin(-3.0);//done
-    hfCuts->setCutTPCNSigmaKaonMax(3.0); //done
-    hfCuts->setCutTPCNSigmaKaonMin(-2.5);//done
+    hfCuts->setTPCBetterCutsPion(false);
+    hfCuts->setCutTPCNSigmaPionMax(4.0);//done
+    hfCuts->setCutTPCNSigmaPionMin(-4.0);//done
+
+    hfCuts->setCutTPCNSigmaKaonMax(4.0); //done
+    hfCuts->setCutTPCNSigmaKaonMin(-4.0);//done
     //////////hfCuts->setCutTPCNSigmaKaonMax(5.0);//loose
     //////////hfCuts->setCutTPCNSigmaKaonMin(-5.0);//loose
 
@@ -120,13 +124,16 @@ void runPicoD0AnaMaker(
 
     
 
-    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
+    hfCuts->setTofBetterBetaCuts(false); // Does nothing
     */
-    hfCuts->setTPCBetterCutsPion(false);
-    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
-    hfCuts->setHybridTofBetterBetaCutsPion(true); ////
+    hfCuts->setHybridTofPion(true);
+    hfCuts->setTofBetterBetaCutsPion(true); ////
+
+    hfCuts->setHybridTofKaon(false); 
+    hfCuts->setTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
     
-    hfCuts->setHybridTofWithBEMC(true);
+    
+    //////hfCuts->setHybridTofWithBEMC(true);
     
 
 

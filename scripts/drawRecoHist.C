@@ -62,8 +62,16 @@ Int_t drawRecoHist() {
 	vector<TString> *list = new vector<TString>;
 
 
-	list->push_back("h_OneOverBetaDiffK_TPC");
-	list->push_back("h_OneOverBetaDiffPi_TPC");
+	list->push_back("h_nSigmaOneOverBetaK_tr");
+	list->push_back("h_nSigmaOneOverBetaPi_tr");
+	list->push_back("h_nSigmaOneOverBetaPi_TPC");
+	list->push_back("h_nSigmaOneOverBetaK_TPC");
+	list->push_back("h_nSigmadEdxK_tr");
+	list->push_back("h_nSigmadEdxPi_tr");
+
+	list->push_back("hDedx_tr");
+	list->push_back("hBetavsP_tr");
+
 
 	TFile *file = new TFile("Projections.root", "read");
 	//TFile *file = new TFile("data/output_bhcal_pion_test.root", "read");
@@ -75,7 +83,7 @@ Int_t drawRecoHist() {
 	//TCanvas *cnv = new TCanvas();
 	//cnv->cd();
 
-	TString outputdir = "nsigmaTOF";
+	TString outputdir = "nsigmaPID";
 	//outputdir = "outputReco_proton";
 	//outputdir = "outputReco_pi-";
 
@@ -87,7 +95,7 @@ Int_t drawRecoHist() {
 	//delete cnv;
 	file->Close();
 
-	drawAny("nsigmaTOF/", "Projections.root", list);
+	drawAny("nsigmaPID/", "Projections.root", list);
 
 
 	return 1.0;

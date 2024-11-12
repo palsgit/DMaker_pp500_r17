@@ -47,35 +47,35 @@ Double_t nSigmaTPCKaon_upper(Double_t x) { return 3.0; }
 Double_t nSigmaTPCKaon_lower(Double_t x) { return -2.5; }
 
 Double_t nSigmaTOFKaonTrack_upper(Double_t x) { 
-	double f_nsigmaTOFKaonTrack_res =  1.35 + (0.02/(pow((x + 0.05), 3.76)));
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
     double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81))); 
 
     /*float mSigmahigher = 3.2;
     ///if (x > 2.0) mSigmahigher = 2.4;*/
-    float mSigma = 2.22;
+    float mSigma = 2.24;
 	double kaon_higher = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
     return kaon_higher;  
 	}
 Double_t nSigmaTOFKaonTrack_lower(Double_t x) {
-	double f_nsigmaTOFKaonTrack_res =  1.35 + (0.02/(pow((x + 0.05), 3.76)));
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
     double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81))); 
     /*float mSigma = -2.30;
     /*if (x > 1.25 && x < 1.50) mSigmalower = -1.56;
     if (x > 1.5 && x < 1.65) mSigmalower = -1.18;
     if (x > 1.65) mSigmalower = -0.79;*/
-    float mSigma = -1.11;
+    float mSigma = -1.12;
 	 double kaon_lower = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
 	 return kaon_lower;  
 	 }
 
 	 Double_t nSigmaTOFKaonTrack_lower_more(Double_t x) {
-	double f_nsigmaTOFKaonTrack_res =  1.35 + (0.02/(pow((x + 0.05), 3.76)));
-    double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81))); 
+	double f_nsigmaTOFKaonTrack_res =  1.34 + (0.02/(pow((x + 0.07), 3.91)));
+    double f_nsigmaTOFKaonTrack_pos =  -0.01 + (0.02/(pow((x - 0.17), 1.81)));
     /*float mSigma = -2.30;
     /*if (x > 1.25 && x < 1.50) mSigmalower = -1.56;
     if (x > 1.5 && x < 1.65) mSigmalower = -1.18;
     if (x > 1.65) mSigmalower = -0.79;*/
-    float mSigma = -1.11;
+    float mSigma = -1.12;
     //////if (x < 1.0) mSigma = -2.94;
 	double kaon_lower = mSigma*f_nsigmaTOFKaonTrack_res + f_nsigmaTOFKaonTrack_pos;
 	 //////double kaon_lower = -1.5;
@@ -85,22 +85,21 @@ Double_t nSigmaTOFKaonTrack_lower(Double_t x) {
 
 
 Double_t nSigmaTOFPionTrack_upper(Double_t x) { 
-	double f_nSigmaTOFPionTrack_res =  0.907 + (0.002/(pow((x - 0.164), 1.990)));
-    double f_nSigmaTOFPionTrack_pos =  0.016 + (0.004/(pow((x - 0.064), 2.828))); 
+	double f_nSigmaTOFPionTrack_res =  0.9015 + (0.0001/(pow((x + 0.2003), 9.0378)));
+    double f_nSigmaTOFPionTrack_pos = 0.0119 + (0.0139/(pow((x + 0.3327), 6.3391))); 
 
-    float mSigma = 2.74;
-
+    float mSigma = 2.76;
     double Pion_higher = mSigma*f_nSigmaTOFPionTrack_res + f_nSigmaTOFPionTrack_pos;
-    return Pion_higher; 
+    if (x < 1.6) Pion_higher = 12.4048 - 6.19048*x;
+    return Pion_higher;  
 	}
 Double_t nSigmaTOFPionTrack_lower(Double_t x) {
-	double f_nSigmaTOFPionTrack_res =  0.907 + (0.002/(pow((x - 0.164), 1.990)));
-    double f_nSigmaTOFPionTrack_pos = 0.016 + (0.004/(pow((x - 0.064), 2.828))); 
-    float mSigma = -4.43;
-
+	double f_nSigmaTOFPionTrack_res =  0.9015 + (0.0001/(pow((x + 0.2003), 9.0378)));
+    double f_nSigmaTOFPionTrack_pos = 0.0119 + (0.0139/(pow((x + 0.3327), 6.3391)));  
+    float mSigma = -4.42;
     double Pion_lower = mSigma*f_nSigmaTOFPionTrack_res + f_nSigmaTOFPionTrack_pos;
-
-	 return Pion_lower; 
+    if (x < 1.6) Pion_lower = 4.7619*x - 11.619;
+	return Pion_lower;  
 	 }
 /////////////////////////////////////////////////////////////
 bool drawFromList(TString name, TString *list, int max)

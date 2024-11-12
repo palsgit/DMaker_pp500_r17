@@ -86,6 +86,8 @@ void runPicoMixedEventLocal(
     hfCuts->setCutEtaMin(-1.0);
     
     /////hfCuts->setCutVzVpdVzMax(100.);
+
+    hfCuts->setCutSoftPtMin(0.0);
     
     
     
@@ -122,11 +124,11 @@ void runPicoMixedEventLocal(
 
     
 
-    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
+    hfCuts->setTofBetterBetaCuts(false); // Does nothing
     */
     hfCuts->setTPCBetterCutsPion(false);
-    hfCuts->setHybridTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
-    hfCuts->setHybridTofBetterBetaCutsPion(true); ////
+    hfCuts->setTofBetterBetaCutsKaon(true); //// This cut and the one below work for the analysis without BEMC, it turns on cuts of TOF 1/beta in a shape of a function
+    hfCuts->setTofBetterBetaCutsPion(true); ////
     
     hfCuts->setHybridTofWithBEMC(true);
 

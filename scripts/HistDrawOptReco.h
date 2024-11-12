@@ -20,7 +20,7 @@ TString getHistDrawOpt(TObject *obj, Bool_t &logScale)
 
 	
 
-	if(!name.CompareTo("h_OneOverBetaDiffK_TPC")) {
+	if(!name.CompareTo("h_nSigmaOneOverBetaK_tr")) {
 		TH2 *objH2 = dynamic_cast<TH2*>(obj);
 		drawOpt = "colz";
 		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
@@ -30,11 +30,71 @@ TString getHistDrawOpt(TObject *obj, Bool_t &logScale)
 		//logScale=kTRUE;
 	}
 
-	if(!name.CompareTo("h_OneOverBetaDiffPi_TPC")) {
+	if(!name.CompareTo("h_nSigmaOneOverBetaPi_tr")) {
 		TH2 *objH2 = dynamic_cast<TH2*>(obj);
 		drawOpt = "colz";
 		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
 		objH2->GetYaxis()->SetRangeUser(-10.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("h_nSigmaOneOverBetaK_TPC")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
+		objH2->GetYaxis()->SetRangeUser(-10.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("h_nSigmaOneOverBetaPi_TPC")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
+		objH2->GetYaxis()->SetRangeUser(-10.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("h_nSigmadEdxK_tr")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
+		objH2->GetYaxis()->SetRangeUser(-10.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("h_nSigmadEdxPi_tr")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(0.0, 3.5);
+		objH2->GetYaxis()->SetRangeUser(-10.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("hDedx_tr")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(-3.5, 3.5);
+		objH2->GetYaxis()->SetRangeUser(0.0, 10.0);
+		objH2->SetStats(kFALSE);
+		//drawOpt = "e";
+		//logScale=kTRUE;
+	}
+
+	if(!name.CompareTo("hBetavsP_tr")) {
+		TH2 *objH2 = dynamic_cast<TH2*>(obj);
+		drawOpt = "colz";
+		objH2->GetXaxis()->SetRangeUser(0., 3.5);
+		objH2->GetYaxis()->SetRangeUser(0.0, 4.0);
 		objH2->SetStats(kFALSE);
 		//drawOpt = "e";
 		//logScale=kTRUE;

@@ -19,10 +19,10 @@ Double_t fitf(Double_t *x, Double_t *par)
 
 void OneOverbeta()
 {
-    TFile *file1 = TFile::Open("output_all.root", "READ");
-    TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
-    TH2D *h_nSigmaOneOverBetaK_TPC = (TH2D*) list1->FindObject("h_nSigmaOneOverBetaK_TPC");
-    h_nSigmaOneOverBetaK_TPC->SetTitle("nSigmaTOF_Kaon; p [GeV]; n#sigma_{K}^{TOF}; Entries");
+    TFile *file1 = TFile::Open("anaoutput_dstar_forCollabmeeting.root", "READ");
+    ////TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
+    TH2D *h_nSigmaOneOverBetaK_TPC = (TH2D*) file1->Get("h_nSigmaOneOverBetaPi_TPC");
+    h_nSigmaOneOverBetaK_TPC->SetTitle("n#sigma_{#pi}^{1/#beta} after TPC cut; p [GeV]; n#sigma_{#pi}^{TOF}; Entries");
     /////TH2D *h_QA_OneOverBetaDiffPion = (TH2D*) list1->FindObject("h_QA_OneOverBetaDiffPion");
     /////h_QA_OneOverBetaDiffPion->SetTitle("nSigmaTOF_Pion; p [GeV]; n#sigma_{#pi}^{TOF}; Counts");
 

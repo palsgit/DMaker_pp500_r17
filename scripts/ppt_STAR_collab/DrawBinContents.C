@@ -1,12 +1,14 @@
+#include "style.C"
 void DrawBinContents() {
-    TFile *file1 = TFile::Open("output_all.root", "READ");
+    style();
+    TFile *file1 = TFile::Open("anaoutput_dstar_forCollabmeeting.root", "READ");
     TFile *file2 = TFile::Open("output_histograms.root", "READ");
 
-    TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
-    TH1D *hEventStat1 = (TH1D*) list1->FindObject("hEventStat1");
-    hEventStat1->SetStats(0);
+    //////TList *list1 = (TList*) file1->Get("picoD0AnaMaker");
+    /*TH1D *hEventStat1 = (TH1D*) file1->Get("hEventStat1");
+    hEventStat1->SetStats(0);*/
 
-    hEventStat1 = (TH1D*) file2->Get("hEventStat1");
+    TH1D *hEventStat1 = (TH1D*) file2->Get("hEventStat1_final");
 
     
     TCanvas *canvas = new TCanvas("canvas", "hEventStat1ogram with Bin Contents", 800, 600);
@@ -16,11 +18,12 @@ void DrawBinContents() {
     
     // Loop over the bins and put bin contents as TLatex above each bin
     for (Int_t iBin = 1; iBin <= hEventStat1->GetNbinsX(); ++iBin) {
-        Double_t binContent = hEventStat1->GetBinContent(iBin);
-        Double_t binCenterX = hEventStat1->GetBinCenter(iBin);
-        Double_t binCenterY = hEventStat1->GetBinContent(iBin);
+        long binContent = hEventStat1->GetBinContent(iBin);
+        int binCenterX = hEventStat1->GetBinCenter(iBin);
+        int binCenterY = hEventStat1->GetBinContent(iBin);
         
-        TLatex *latex = new TLatex(binCenterX, binCenterY, Form("%.2f", binContent));
+        TLatex *latex = new TLatex(binCenterX, binCenterY, Form("%.2e", static_cast<double>(binContent)));
+        ////TLatex *latex = new TLatex(binCenterX, binCenterY, Form("%ld", binContent));
         latex->SetTextAlign(22);
         latex->SetTextSize(0.03);
         latex->SetTextAngle(90);
@@ -29,7 +32,7 @@ void DrawBinContents() {
     
    
 
-    TH1D *hPrimVtZ = (TH1D*) list1->FindObject("hPrimVtZ");
+    TH1D *hPrimVtZ = (TH1D*) file1->Get("hPrimVtZ");
     TCanvas *canvas2 = new TCanvas("canvas2", "hPrimVtZ", 800, 600);
     canvas2->cd();
     hPrimVtZ->SetStats(0);
@@ -51,7 +54,7 @@ void DrawBinContents() {
     line2->SetLineWidth(2);
     line2->Draw("same");
 
-    TH1D *hVzVPDvsVzTPCDiff = (TH1D*) list1->FindObject("hVzVPDvsVzTPCDiff");
+    TH1D *hVzVPDvsVzTPCDiff = (TH1D*) file1->Get("hVzVPDvsVzTPCDiff");
     TCanvas *canvas3 = new TCanvas("canvas3", "hVzVPDvsVzTPCDiff", 800, 600);
     canvas3->cd();
     canvas3->SetLogy();
@@ -62,7 +65,7 @@ void DrawBinContents() {
     hVzVPDvsVzTPCDiff->GetXaxis()->SetRangeUser(-40, 40);
     hVzVPDvsVzTPCDiff->Draw("hist");
 
-    // Draw red dashed lines at x = -10 and x = 10
+    /////Draw red dashed lines at x = -4 and x = 4
     TLine *line3 = new TLine(-4, hVzVPDvsVzTPCDiff->GetMinimum(), -4, hVzVPDvsVzTPCDiff->GetMaximum());
     line3->SetLineColor(kRed);
     line3->SetLineStyle(10);
@@ -74,8 +77,9 @@ void DrawBinContents() {
     line4->SetLineStyle(10);
     line4->SetLineWidth(2);
     line4->Draw("same");
+    
 
-    TH2D *hPrimVtXY = (TH2D*) list1->FindObject("hPrimVtXY");
+    TH2D *hPrimVtXY = (TH2D*) file1->Get("hPrimVtXY");
     TCanvas *canvas4 = new TCanvas("canvas4", "hPrimVtXY", 800, 600);
     canvas4->cd();
     canvas4->SetLogz();
@@ -108,7 +112,7 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     rectangle->Draw("same");
     
 
-    TH2D *hPrimVtXY_evcut = (TH2D*) list1->FindObject("hPrimVtXY_evcut");
+    TH2D *hPrimVtXY_evcut = (TH2D*) file1->Get("hPrimVtXY_evcut");
     TCanvas *canvas5 = new TCanvas("canvas5", "hPrimVtXY_evcut", 800, 600);
     canvas5->cd();
     canvas5->SetLogz();
@@ -151,7 +155,7 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     line5->SetLineWidth(2);
     ///line5->Draw("same");
 
-    TH2D *hVzVPDvsVzTPC = (TH2D*) list1->FindObject("hVzVPDvsVzTPC");
+    TH2D *hVzVPDvsVzTPC = (TH2D*) file1->Get("hVzVPDvsVzTPC");
     TCanvas *canvas7 = new TCanvas("canvas7", "hVzVPDvsVzTPC", 800, 600);
     canvas7->cd();
     canvas7->SetLogz();
@@ -163,7 +167,7 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     hVzVPDvsVzTPC->GetZaxis()->SetTitle("Entries");
     hVzVPDvsVzTPC->Draw("colz");
 
-    TH2D *hVzVPDvsVzTPC_evcut = (TH2D*) list1->FindObject("hVzVPDvsVzTPC_evcut");
+    TH2D *hVzVPDvsVzTPC_evcut = (TH2D*) file1->Get("hVzVPDvsVzTPC_evcut");
     TCanvas *canvas8 = new TCanvas("canvas8", "hVzVPDvsVzTPC_evcut", 800, 600);
     canvas8->cd();
     canvas8->SetLogz();
@@ -175,7 +179,7 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     hVzVPDvsVzTPC_evcut->GetZaxis()->SetTitle("Entries");
     hVzVPDvsVzTPC_evcut->Draw("colz");
 
-    TH1D *hNHitsFit = (TH1D*) list1->FindObject("hNHitsFit");
+    TH1D *hNHitsFit = (TH1D*) file1->Get("hNHitsFit");
     TCanvas *canvas9 = new TCanvas("canvas9", "hNHitsFit", 800, 600);
     canvas9->cd();
     hNHitsFit->SetStats(0);
@@ -186,13 +190,13 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     hNHitsFit->Draw("hist");
 
     // Draw red dashed lines at x = 18
-    TLine *line6 = new TLine(18, hNHitsFit->GetMinimum(), 18, hNHitsFit->GetMaximum());
+    TLine *line6 = new TLine(18, hNHitsFit->GetMinimum(), 15, hNHitsFit->GetMaximum());
     line6->SetLineColor(kRed);
     line6->SetLineStyle(10);
     line6->SetLineWidth(2);
     line6->Draw("same");
 
-    TH1D *hNHitsFitnHitsMax = (TH1D*) list1->FindObject("hNHitsFitnHitsMax");
+    TH1D *hNHitsFitnHitsMax = (TH1D*) file1->Get("hNHitsFitnHitsMax");
     TCanvas *canvas10 = new TCanvas("canvas10", "hNHitsFitnHitsMax", 800, 600);
     canvas10->cd();
     hNHitsFitnHitsMax->SetStats(0);
@@ -209,7 +213,7 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     line7->SetLineWidth(2);
     line7->Draw("same");
 
-    TH1D *hDca = (TH1D*) list1->FindObject("hDca");
+    TH1D *hDca = (TH1D*) file1->Get("hDca");
     TCanvas *canvas11 = new TCanvas("canvas11", "hDca", 800, 600);
     canvas11->cd();
     hDca->SetStats(0);
@@ -226,7 +230,27 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
     line8->SetLineWidth(2);
     line8->Draw("same");
 
-    TH1D *hpT_tr = (TH1D*) list1->FindObject("hpT_tr");
+    //Draw blue dashed lines at x = 3.0
+    TLine *line12 = new TLine(3.0, hDca->GetMinimum(), 3.0, hDca->GetMaximum());
+    line12->SetLineColor(kGreen);
+    line12->SetLineStyle(10);
+    line12->SetLineWidth(2);
+    line12->Draw("same");
+
+    // Create a legend
+    TLegend *legend = new TLegend(0.7, 0.7, 0.9, 0.9);
+    legend->SetBorderSize(0);
+    legend->SetFillColorAlpha(0, 0); // Set fill color to transparent
+
+    // Add entries to the legend
+    legend->AddEntry(line8, "K and Soft #pi", "l");
+    legend->AddEntry(line12, "D^{0} #pi matched to BHT1 Trigger", "l");
+
+    // Draw the legend
+    legend->Draw();
+
+
+    TH1D *hpT_tr = (TH1D*) file1->Get("hpT_tr");
     TCanvas *canvas12 = new TCanvas("canvas12", "hpT_tr", 800, 600);
     canvas12->cd();
     hpT_tr->SetStats(0);
@@ -238,12 +262,33 @@ TBox *rectangle = new TBox(-0.3, -0.26, 0.14, 0.02);
 
     // Draw red dashed lines at x = 0.2
     TLine *line9 = new TLine(0.2, hpT_tr->GetMinimum(), 0.2, hpT_tr->GetMaximum());
-    line9->SetLineColor(kRed);
+    line9->SetLineColor(kGreen);
     line9->SetLineStyle(10);
     line9->SetLineWidth(2);
     line9->Draw("same");
 
-    TH1D *hEta_tr = (TH1D*) list1->FindObject("hEta_tr");
+    // Draw red dashed lines at x = 0.1
+    TLine *line13 = new TLine(0.1, hpT_tr->GetMinimum(), 0.1, hpT_tr->GetMaximum());
+    line13->SetLineColor(kRed);
+    line13->SetLineStyle(10);
+    line13->SetLineWidth(2);
+    line13->Draw("same");
+
+    //create a legend
+    TLegend *legend1 = new TLegend(0.7, 0.7, 0.9, 0.9);
+    legend1->SetBorderSize(0);
+    legend1->SetFillColorAlpha(0, 0); // Set fill color to transparent
+
+    // Add entries to the legend
+    legend1->AddEntry(line9, "D^{0} daughters", "l");
+    legend1->AddEntry(line13, "Soft #pi", "l");
+
+    // Draw the legend
+    legend1->Draw();
+
+    
+
+    TH1D *hEta_tr = (TH1D*) file1->Get("hEta_tr");
     TCanvas *canvas13 = new TCanvas("canvas13", "hEta_tr", 800, 600);
     canvas13->cd();
     hEta_tr->SetStats(0);

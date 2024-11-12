@@ -61,7 +61,7 @@ void runQAAnaMaker(
     hfCuts->setHybridTof(false); // Does nothing (Proton PID)
     hfCuts->setHybridTofKaon(true);
     hfCuts->setHybridTofPion(true);
-    hfCuts->setCheckHotSpot(false);
+    //////hfCuts->setCheckHotSpot(false);
 
     hfCuts->setCutTPCNSigmaPion(3.0);
     hfCuts->setCutTPCNSigmaKaon(2.0);
@@ -69,12 +69,14 @@ void runQAAnaMaker(
 //    hfCuts->setCutTOFDeltaOneOverBetaPion(0.03);
 //    hfCuts->setCutPtMin(0.15);
 
+    hfCuts->setCutSoftPtMin(0.0);
+
     hfCuts->setCutDcaMin(0.002,StHFCuts::kPion);
     hfCuts->setCutDcaMin(0.002,StHFCuts::kKaon);
 
-    hfCuts->setHybridTofBetterBetaCuts(false); // Does nothing
-    hfCuts->setHybridTofBetterBetaCutsKaon(true);
-    hfCuts->setHybridTofBetterBetaCutsPion(false);
+    hfCuts->setTofBetterBetaCuts(false); // Does nothing
+    hfCuts->setTofBetterBetaCutsKaon(true);
+    hfCuts->setTofBetterBetaCutsPion(false);
 
     //Single track pt
     hfCuts->setCutPtRange(0.15,50.0,StHFCuts::kPion); //0.2 , 50.0

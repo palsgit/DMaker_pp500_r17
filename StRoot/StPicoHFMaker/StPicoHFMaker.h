@@ -57,6 +57,8 @@ class StPicoHFMaker : public StMaker
     float           mBField;
     TVector3        mPrimVtx;
     TList          *mOutList;
+    int            nD0events = 0;
+    int            nDstarevents = 0;
 
 private:
     void  resetEvent();
